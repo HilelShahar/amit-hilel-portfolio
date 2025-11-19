@@ -99,11 +99,7 @@ const NAV_ITEMS = [
 const SOCIAL_LINKS = [
   { icon: Facebook, url: "https://www.facebook.com/amit.hilel.7", label: "Facebook" },
   { icon: Linkedin, url: "https://www.linkedin.com/in/amithilel", label: "LinkedIn" },
-  {
-    icon: FileText,
-    url: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/9d6fa2238_AmithilelCV.pdf",
-    label: "Resume",
-  },
+  { icon: FileText, url: "/amit_resume.pdf", label: "Resume"},
 ];
 
 function Layout({ children, currentPageName }) {
