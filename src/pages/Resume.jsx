@@ -115,10 +115,10 @@ export default function Resume() {
             prefersReducedMotion
               ? {}
               : {
-                  y: [0, -40, 0],
-                  rotate: [0, 180, 360],
-                  scale: [0.8, 1.2, 0.8],
-                }
+                y: [0, -40, 0],
+                rotate: [0, 180, 360],
+                scale: [0.8, 1.2, 0.8],
+              }
           }
           transition={
             prefersReducedMotion
@@ -175,20 +175,16 @@ export default function Resume() {
               asChild
             >
               <a
-                href={pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                download="Amit_Hilel_Resume.pdf"
+                href="/amit_resume.pdf"              // <-- served from /public
+                download="Amit_Hilel_Resume.pdf"           // <-- forces save as (same-origin works reliably)
                 aria-label="Download resume as PDF"
               >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-brown-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  aria-hidden="true"
-                />
-                <Download className="w-5 h-5 mr-2 relative z-10" aria-hidden="true" />
+                <div className="absolute inset-0 bg-gradient-to-r from-brown-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Download className="w-5 h-5 mr-2 relative z-10" />
                 <span className="relative z-10">Download PDF</span>
               </a>
             </Button>
+
           </motion.div>
         </header>
 
@@ -240,9 +236,9 @@ export default function Resume() {
                     animate={
                       hoveredSection === "experience" && !prefersReducedMotion
                         ? {
-                            scale: [1, 1.2, 1],
-                            backgroundColor: ["#8b5a2b", "#d4a574", "#8b5a2b"],
-                          }
+                          scale: [1, 1.2, 1],
+                          backgroundColor: ["#8b5a2b", "#d4a574", "#8b5a2b"],
+                        }
                         : {}
                     }
                     transition={{ duration: 2, repeat: Infinity }}

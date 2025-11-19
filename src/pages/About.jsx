@@ -145,7 +145,7 @@ function AboutBase() {
           >
             <motion.div className="relative group will-change-transform" whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
               <motion.img
-                src="https://momentofeme.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-22-at-08.59.24.jpeg"
+                src="/about_img.jpeg"
                 alt="Amit Hilel"
                 loading="lazy"
                 className="w-80 h-80 md:w-96 md:h-96 object-cover object-top rounded-2xl shadow-brown-xl border-4 border-cream-200 group-hover:shadow-brown-2xl transition-shadow duration-300"
