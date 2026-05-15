@@ -12,7 +12,6 @@ import {
   X,
   ZoomIn,
 } from "lucide-react";
-import PhoneFrame from "@/components/portfolio/PhoneFrame";
 
 /* -------------------- Animation Variants (stable) -------------------- */
 const fadeIn = {
@@ -46,9 +45,8 @@ const solutionsData = [
       "Custom Notifications: Allow users to set and customize notifications for various updates, choosing how they receive them (e.g., SMS, email, in-app notifications).",
     ],
     images: [
-      { src: "/projects/municipal-challenge1-edit-favorites.png", position: 0 },
-      { src: "/projects/municipal-challenge1-dashboard.png", position: 0 },
-      { src: "/projects/municipal-challenge1-dashboard.png", position: 100 },
+      "/projects/municipal-challenge1-edit-favorites.png",
+      "/projects/municipal-challenge1-dashboard.png",
     ],
   },
   {
@@ -59,11 +57,7 @@ const solutionsData = [
       "Simplified and Intuitive Layout: Designed a clean, uncluttered interface with clear labels and intuitive icons, making it easier for users to quickly find and access key features.",
       "Consistent and Internal Navigation: Implemented a consistent navigation bar that remains visible across most pages and included internal navigation links within each section of information.",
     ],
-    images: [
-      { src: "/projects/municipal-challenge2-parking-services.png", position: 0 },
-      { src: "/projects/municipal-challenge2-parking-services.png", position: 50 },
-      { src: "/projects/municipal-challenge2-parking-services.png", position: 100 },
-    ],
+    images: ["/projects/municipal-challenge2-parking-services.png"],
   },
   {
     title: "Challenge 3: Integration",
@@ -73,11 +67,7 @@ const solutionsData = [
       "Integration of External Sites within a Pop-Up: Navigating to external sites is done within a pop-up that opens from the main application. This way, users understand that they are still within the same environment.",
       "Consistent Design and No Need to Re-enter Details: I maintained a consistent design between the main application and external sites, ensuring that users feel they are still within the familiar environment.",
     ],
-    images: [
-      { src: "/projects/municipal-challenge3-payment.png", position: 0 },
-      { src: "/projects/municipal-challenge3-payment.png", position: 50 },
-      { src: "/projects/municipal-challenge3-payment.png", position: 100 },
-    ],
+    images: ["/projects/municipal-challenge3-payment.png"],
   },
 ];
 
@@ -230,35 +220,18 @@ const SolutionsTabs = React.memo(function SolutionsTabs({ onImageClick }) {
             </div>
 
             {/* Thumbnails */}
-            <div className="flex flex-wrap gap-4 justify-center items-start">
-              {current.images.map((img, i) => {
-                const isPhoneFrame = typeof img === "object";
-                const src = isPhoneFrame ? img.src : img;
+            <div className="flex flex-wrap gap-3 justify-center items-start">
+              {current.images.map((src, i) => {
                 const altText = `${current.title} image ${i + 1}`;
-
-                if (isPhoneFrame) {
-                  return (
-                    <PhoneFrame
-                      key={`${src}-${img.position ?? 0}-${i}`}
-                      src={src}
-                      alt={altText}
-                      position={img.position ?? 0}
-                      onClick={() => onImageClick(src, altText)}
-                      className="w-32 sm:w-36 md:w-40"
-                    />
-                  );
-                }
-
                 return (
                   <motion.div
-                    key={src}
+                    key={`${src}-${i}`}
                     className="relative group cursor-pointer"
                     onClick={() => onImageClick(src, altText)}
                     whileHover={{ scale: 1.05, y: -5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                     style={{
-                      width:
-                        current.images.length > 1 ? "calc(50% - 6px)" : "100%",
+                      width: current.images.length > 1 ? "calc(50% - 6px)" : "100%",
                       maxWidth: "200px",
                     }}
                   >
