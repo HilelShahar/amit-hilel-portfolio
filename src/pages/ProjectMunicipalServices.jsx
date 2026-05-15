@@ -1,5 +1,5 @@
 // src/components/pages/ProjectMunicipalServices.jsx
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
   X,
   ZoomIn,
 } from "lucide-react";
+import PhoneFrame from "@/components/portfolio/PhoneFrame";
 
 /* -------------------- Animation Variants (stable) -------------------- */
 const fadeIn = {
@@ -45,9 +46,9 @@ const solutionsData = [
       "Custom Notifications: Allow users to set and customize notifications for various updates, choosing how they receive them (e.g., SMS, email, in-app notifications).",
     ],
     images: [
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/a0ea5352b_Screenshot-2024-05-22-at-1021-1.png",
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/4c599cb9b_Screenshot-2024-05-22-at-1023-1.png",
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/ec1b87b2a_Screenshot-2024-05-22-at-1020.png",
+      { src: "/projects/municipal-challenge1-edit-favorites.png", position: 0 },
+      { src: "/projects/municipal-challenge1-dashboard.png", position: 0 },
+      { src: "/projects/municipal-challenge1-dashboard.png", position: 100 },
     ],
   },
   {
@@ -59,7 +60,9 @@ const solutionsData = [
       "Consistent and Internal Navigation: Implemented a consistent navigation bar that remains visible across most pages and included internal navigation links within each section of information.",
     ],
     images: [
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/5c750ad27_Screenshot-2024-05-22-at-1035-1-1.png",
+      { src: "/projects/municipal-challenge2-parking-services.png", position: 0 },
+      { src: "/projects/municipal-challenge2-parking-services.png", position: 50 },
+      { src: "/projects/municipal-challenge2-parking-services.png", position: 100 },
     ],
   },
   {
@@ -71,13 +74,28 @@ const solutionsData = [
       "Consistent Design and No Need to Re-enter Details: I maintained a consistent design between the main application and external sites, ensuring that users feel they are still within the familiar environment.",
     ],
     images: [
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/aff322e78_Screenshot-2024-05-22-at-1059-1.png",
+      { src: "/projects/municipal-challenge3-payment.png", position: 0 },
+      { src: "/projects/municipal-challenge3-payment.png", position: 50 },
+      { src: "/projects/municipal-challenge3-payment.png", position: 100 },
     ],
   },
 ];
 
+const municipalCustomerJourneyMapsImage = "/projects/municipal-customer-journey-maps.png";
+
+const municipalScreensOverviewImage = "/projects/municipal-visual-screens-overview.png";
+
 /* -------------------- Reusable Image Modal -------------------- */
-const ImageModal = React.memo(function ImageModal({ src, alt, isOpen, onClose }) {
+const ImageModal = React.memo(function ImageModal({ src, alt, isOpen, onClose, grayscale = false }) {
+  useEffect(() => {
+    if (!isOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -85,31 +103,36 @@ const ImageModal = React.memo(function ImageModal({ src, alt, isOpen, onClose })
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-brown-900/80 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 overflow-auto overscroll-contain bg-brown-900/80"
           onClick={onClose}
+          role="presentation"
         >
+          <Button
+            variant="outline"
+            size="icon"
+            className="fixed top-4 right-4 z-[60] bg-white/90 hover:bg-white shadow-md"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+          >
+            <X className="w-4 h-4" />
+          </Button>
           <motion.div
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0.8 }}
-            className="relative max-w-7xl max-h-full"
+            initial={{ scale: 0.96, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.96, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="relative mx-auto flex w-full max-w-[min(96rem,98vw)] justify-center px-4 pb-12 pt-16"
             onClick={(e) => e.stopPropagation()}
           >
             <img
               src={src}
               alt={alt}
-              className="max-w-full max-h-full object-contain rounded-lg"
+              className={`h-auto max-w-full rounded-lg shadow-lg ${grayscale ? "grayscale" : ""}`}
               loading="lazy"
               decoding="async"
             />
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute top-4 right-4 bg-white/90 hover:bg-white"
-              onClick={onClose}
-            >
-              <X className="w-4 h-4" />
-            </Button>
           </motion.div>
         </motion.div>
       )}
@@ -123,6 +146,8 @@ const ClickableImage = React.memo(function ClickableImage({
   alt,
   onImageClick,
   className = "",
+  imageClassName = "",
+  priority = false,
 }) {
   const handleClick = useCallback(() => onImageClick(src, alt), [onImageClick, src, alt]);
 
@@ -136,9 +161,10 @@ const ClickableImage = React.memo(function ClickableImage({
       <img
         src={src}
         alt={alt}
-        className="rounded-lg shadow-brown-xl object-contain w-full bg-white p-1"
-        loading="lazy"
+        className={`rounded-lg shadow-brown-xl object-contain w-full bg-white p-1 max-w-full h-auto max-h-full ${imageClassName}`}
+        loading={priority ? "eager" : "lazy"}
         decoding="async"
+        fetchPriority={priority ? "high" : undefined}
       />
       <div className="absolute inset-0 bg-brown-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center will-change-transform">
         <ZoomIn className="w-10 h-10 text-white" />
@@ -204,31 +230,51 @@ const SolutionsTabs = React.memo(function SolutionsTabs({ onImageClick }) {
             </div>
 
             {/* Thumbnails */}
-            <div className="flex flex-wrap gap-3 justify-center items-start">
-              {current.images.map((img, i) => (
-                <motion.div
-                  key={img}
-                  className="relative group cursor-pointer"
-                  onClick={() => onImageClick(img, `${current.title} image ${i + 1}`)}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  style={{
-                    width: current.images.length > 1 ? "calc(50% - 6px)" : "100%",
-                    maxWidth: "200px",
-                  }}
-                >
-                  <img
-                    src={img}
-                    alt={`${current.title} image ${i + 1}`}
-                    className="rounded-lg shadow-brown-lg object-contain w-full h-auto bg-white p-2 border border-brown-100"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div className="absolute inset-0 bg-brown-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center will-change-transform">
-                    <ZoomIn className="w-6 h-6 text-white" />
-                  </div>
-                </motion.div>
-              ))}
+            <div className="flex flex-wrap gap-4 justify-center items-start">
+              {current.images.map((img, i) => {
+                const isPhoneFrame = typeof img === "object";
+                const src = isPhoneFrame ? img.src : img;
+                const altText = `${current.title} image ${i + 1}`;
+
+                if (isPhoneFrame) {
+                  return (
+                    <PhoneFrame
+                      key={`${src}-${img.position ?? 0}-${i}`}
+                      src={src}
+                      alt={altText}
+                      position={img.position ?? 0}
+                      onClick={() => onImageClick(src, altText)}
+                      className="w-32 sm:w-36 md:w-40"
+                    />
+                  );
+                }
+
+                return (
+                  <motion.div
+                    key={src}
+                    className="relative group cursor-pointer"
+                    onClick={() => onImageClick(src, altText)}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    style={{
+                      width:
+                        current.images.length > 1 ? "calc(50% - 6px)" : "100%",
+                      maxWidth: "200px",
+                    }}
+                  >
+                    <img
+                      src={src}
+                      alt={altText}
+                      className="rounded-lg shadow-brown-lg object-contain w-full h-auto bg-white p-2 border border-brown-100"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div className="absolute inset-0 bg-brown-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center will-change-transform">
+                      <ZoomIn className="w-6 h-6 text-white" />
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </motion.div>
@@ -239,14 +285,24 @@ const SolutionsTabs = React.memo(function SolutionsTabs({ onImageClick }) {
 
 /* -------------------- Page -------------------- */
 export default function ProjectMunicipalServices() {
-  const [modalImage, setModalImage] = useState({ src: "", alt: "", isOpen: false });
+  const [modalImage, setModalImage] = useState({
+    src: "",
+    alt: "",
+    isOpen: false,
+    grayscale: false,
+  });
 
-  const openImageModal = useCallback((src, alt) => {
-    setModalImage({ src, alt, isOpen: true });
+  const openImageModal = useCallback((src, alt, opts = {}) => {
+    setModalImage({
+      src,
+      alt,
+      isOpen: true,
+      grayscale: !!opts.grayscale,
+    });
   }, []);
 
   const closeImageModal = useCallback(() => {
-    setModalImage({ src: "", alt: "", isOpen: false });
+    setModalImage({ src: "", alt: "", isOpen: false, grayscale: false });
   }, []);
 
   const scrollToSolutions = useCallback(() => {
@@ -303,9 +359,10 @@ export default function ProjectMunicipalServices() {
           {/* Main Project Image */}
           <div className="max-w-3xl mx-auto mb-20">
             <ClickableImage
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/1871308f3_Frame-427319077-2.png"
+              src="/projects/municipal-services-cover.png"
               alt="Municipal Services App"
               onImageClick={openImageModal}
+              priority
             />
           </div>
 
@@ -371,19 +428,15 @@ export default function ProjectMunicipalServices() {
                 <motion.div
                   className="relative group cursor-pointer"
                   onClick={() =>
-                    openImageModal(
-                      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/8904b701f_Group-16.png",
-                      "Customer Journey Map"
-                    )
+                    openImageModal(municipalCustomerJourneyMapsImage, "Customer Journey Maps")
                   }
                   whileHover={{ scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   <img
-                    src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/8904b701f_Group-16.png"
-                    alt="Customer Journey Map"
-                    className="rounded-lg shadow-brown-xl w-full h-auto"
-                    style={{ imageRendering: "-webkit-optimize-contrast", maxWidth: "100%" }}
+                    src={municipalCustomerJourneyMapsImage}
+                    alt="Customer Journey Maps"
+                    className="rounded-lg shadow-brown-xl w-full h-auto max-w-full object-contain"
                     loading="lazy"
                     decoding="async"
                   />
@@ -436,11 +489,13 @@ export default function ProjectMunicipalServices() {
               <h2 className="text-xl md:text-2xl font-bold gradient-text mb-6 leading-tight pb-4">
                 UX Phase: Making Ideas Tangible
               </h2>
-              <div className="max-w-4xl mx-auto">
+              <div className="mx-auto max-w-7xl">
                 <ClickableImage
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/a417eb3ea_Frame-11532.png"
-                  alt="UX Phase Diagram"
-                  onImageClick={openImageModal}
+                  src={municipalScreensOverviewImage}
+                  alt="UX phase explorations: home, favorites, services, parking, payment, and 106 Plus flows"
+                  onImageClick={(src, alt) => openImageModal(src, alt, { grayscale: true })}
+                  className="w-full"
+                  imageClassName="grayscale max-h-[min(38rem,78vh)] w-full object-contain md:max-h-[min(46rem,82vh)]"
                 />
               </div>
             </motion.section>
@@ -460,27 +515,35 @@ export default function ProjectMunicipalServices() {
                   Visual Design
                 </h2>
                 <p className="text-brown-700 max-w-3xl mx-auto leading-relaxed text-sm md:text-base">
-                  I aimed for a user experience that felt both friendly and professional, mirroring the city's values. I chose the Lora font for its warmth and a navy blue palette for a professional, clean look.
+                  I aimed for an experience that felt friendly and professional. I used{" "}
+                  <strong>Manrope</strong> for clear typographic hierarchy and a restrained civic palette
+                  — warm orange accents, cool neutrals, and functional greens and reds where context
+                  required emphasis.
                 </p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center max-w-4xl mx-auto">
+              <div className="mx-auto flex max-w-6xl flex-col gap-8">
+                <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2">
+                  <ClickableImage
+                    src="/projects/municipal-visual-color-palette.png"
+                    alt="Color palette: orange, blue-grey, green, red, and white"
+                    onImageClick={openImageModal}
+                    className="flex min-h-[8rem] w-full items-center justify-center md:min-h-[10rem]"
+                    imageClassName="max-h-32 w-full object-contain md:max-h-40"
+                  />
+                  <ClickableImage
+                    src="/projects/municipal-visual-typography.png"
+                    alt="Typography: Manrope type scale for titles and body"
+                    onImageClick={openImageModal}
+                    className="w-full"
+                    imageClassName="max-h-40 w-full object-contain md:max-h-48"
+                  />
+                </div>
                 <ClickableImage
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/3b05881ac_Frame-11538.png"
-                  alt="Colors 1"
+                  src={municipalScreensOverviewImage}
+                  alt="My Digitel interface overview: home, favorites, services, parking, payment, and support flows"
                   onImageClick={openImageModal}
-                  className="w-full h-48"
-                />
-                <ClickableImage
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/441ee07b8_Frame-11539.png"
-                  alt="Typography"
-                  onImageClick={openImageModal}
-                  className="w-full h-48"
-                />
-                <ClickableImage
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/c1523aa36_Frame-11547-scaled1.png"
-                  alt="Visual Design Example"
-                  onImageClick={openImageModal}
-                  className="w-full h-48"
+                  className="w-full"
+                  imageClassName="max-h-[min(32rem,70vh)] w-full object-contain md:max-h-[min(36rem,75vh)]"
                 />
               </div>
             </motion.section>

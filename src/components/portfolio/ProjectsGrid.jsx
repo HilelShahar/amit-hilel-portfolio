@@ -18,8 +18,7 @@ const projects = [
     title: "Navigating Municipal Services",
     description:
       "Simplifying access to services with a clean and intuitive user experience.",
-    image:
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/1871308f3_Frame-427319077-2.png",
+    image: "/projects/municipal-services-cover.png",
   },
   {
     id: 3,

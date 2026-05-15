@@ -99,7 +99,7 @@ const NAV_ITEMS = [
 const SOCIAL_LINKS = [
   { icon: Facebook, url: "https://www.facebook.com/amit.hilel.7", label: "Facebook" },
   { icon: Linkedin, url: "https://www.linkedin.com/in/amithilel", label: "LinkedIn" },
-  { icon: FileText, url: "/amit_resume.pdf", label: "Resume"},
+  { icon: FileText, url: "/Amit_Hilel_CV_2026.pdf", label: "Resume"},
 ];
 
 function Layout({ children, currentPageName }) {
@@ -277,7 +277,7 @@ function Layout({ children, currentPageName }) {
               </Button>
             </div>
             <div className="mt-8 pt-8 border-t border-brown-200 text-sm text-brown-500">
-              © 2025 Amit Hilel. All rights reserved.
+              © 2026 Amit Hilel. All rights reserved.
             </div>
           </div>
         </div>

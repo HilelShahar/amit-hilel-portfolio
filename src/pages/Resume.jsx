@@ -85,9 +85,6 @@ const resumeData = {
   ],
 };
 
-const pdfUrl =
-  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/9d6fa2238_AmithilelCV.pdf";
-
 export default function Resume() {
   const [hoveredSection, setHoveredSection] = useState(null);
   const prefersReducedMotion = useReducedMotion();
@@ -175,8 +172,8 @@ export default function Resume() {
               asChild
             >
               <a
-                href="/amit_resume.pdf"              // <-- served from /public
-                download="Amit_Hilel_Resume.pdf"           // <-- forces save as (same-origin works reliably)
+                href="/Amit_Hilel_CV_2026.pdf"
+                download="Amit_Hilel_CV_2026.pdf"
                 aria-label="Download resume as PDF"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-brown-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
