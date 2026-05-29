@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -15,7 +15,6 @@ import {
   UserCheck,
   BarChart2,
   Zap,
-  MessageSquare,
   BookOpen,
   Eye,
   TrendingUp,
@@ -120,6 +119,7 @@ const ChallengeSolution = React.memo(function ChallengeSolution({
   title,
   description,
   image,
+  images,
   theory,
   theoryIcon: TheoryIcon,
   theoryTitle,
@@ -127,6 +127,7 @@ const ChallengeSolution = React.memo(function ChallengeSolution({
   order = "normal",
   onImageClick,
 }) {
+  const hasGallery = Array.isArray(images) && images.length > 1;
   const onClick1 = useCallback(() => onImageClick(image, title), [image, title, onImageClick]);
   const onClick2 = useCallback(
     () => image2 && onImageClick(image2, title),
@@ -155,45 +156,51 @@ const ChallengeSolution = React.memo(function ChallengeSolution({
 
       <motion.div
         variants={order === "reverse" ? slideInLeft : slideInRight}
-        whileHover={{ scale: 1.03 }}
-        className="flex flex-col items-center"
+        whileHover={hasGallery ? undefined : { scale: 1.03 }}
+        className="flex flex-col items-center w-full"
       >
-        <button
-          type="button"
-          className="relative group cursor-pointer w-full"
-          onClick={onClick1}
-          aria-label={`Open image: ${title}`}
-        >
-          <img
-            src={image}
-            alt={title}
-            className="rounded-lg shadow-brown-xl object-contain max-w-full h-auto"
-            loading="lazy"
-            decoding="async"
-          />
-          <div className="absolute inset-0 bg-brown-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-            <ZoomIn className="w-8 h-8 text-white" />
-          </div>
-        </button>
+        {hasGallery ? (
+          <CompactCarousel images={images} onImageClick={onImageClick} title={title} />
+        ) : (
+          <>
+            <button
+              type="button"
+              className="relative group cursor-pointer w-full"
+              onClick={onClick1}
+              aria-label={`Open image: ${title}`}
+            >
+              <img
+                src={image}
+                alt={title}
+                className="rounded-lg shadow-brown-xl object-contain max-w-full h-auto"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="absolute inset-0 bg-brown-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                <ZoomIn className="w-8 h-8 text-white" />
+              </div>
+            </button>
 
-        {image2 && (
-          <button
-            type="button"
-            className="relative group cursor-pointer mt-4 w-full"
-            onClick={onClick2}
-            aria-label={`Open image: ${title} (2)`}
-          >
-            <img
-              src={image2}
-              alt={title}
-              className="rounded-lg shadow-brown-xl object-contain max-w-full h-auto"
-              loading="lazy"
-              decoding="async"
-            />
-            <div className="absolute inset-0 bg-brown-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-              <ZoomIn className="w-8 h-8 text-white" />
-            </div>
-          </button>
+            {image2 && (
+              <button
+                type="button"
+                className="relative group cursor-pointer mt-4 w-full"
+                onClick={onClick2}
+                aria-label={`Open image: ${title} (2)`}
+              >
+                <img
+                  src={image2}
+                  alt={title}
+                  className="rounded-lg shadow-brown-xl object-contain max-w-full h-auto"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="absolute inset-0 bg-brown-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                  <ZoomIn className="w-8 h-8 text-white" />
+                </div>
+              </button>
+            )}
+          </>
         )}
       </motion.div>
     </motion.div>
@@ -347,17 +354,6 @@ export default function ProjectRevolutionizingCX() {
     document.getElementById("solutions")?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  const gogoAIImages = useMemo(
-    () => [
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/a3d09d4cd_image-23.png",
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/5a68de3a3_image-24.png",
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/24e7d20c0_image-25.png",
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/67ec33b4c_image-26.png",
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/93515f2d9_image-27.png",
-    ],
-    []
-  );
-
   return (
     <div className="bg-cream-50 min-h-screen relative overflow-hidden">
       <style>{`
@@ -404,7 +400,7 @@ export default function ProjectRevolutionizingCX() {
                 className="relative group cursor-pointer w-full"
                 onClick={() =>
                   openImageModal(
-                    "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/8a7fbe784_PROJECT1.png",
+                    "/projects/Celestial Laptop Mockup.png",
                     "CX Tool Dashboard"
                   )
                 }
@@ -413,7 +409,7 @@ export default function ProjectRevolutionizingCX() {
                 aria-label="Open CX Tool Dashboard image"
               >
                 <img
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/8a7fbe784_PROJECT1.png"
+                  src="/projects/Celestial Laptop Mockup.png"
                   alt="CX Tool Dashboard"
                   className="rounded-2xl shadow-brown-2xl w-full h-auto object-contain"
                   loading="lazy"
@@ -609,19 +605,23 @@ export default function ProjectRevolutionizingCX() {
 
             <ChallengeSolution
               number="01"
-              title="Smart Search with Auto-Complete"
-              description="An intuitive and powerful search box that facilitates precise, efficient, and effortless searches, providing users with faster access to specific information."
-              image="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/650b5d38e_Group-23.png"
+              title="Smart Search with AI Assistance"
+              description="A single search bar that does three jobs. Users can ask complex questions in natural language and get answers instantly, lean on AI auto-complete that learns their workflow and surfaces relevant surveys, reports, and metrics, and pull up an instant preview of key data straight from the results — without ever leaving the page."
+              images={[
+                "/projects/search 1.png",
+                "/projects/search 2.png",
+                "/projects/search 3.png",
+              ]}
               onImageClick={openImageModal}
             />
 
             <ChallengeSolution
               number="02"
-              title="Dashboard – Recent Activity"
-              description="The dashboard displays recent user activity, enabling quick access to last performed tasks, improving work efficiency by reducing the need for extended searching."
-              image="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/061e6bd7b_Group-24.png"
+              title="Home Dashboard – At-a-Glance Insights"
+              description="A single landing screen that surfaces everything a user needs to start their day: recent activity to pick up in-progress work, headline KPIs (NPS, satisfaction, recommendation) with deltas vs. the previous period, and response statistics across devices and system health — all without an extra click."
+              image="/projects/HOME (6).png"
               theoryTitle="Usability and Accessibility Model"
-              theory="Provides immediate and intuitive access to recent activities, thus reducing cognitive effort and increasing user comfort."
+              theory="Consolidating activity, KPIs, and operational health into one view reduces cognitive load and gives users immediate orientation the moment they log in."
               theoryIcon={CheckCircle}
               order="reverse"
               onImageClick={openImageModal}
@@ -629,84 +629,43 @@ export default function ProjectRevolutionizingCX() {
 
             <ChallengeSolution
               number="03"
-              title="System Control – Client Management"
-              description="Allows users to centrally manage client profiles, users, and projects, including customizable alerts and reports, facilitating efficient and focused access to relevant information."
-              image="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/78cb6ca7f_Group-211.png"
+              title="Client Management System – Centralized Control"
+              description="A central hub for every client relationship. Users can browse client profiles with full metadata, track active projects and survey progress in real time, manage the questionnaire and template library, and read off key stats — surveys, active users, current projects — at a glance, turning scattered information into one focused workspace."
+              image="/projects/client management.png"
               theoryTitle="Theory of Self-Control"
-              theory="Empowering users to manage and control information, which enhances their sense of control and efficiency."
+              theory="Bringing client data, projects, and templates into one workspace gives users a stronger sense of agency and removes the friction of jumping between tools to make a single decision."
               theoryIcon={BrainCircuit}
               onImageClick={openImageModal}
             />
 
             <ChallengeSolution
               number="04"
-              title="Polls – Survey Management"
-              description="Enables easy and intuitive creation of surveys through a simple drag-and-drop process, enhancing the efficiency of the process and adding flexibility in survey design."
-              image="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/dd0ce51a8_Group-25.png"
+              title="Poll Builder – AI-Assisted, Drag-and-Drop Surveys"
+              description="A two-step builder that turns a blank page into a finished poll fast. Users start with title, category, and target audience and get an AI Smart Assistant that drafts question sets and suggests benchmarked KPIs in seconds. From there, a drag-and-drop canvas with a question bank and a step-by-step progress tracker (construction → distribution → configuration) keeps complex survey design feeling guided and effortless."
+              images={[
+                "/projects/POLLS 1.png",
+                "/projects/POLLS 2.png",
+              ]}
               theoryTitle="User Experience and Accessibility"
-              theory="The system's design promotes accessibility and usability by simplifying complex processes, reducing cognitive difficulties in survey creation."
+              theory="Pairing an AI assistant with a guided drag-and-drop canvas removes the blank-page problem and lets users design rigorous surveys without specialist knowledge."
               theoryIcon={CheckCircle}
               order="reverse"
               onImageClick={openImageModal}
             />
 
-            <motion.div variants={fadeIn} className="text-center space-y-8">
-              <h3 className="text-2xl font-bold gradient-text leading-normal pb-4">Challenge 05 & 06</h3>
-              <p className="text-xl font-semibold text-brown-800 leading-normal">gogoAI & Affinity Mapping</p>
-              <p className="text-brown-600 max-w-3xl mx-auto leading-relaxed">
-                Utilizing AI to simplify complex data analysis, summarize research, and understand target audiences through relationship mapping. These interfaces showcase the integration of artificial intelligence into the user experience design process.
-              </p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true, amount: 0.2 }}
-                className="py-8 max-w-4xl mx-auto"
-              >
-                <CompactCarousel images={gogoAIImages} onImageClick={openImageModal} title="gogoAI Interface" />
-              </motion.div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8 max-w-3xl mx-auto">
-                {[
-                  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/f0a7ead2a_image-28.png",
-                  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/a85f133e6_image-29.png",
-                ].map((src, index) => (
-                  <motion.button
-                    type="button"
-                    key={src}
-                    className="relative group cursor-pointer"
-                    onClick={() => openImageModal(src, "Affinity Mapping")}
-                    whileHover={{ scale: 1.05 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.2 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    aria-label={`Open Affinity Mapping image ${index + 1}`}
-                  >
-                    <img
-                      src={src}
-                      alt="Affinity Mapping"
-                      className="rounded-lg shadow-brown-lg bg-white p-4 w-full h-48 object-contain"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div className="absolute inset-0 bg-brown-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                      <ZoomIn className="w-8 h-8 text-white" />
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-
             <ChallengeSolution
-              number="07"
-              title="Easy Access to Human Support"
-              description="The question mark icon provides immediate access to human support, offering a vital way for users who prefer direct human assistance over searching for help articles."
-              image="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/169151ac0_Group-22.png"
-              theoryTitle="Social Support Theory"
-              theory="This feature emphasizes the importance of social connections and support in user experience, giving users a sense of security and trust."
-              theoryIcon={MessageSquare}
+              number="5"
+              title="Go-Go AI – End-to-End Research Companion"
+              description="An AI workspace that compresses the qualitative research cycle into one tool. Researchers upload interview transcripts and let the system summarize them, cluster raw quotes into affinity themes, generate detailed personas with journey maps, and plan the next round of interviews through an AI-guided framework. Weeks of synthesis become a guided, evidence-backed workflow."
+              images={[
+                "/projects/GOGO 1.png",
+                "/projects/GOGO 2.png",
+                "/projects/GOGO 3.png",
+                "/projects/GOGO 4.png",
+              ]}
+              theoryTitle="Distributed Cognition"
+              theory="Offloading mechanical synthesis to an AI partner expands researchers' cognitive bandwidth, freeing them to focus on interpretation and decision-making rather than clustering and note-keeping."
+              theoryIcon={BrainCircuit}
               onImageClick={openImageModal}
             />
           </motion.div>

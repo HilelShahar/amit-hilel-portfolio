@@ -6,17 +6,10 @@ import { createPageUrl } from "@/utils";
 import {
   ArrowLeft,
   Target,
-  Lightbulb,
   CheckCircle,
-  Search,
   Eye,
   Users,
-  FileText,
-  Palette,
-  Type,
-  BrainCircuit,
   MessageSquare,
-  Map,
   X,
   ZoomIn,
   Star,
@@ -33,6 +26,26 @@ const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.15 } },
 };
+
+/*
+ * Routy app screens in logical flow order:
+ * 1. Sign in (entry)  ->  2. Day Map dashboard  ->  3. Library
+ * 4-8. Create a routine: New routine -> Name it -> Pick a picture -> AI suggestions -> Photo gallery
+ * 9-11. Other dashboard views: Day Map (path), Day Map (list), Timeline
+ */
+const ROUTY_SCREENS = [
+  "/projects/device.png",
+  "/projects/device%20(3).png",
+  "/projects/device%20(4).png",
+  "/projects/device%20(5).png",
+  "/projects/device%20(6).png",
+  "/projects/device%20(8).png",
+  "/projects/device%20(10).png",
+  "/projects/device%20(9).png",
+  "/projects/device%20(2).png",
+  "/projects/device%20(7).png",
+  "/projects/device%20(11).png",
+];
 
 /* -------------------- Image Modal -------------------- */
 const ImageModal = React.memo(function ImageModal({ src, alt, isOpen, onClose }) {
@@ -68,20 +81,20 @@ const ImageModal = React.memo(function ImageModal({ src, alt, isOpen, onClose })
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="relative max-w-7xl max-h-full"
+            className="relative max-w-md max-h-full"
             onClick={(e) => e.stopPropagation()}
           >
             <img
               src={src}
               alt={alt}
-              className="max-w-full max-h-full object-contain rounded-lg"
+              className="max-w-full max-h-[85vh] object-contain"
               loading="lazy"
               decoding="async"
             />
             <Button
               variant="outline"
               size="icon"
-              className="absolute top-4 right-4 bg-white/90 hover:bg-white"
+              className="absolute top-2 right-2 bg-white/90 hover:bg-white"
               onClick={onClose}
               aria-label="Close preview"
             >
@@ -94,36 +107,98 @@ const ImageModal = React.memo(function ImageModal({ src, alt, isOpen, onClose })
   );
 });
 
-/* -------------------- Clickable Image -------------------- */
-const ClickableImage = React.memo(function ClickableImage({ src, alt, onImageClick, className = "" }) {
-  const handleClick = useCallback(() => onImageClick(src, alt), [onImageClick, src, alt]);
+/* -------------------- Hero flow (single phone, auto-cycles in flow order) -------------------- */
+const RoutyFlow = React.memo(function RoutyFlow({ onImageClick }) {
+  const [index, setIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % ROUTY_SCREENS.length);
+    }, 2200);
+    return () => clearInterval(id);
+  }, [reduceMotion]);
+
+  const src = ROUTY_SCREENS[index];
+
   return (
-    <motion.button
-      type="button"
-      className={`relative group cursor-pointer ${className}`}
-      onClick={handleClick}
-      whileHover={{ scale: 1.03, y: -5 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      aria-label={`Open image: ${alt}`}
-    >
-      <img
-        src={src}
-        alt={alt}
-        className="rounded-lg shadow-brown-xl object-contain w-full h-auto bg-white p-2"
-        loading="lazy"
-        decoding="async"
-      />
-      <div className="absolute inset-0 bg-brown-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-        <ZoomIn className="w-10 h-10 text-white" />
+    <div className="flex flex-col items-center">
+      <button
+        type="button"
+        onClick={() => onImageClick(src, "Routy app screen")}
+        className="relative w-[240px] sm:w-[280px] aspect-[522/994] cursor-pointer"
+        aria-label="Routy app flow. Click to enlarge."
+      >
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={src}
+            src={src}
+            alt="Routy app screen"
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.03 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 w-full h-full object-contain drop-shadow-2xl"
+            loading="eager"
+            decoding="async"
+          />
+        </AnimatePresence>
+      </button>
+
+      <div className="mt-5 flex justify-center gap-1.5">
+        {ROUTY_SCREENS.map((s, i) => (
+          <button
+            key={s}
+            type="button"
+            onClick={() => setIndex(i)}
+            aria-label={`Show screen ${i + 1}`}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === index ? "w-5 bg-brown-600" : "w-1.5 bg-brown-300 hover:bg-brown-400"
+            }`}
+          />
+        ))}
       </div>
-    </motion.button>
+    </div>
+  );
+});
+
+/* -------------------- Screens Gallery (flow order, no labels) -------------------- */
+const RoutyGallery = React.memo(function RoutyGallery({ onImageClick }) {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+      {ROUTY_SCREENS.map((src, index) => (
+        <motion.button
+          type="button"
+          key={src}
+          onClick={() => onImageClick(src, "Routy app screen")}
+          className="group relative rounded-xl overflow-hidden bg-cream-100 border border-brown-200 shadow-brown-lg cursor-pointer"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.4, delay: (index % 4) * 0.05 }}
+          whileHover={{ y: -4 }}
+          aria-label="Open Routy app screen"
+        >
+          <img
+            src={src}
+            alt="Routy app screen"
+            loading="lazy"
+            decoding="async"
+            className="w-full h-auto object-contain"
+          />
+          <div className="absolute inset-0 bg-brown-800/0 group-hover:bg-brown-800/15 transition-colors duration-300 flex items-center justify-center">
+            <ZoomIn className="w-7 h-7 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+        </motion.button>
+      ))}
+    </div>
   );
 });
 
 /* -------------------- Page -------------------- */
 export default function ProjectRoutineBuilder() {
   const [modalImage, setModalImage] = useState({ src: "", alt: "", isOpen: false });
-  const prefersReducedMotion = useReducedMotion();
 
   const openImageModal = useCallback((src, alt) => {
     setModalImage({ src, alt, isOpen: true });
@@ -164,13 +239,9 @@ export default function ProjectRoutineBuilder() {
             </div>
           </motion.header>
 
-          {/* Main Project Image */}
-          <div className="max-w-3xl mx-auto mb-20">
-            <ClickableImage
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/268d2cb61_Frame-427319084.png"
-              alt="Routine Builder App"
-              onImageClick={openImageModal}
-            />
+          {/* App Flow — Hero (auto-cycling phone, flow order) */}
+          <div className="max-w-3xl mx-auto mb-24">
+            <RoutyFlow onImageClick={openImageModal} />
           </div>
 
           <div className="space-y-20">
@@ -352,15 +423,13 @@ export default function ProjectRoutineBuilder() {
               </div>
             </motion.section>
 
-            {/* App screens */}
-            <div className="max-w-4xl mx-auto">
-              <ClickableImage
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/77b9a1d9c_Frame-11566-scaled1.png"
-                alt="Routine Builder App Screens"
-                onImageClick={openImageModal}
-                className="w-full h-auto"
-              />
-            </div>
+            {/* App screens — full gallery (flow order, no labels) */}
+            <motion.section variants={fadeIn}>
+              <h2 className="text-xl md:text-2xl font-bold text-brown-800 mb-8 text-center leading-tight">
+                Every Screen
+              </h2>
+              <RoutyGallery onImageClick={openImageModal} />
+            </motion.section>
 
             {/* Lessons Learned */}
             <motion.section variants={fadeIn} className="bg-brown-100 p-6 md:p-12 rounded-2xl">
