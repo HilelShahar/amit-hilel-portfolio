@@ -93,6 +93,7 @@ const borderPulseVariants = {
 
 function ProjectCardBase({ project, index }) {
   const isPhoneMockup = project.imagePresentation === "phone";
+  const isWideHero = project.imagePresentation === "wide";
   const projectUrl =
     Object.prototype.hasOwnProperty.call(projectPageMap, project?.id)
       ? createPageUrl(projectPageMap[project.id])
@@ -122,7 +123,11 @@ function ProjectCardBase({ project, index }) {
           {/* Image Container */}
           <div
             className={`relative overflow-hidden bg-cream-100 flex items-center justify-center ${
-              isPhoneMockup ? "h-[min(72vw,320px)] sm:h-64 md:h-72 lg:h-80" : "h-56 md:h-64 lg:h-72"
+              isPhoneMockup
+                ? "h-[min(72vw,320px)] sm:h-64 md:h-72 lg:h-80"
+                : isWideHero
+                  ? "h-48 sm:h-56 md:h-64 lg:h-72"
+                  : "h-56 md:h-64 lg:h-72"
             }`}
           >
             <motion.img
@@ -131,7 +136,9 @@ function ProjectCardBase({ project, index }) {
               className={
                 isPhoneMockup
                   ? "h-[92%] w-auto max-w-[min(72%,220px)] sm:max-w-[min(58%,240px)] object-contain object-center drop-shadow-lg will-change-transform"
-                  : "w-full h-full object-contain p-4 will-change-transform"
+                  : isWideHero
+                    ? "w-full h-full object-contain object-center p-1 sm:p-2 will-change-transform"
+                    : "w-full h-full object-contain p-4 will-change-transform"
               }
               loading="lazy"
               decoding="async"

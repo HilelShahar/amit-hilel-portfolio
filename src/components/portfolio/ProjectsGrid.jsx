@@ -23,8 +23,8 @@ const projects = [
     title: "Routine Builder",
     description:
       "Helping autistic individuals build and maintain daily routines through thoughtful design.",
-    image: "/projects/device%20(2).png",
-    imagePresentation: "phone",
+    image: "/projects/Frame%20427319103.png",
+    imagePresentation: "wide",
   },
   {
     id: 4,
