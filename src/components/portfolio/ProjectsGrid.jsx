@@ -9,9 +9,7 @@ const projects = [
     title: "Revolutionizing CX",
     description:
       "Explore how we're transforming customer experience with innovative strategies and tools",
-    image:
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/8a7fbe784_PROJECT1.png",
-    href: "/projects/revolutionizing-cx",
+    image: "/projects/Celestial Laptop Mockup.png",
   },
   {
     id: 2,
@@ -25,8 +23,8 @@ const projects = [
     title: "Routine Builder",
     description:
       "Helping autistic individuals build and maintain daily routines through thoughtful design.",
-    image:
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/268d2cb61_Frame-427319084.png",
+    image: "/projects/device%20(2).png",
+    imagePresentation: "phone",
   },
   {
     id: 4,

@@ -92,6 +92,7 @@ const borderPulseVariants = {
 };
 
 function ProjectCardBase({ project, index }) {
+  const isPhoneMockup = project.imagePresentation === "phone";
   const projectUrl =
     Object.prototype.hasOwnProperty.call(projectPageMap, project?.id)
       ? createPageUrl(projectPageMap[project.id])
@@ -119,14 +120,22 @@ function ProjectCardBase({ project, index }) {
           </motion.div>
 
           {/* Image Container */}
-          <div className="relative h-56 md:h-64 lg:h-72 overflow-hidden bg-cream-100">
+          <div
+            className={`relative overflow-hidden bg-cream-100 flex items-center justify-center ${
+              isPhoneMockup ? "h-[min(72vw,320px)] sm:h-64 md:h-72 lg:h-80" : "h-56 md:h-64 lg:h-72"
+            }`}
+          >
             <motion.img
               src={project.image}
               alt={project.title}
-              className="w-full h-full object-contain p-4 will-change-transform"
+              className={
+                isPhoneMockup
+                  ? "h-[92%] w-auto max-w-[min(72%,220px)] sm:max-w-[min(58%,240px)] object-contain object-center drop-shadow-lg will-change-transform"
+                  : "w-full h-full object-contain p-4 will-change-transform"
+              }
               loading="lazy"
               decoding="async"
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: isPhoneMockup ? 1.03 : 1.05 }}
               transition={{ duration: 0.6 }}
             />
 
