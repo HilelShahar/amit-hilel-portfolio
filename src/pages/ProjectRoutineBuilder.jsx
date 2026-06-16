@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -14,6 +14,7 @@ import {
   ZoomIn,
   Star,
   BarChart,
+  RotateCcw,
 } from "lucide-react";
 
 /* -------------------- Animation Variants -------------------- */
@@ -107,58 +108,105 @@ const ImageModal = React.memo(function ImageModal({ src, alt, isOpen, onClose })
   );
 });
 
-/* -------------------- Hero flow (single phone, auto-cycles in flow order) -------------------- */
-const RoutyFlow = React.memo(function RoutyFlow({ onImageClick }) {
+/* -------------------- Interactive prototype (tap through like the real app) -------------------- */
+const RoutyPrototype = React.memo(function RoutyPrototype() {
   const [index, setIndex] = useState(0);
-  const reduceMotion = useReducedMotion();
+  const total = ROUTY_SCREENS.length;
+
+  const next = useCallback(() => setIndex((i) => (i + 1) % total), [total]);
+  const prev = useCallback(() => setIndex((i) => (i - 1 + total) % total), [total]);
+  const reset = useCallback(() => setIndex(0), []);
 
   useEffect(() => {
-    if (reduceMotion) return;
-    const id = setInterval(() => {
-      setIndex((i) => (i + 1) % ROUTY_SCREENS.length);
-    }, 2200);
-    return () => clearInterval(id);
-  }, [reduceMotion]);
+    const onKey = (e) => {
+      if (e.key === "ArrowRight") next();
+      else if (e.key === "ArrowLeft") prev();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [next, prev]);
+
+  // Preload every screen so transitions are instant (no load flash)
+  useEffect(() => {
+    ROUTY_SCREENS.forEach((s) => {
+      const img = new Image();
+      img.src = s;
+    });
+  }, []);
 
   const src = ROUTY_SCREENS[index];
 
   return (
     <div className="flex flex-col items-center">
-      <button
-        type="button"
-        onClick={() => onImageClick(src, "Routy app screen")}
-        className="relative w-[240px] sm:w-[280px] aspect-[522/994] cursor-pointer"
-        aria-label="Routy app flow. Click to enlarge."
-      >
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={src}
-            src={src}
-            alt="Routy app screen"
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.03 }}
-            transition={{ duration: 0.5 }}
-            className="absolute inset-0 w-full h-full object-contain drop-shadow-2xl"
-            loading="eager"
-            decoding="async"
-          />
-        </AnimatePresence>
-      </button>
+      {/* Phone */}
+      <div className="relative w-[260px] sm:w-[300px] aspect-[522/994] rounded-[2.2rem] border-[10px] border-brown-800 shadow-brown-xl overflow-hidden bg-cream-50">
+        <button
+          type="button"
+          onClick={next}
+          className="absolute inset-0 w-full h-full cursor-pointer"
+          aria-label="Tap to go to the next screen"
+        >
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={src}
+              src={src}
+              alt={`Routy app screen ${index + 1} of ${total}`}
+              initial={{ opacity: 0, scale: 1.015 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.985 }}
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              className="absolute inset-0 w-full h-full object-contain select-none"
+              draggable={false}
+              decoding="async"
+            />
+          </AnimatePresence>
 
-      <div className="mt-5 flex justify-center gap-1.5">
-        {ROUTY_SCREENS.map((s, i) => (
-          <button
-            key={s}
-            type="button"
-            onClick={() => setIndex(i)}
-            aria-label={`Show screen ${i + 1}`}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === index ? "w-5 bg-brown-600" : "w-1.5 bg-brown-300 hover:bg-brown-400"
-            }`}
-          />
-        ))}
+          {/* tap hint near the primary action */}
+          <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-[13%] flex h-11 w-11 items-center justify-center">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-brown-500/40 animate-ping" />
+            <span className="relative inline-flex h-8 w-8 rounded-full bg-brown-600/70 border-2 border-white/80" />
+          </span>
+        </button>
       </div>
+
+      {/* Controls */}
+      <div className="mt-5 flex items-center gap-4">
+        <button
+          type="button"
+          onClick={prev}
+          aria-label="Previous screen"
+          className="w-9 h-9 rounded-full bg-white border border-brown-300 text-brown-700 hover:bg-brown-100 flex items-center justify-center shadow-sm"
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </button>
+
+        <div className="flex justify-center gap-1.5">
+          {ROUTY_SCREENS.map((s, i) => (
+            <button
+              key={s}
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={`Go to screen ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === index ? "w-5 bg-brown-600" : "w-1.5 bg-brown-300 hover:bg-brown-400"
+              }`}
+            />
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={reset}
+          aria-label="Restart"
+          className="w-9 h-9 rounded-full bg-white border border-brown-300 text-brown-700 hover:bg-brown-100 flex items-center justify-center shadow-sm"
+        >
+          <RotateCcw className="w-4 h-4" />
+        </button>
+      </div>
+
+      <p className="mt-3 text-sm md:text-base text-brown-600 text-center">
+        Tap the screen to move through the flow — just like the real app.
+      </p>
     </div>
   );
 });
@@ -239,9 +287,9 @@ export default function ProjectRoutineBuilder() {
             </div>
           </motion.header>
 
-          {/* App Flow — Hero (auto-cycling phone, flow order) */}
-          <div className="max-w-3xl mx-auto mb-24">
-            <RoutyFlow onImageClick={openImageModal} />
+          {/* App Flow — Interactive tap-through prototype */}
+          <div className="mb-24">
+            <RoutyPrototype />
           </div>
 
           <div className="space-y-20">

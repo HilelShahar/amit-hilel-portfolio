@@ -12,6 +12,7 @@ const projectPageMap = {
   2: "ProjectMunicipalServices",
   3: "ProjectRoutineBuilder",
   4: "ProjectMyCookBook",
+  5: "ProjectWellio",
 };
 
 /** Variants (no React state for hover) */

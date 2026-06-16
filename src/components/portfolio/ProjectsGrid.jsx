@@ -34,6 +34,14 @@ const projects = [
     image:
       "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68b69f4784813da7e3830160/acb7b5db8_5f4ebf8b732-1-1-1.png",
   },
+  {
+    id: 5,
+    title: "Wellio",
+    description:
+      "Gathering booking, records, prescriptions and follow-up into one calm healthcare app you'd actually want to open.",
+    image: "/projects/wellio-home.png",
+    imagePresentation: "phone",
+  },
 ];
 
 const headingVariants = {

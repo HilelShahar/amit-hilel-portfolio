@@ -175,6 +175,23 @@ export default function Hero() {
           </motion.h1>
         </motion.div>
 
+        {/* Personal intro video */}
+        <motion.div variants={itemVariants} className="mb-10">
+          <div className="relative mx-auto w-full max-w-md">
+            <div className="rounded-2xl overflow-hidden shadow-brown-xl border-4 border-cream-200 bg-black">
+              <video
+                src="/amit-intro.mp4"
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full h-auto block"
+              >
+                Sorry, your browser doesn't support embedded videos.
+              </video>
+            </div>
+          </div>
+        </motion.div>
+
         <motion.div variants={itemVariants} className="mb-8">
           <div className="text-xl md:text-2xl lg:text-3xl font-light text-brown-700 space-y-2">
             {["UX Researcher.", "UI Designer.", "Master's in Social Psychology."].map(

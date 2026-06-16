@@ -11,6 +11,7 @@ import {
   MessageSquare,
   X,
   ZoomIn,
+  PlayCircle,
 } from "lucide-react";
 
 /* -------------------- Animation Variants (stable) -------------------- */
@@ -321,11 +322,24 @@ export default function ProjectMunicipalServices() {
             <p className="text-sm md:text-lg text-brown-700 max-w-4xl mx-auto leading-relaxed">
               I designed an app for the municipality to streamline citizen interactions and improve access to services. By conducting usability studies and implementing user feedback, I enhanced the digital platform, increasing efficiency, user satisfaction, and adoption rates.
             </p>
-            <div className="mt-8 flex justify-center items-center gap-4 text-xs md:text-base">
-              <Button onClick={scrollToSolutions} className="bg-brown-600 hover:bg-brown-700 text-white text-sm md:text-base">
+            <div className="mt-8 flex flex-wrap justify-center items-center gap-3 md:gap-4 text-xs md:text-base">
+              <Button
+                asChild
+                className="bg-brown-600 hover:bg-brown-700 text-white text-sm md:text-base"
+              >
+                <a href="/mydigitel-promo.html" target="_blank" rel="noopener noreferrer">
+                  <PlayCircle className="w-4 h-4 mr-2" />
+                  Try the interactive prototype
+                </a>
+              </Button>
+              <Button
+                onClick={scrollToSolutions}
+                variant="outline"
+                className="bg-white border-brown-300 text-brown-800 hover:bg-brown-100 text-sm md:text-base"
+              >
                 Jump to Solution
               </Button>
-              <span className="text-brown-600">or scroll for the story</span>
+              <span className="text-brown-600 w-full md:w-auto">or scroll for the story</span>
             </div>
           </motion.header>
 

@@ -12,6 +12,7 @@ const ProjectRevolutionizingCX = React.lazy(() => import("./ProjectRevolutionizi
 const ProjectMunicipalServices = React.lazy(() => import("./ProjectMunicipalServices"));
 const ProjectRoutineBuilder = React.lazy(() => import("./ProjectRoutineBuilder"));
 const ProjectMyCookBook = React.lazy(() => import("./ProjectMyCookBook"));
+const ProjectWellio = React.lazy(() => import("./ProjectWellio"));
 
 // Only used to derive the current page name from the URL.
 // Mapping values aren't used elsewhere, but we keep them for clarity.
@@ -24,6 +25,7 @@ const PAGES = {
   ProjectMunicipalServices,
   ProjectRoutineBuilder,
   ProjectMyCookBook,
+  ProjectWellio,
 };
 
 function _getCurrentPage(url) {
@@ -64,6 +66,7 @@ function PagesContent() {
           <Route path="/ProjectMunicipalServices" element={<ProjectMunicipalServices />} />
           <Route path="/ProjectRoutineBuilder" element={<ProjectRoutineBuilder />} />
           <Route path="/ProjectMyCookBook" element={<ProjectMyCookBook />} />
+          <Route path="/ProjectWellio" element={<ProjectWellio />} />
         </Routes>
       </Suspense>
     </Layout>

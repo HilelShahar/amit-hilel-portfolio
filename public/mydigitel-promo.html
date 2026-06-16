@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>My Digitel — One app for every city service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* =========================================================================
+   My Digitel — faithful rebuild of the 6 Figma screens + cursor walkthrough.
+   9:16, records to MP4 at 1080×1920. Self-contained.
+   ========================================================================= */
+:root{
+  --orange:#FF6B35; --orange-deep:#E85427; --orange-soft:#FFF1E9;
+  --ink:#16223F; --navy:#1B2A4A; --muted:#7C849A; --faint:#A8AEBE;
+  --green:#1FA463; --green-bg:#E7F6EE;
+  --red:#E5392E; --red-bg:#FDECEA;
+  --blue:#3457C8; --blue-bg:#E9EEFF;
+  --purple:#7B4FD6; --purple-bg:#EFE8FF;
+  --paper:#F5F7FA; --card:#FFFFFF; --dark:#15171F; --line:#EBEEF3;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#0d1220;font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;color:var(--ink)}
+
+/* ---------------- 9:16 stage ---------------- */
+.stage{position:relative;height:100vh;aspect-ratio:9/16;max-width:100vw;overflow:hidden;container-type:size;display:flex;flex-direction:column;
+  background:radial-gradient(125% 72% at 50% -8%, #FFE8D8 0%, #FFF6EF 36%, #FBFCFE 72%)}
+.blob{position:absolute;border-radius:50%;filter:blur(64px);opacity:.5;z-index:0;pointer-events:none}
+.blob.b1{width:62cqw;height:62cqw;left:-20cqw;top:5cqh;background:#FFB48C;animation:fl1 15s ease-in-out infinite}
+.blob.b2{width:56cqw;height:56cqw;right:-22cqw;top:32cqh;background:#9FB4FF;opacity:.36;animation:fl2 17s ease-in-out infinite}
+@keyframes fl1{0%,100%{transform:translate(0,0)}50%{transform:translate(3cqw,-4cqh)}}
+@keyframes fl2{0%,100%{transform:translate(0,0)}50%{transform:translate(-3cqw,5cqh)}}
+
+.progress{position:absolute;top:0;left:0;right:0;display:flex;gap:.6cqw;padding:1.5cqh 4cqw 0;z-index:30}
+.seg{flex:1;height:.8cqh;min-height:3px;border-radius:99px;background:rgba(21,33,59,.13);overflow:hidden}
+.seg>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--orange-deep));border-radius:99px}
+.seg.done>i{width:100%}
+.seg.active>i{width:100%;transition:width linear var(--seg-dur,3s)}
+
+.brandrow{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:4.6cqh 6cqw 0}
+.brandrow .wm img{height:5.2cqh;width:auto;display:block}
+.brandrow .tag{font-size:2.6cqw;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--orange-deep);background:rgba(255,107,53,.12);padding:1.1cqw 2.6cqw;border-radius:99px}
+
+.phonezone{position:relative;z-index:10;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.phone-wrap{transform-origin:center center;will-change:transform}
+.phone{position:relative;width:390px;height:820px;border-radius:54px;background:#0b0e17;padding:13px;box-shadow:0 40px 80px -30px rgba(18,18,40,.55),0 0 0 2px rgba(255,255,255,.05)}
+.phone::after{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:116px;height:30px;background:#0b0e17;border-radius:0 0 18px 18px;z-index:60}
+.phone.glow{box-shadow:0 40px 90px -28px rgba(255,107,53,.5),0 0 0 3px rgba(255,107,53,.45)}
+.screenport{position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;background:var(--paper)}
+
+.caption{position:relative;z-index:20;padding:2.2cqh 7cqw 4.6cqh;text-align:center;min-height:19cqh}
+.caption h2{font-size:6.8cqw;line-height:1.08;font-weight:800;color:var(--ink);opacity:0;transform:translateY(12px);letter-spacing:-.01em}
+.caption p{font-size:3.6cqw;line-height:1.42;color:var(--muted);font-weight:500;margin-top:1.3cqh;opacity:0;transform:translateY(12px)}
+.caption.show h2{opacity:1;transform:none;transition:all .55s cubic-bezier(.2,.7,.2,1) .08s}
+.caption.show p{opacity:1;transform:none;transition:all .55s ease .2s}
+
+/* ===================== SCREENS ===================== */
+.screens{position:absolute;inset:0}
+.screen{position:absolute;inset:0;background:var(--paper);opacity:0;visibility:hidden;transform:translateX(7%) scale(.985);transition:opacity .5s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+.screen.is-active{opacity:1;visibility:visible;transform:none;z-index:2}
+
+.scroller{position:absolute;inset:0;overflow:hidden}
+.scroll-inner{position:absolute;left:0;right:0;top:0;will-change:transform;transition:transform 1.05s cubic-bezier(.4,0,.1,1)}
+
+/* ---- shared white app header ---- */
+.apphead{position:absolute;top:0;left:0;right:0;height:100px;background:#fff;z-index:25;border-bottom:1px solid var(--line)}
+.statusbar{display:flex;align-items:flex-end;justify-content:space-between;height:46px;padding:0 24px 4px;font-size:14px;font-weight:700;color:var(--ink)}
+.statusbar .sb-r{display:flex;gap:6px;align-items:center}
+.statusbar .batt{display:flex;align-items:center;gap:3px}
+.statusbar .batt b{font-size:11px;font-weight:800}
+.head-row{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 20px}
+.head-row .ava{width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.head-row .ava img{width:100%;height:100%;object-fit:cover}
+.head-row .brand{display:flex;align-items:center;gap:7px}
+.head-row .brand img{height:26px}
+.head-row .bell{width:30px;height:30px;display:flex;align-items:center;justify-content:center;position:relative}
+.head-row .bell::after{content:"";position:absolute;top:3px;right:4px;width:7px;height:7px;border-radius:50%;background:var(--orange);border:1.5px solid #fff}
+
+/* sub-header with back (favorites, finance) */
+.subhead{position:absolute;top:0;left:0;right:0;background:#fff;z-index:25;border-bottom:1px solid var(--line)}
+.subhead .statusbar{color:var(--ink)}
+.subhead .row{display:flex;align-items:center;gap:14px;height:54px;padding:0 18px}
+.subhead .back{width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.subhead .ttl{font-size:19px;font-weight:800;letter-spacing:-.01em}
+.subhead .sp{flex:1}
+.subhead .logo{height:24px}
+
+/* bottom nav */
+.bottomnav{position:absolute;left:0;right:0;bottom:0;height:78px;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-around;padding:9px 10px 0;z-index:40}
+.nav-i{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:700;color:#A3A9B8;flex:1;cursor:pointer}
+.nav-i.active{color:var(--orange-deep)}
+.fab{position:absolute;right:18px;bottom:96px;width:54px;height:54px;border-radius:18px;z-index:45;background:linear-gradient(135deg,var(--orange),var(--orange-deep));display:flex;align-items:center;justify-content:center;box-shadow:0 16px 30px -10px rgba(255,107,53,.6)}
+
+/* ---- generic content helpers ---- */
+.pad{padding:18px 18px 96px}
+.sec{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 12px}
+.sec:first-child{margin-top:4px}
+.sec h3{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.sec .lk{font-size:12.5px;font-weight:800;color:var(--orange-deep);display:flex;align-items:center;gap:4px;cursor:pointer}
+.sec-lbl{font-size:13px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;margin:20px 2px 11px}
+.ic{display:flex;align-items:center;justify-content:center;border-radius:13px}
+.ic.o{background:var(--orange-soft)}.ic.b{background:var(--blue-bg)}.ic.g{background:var(--green-bg)}.ic.p{background:var(--purple-bg)}.ic.r{background:var(--red-bg)}
+.badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:99px;letter-spacing:.03em;text-transform:uppercase}
+.badge.g{color:var(--green);background:var(--green-bg)}.badge.o{color:var(--orange-deep);background:var(--orange-soft)}.badge.r{color:var(--red);background:var(--red-bg)}
+
+/* ---------- HOME ---------- */
+.h-hero{position:relative;height:300px;overflow:hidden}
+.h-hero>img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);animation:kb 18s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.05)}to{transform:scale(1.15)}}
+.h-hero .grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,15,24,0) 30%,rgba(11,15,24,.7) 100%)}
+.h-greet{position:absolute;left:22px;right:22px;bottom:22px;color:#fff}
+.verified{display:inline-flex;align-items:center;gap:6px;background:rgba(31,164,99,.95);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:5px 11px 5px 8px;border-radius:99px;text-transform:uppercase}
+.h-greet h1{font-size:32px;font-weight:800;margin-top:10px;letter-spacing:-.02em;text-shadow:0 2px 16px rgba(0,0,0,.3)}
+.h-greet .loc{font-size:13px;font-weight:600;opacity:.92;margin-top:4px;display:flex;align-items:center;gap:5px}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qs{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;display:flex;flex-direction:column;gap:9px;box-shadow:0 8px 20px -16px rgba(20,30,60,.4);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.qs:active{transform:scale(.97)}
+.qs.ring{box-shadow:0 0 0 3px rgba(255,107,53,.55),0 12px 24px -14px rgba(255,107,53,.55);transform:translateY(-2px)}
+.qs .ic{width:42px;height:42px}
+.qs .t{font-size:15px;font-weight:800}
+.qs .s{font-size:12px;font-weight:600;color:var(--muted);margin-top:-3px}
+.qs .s.dot::before{content:"● ";color:var(--green);font-size:9px}
+.addw{margin-top:13px;border:1.5px dashed #D6D2CC;border-radius:16px;padding:14px;text-align:center;font-size:13.5px;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:8px}
+.stories{display:flex;gap:12px}
+.story{position:relative;flex:1;height:196px;border-radius:20px;overflow:hidden;box-shadow:0 14px 28px -18px rgba(20,30,60,.5)}
+.story img{width:100%;height:100%;object-fit:cover}
+.story .g{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 42%,rgba(0,0,0,.74) 100%)}
+.story .meta{position:absolute;left:12px;right:12px;bottom:12px;color:#fff}
+.story .top{position:absolute;left:12px;top:12px;display:flex;gap:6px;align-items:center}
+.story .chip{font-size:9px;font-weight:800;letter-spacing:.05em;background:rgba(255,107,53,.95);padding:3px 8px;border-radius:99px;text-transform:uppercase}
+.story .chip.b{background:rgba(27,42,74,.9)}
+.story .ago{font-size:10px;font-weight:700;color:#fff;opacity:.85}
+.story .ti{font-size:14px;font-weight:800;margin-top:7px;line-height:1.2}
+.pulse{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px}
+.pulse-h{display:flex;align-items:center;gap:8px}
+.pulse-h .dot{width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(229,57,46,.15);animation:blink 1.6s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ---------- EDIT FAVORITES ---------- */
+.fav-intro{font-size:13.5px;font-weight:600;color:var(--muted);line-height:1.5;margin:4px 2px 16px}
+.fav-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fchip{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;display:flex;flex-direction:column;gap:8px;box-shadow:0 6px 16px -14px rgba(20,30,60,.4)}
+.fchip .rm{position:absolute;top:-7px;right:-7px;width:24px;height:24px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 10px -3px rgba(229,57,46,.6)}
+.fchip .ic{width:38px;height:38px}
+.fchip .t{font-size:13.5px;font-weight:800}
+.fchip .s{font-size:11px;font-weight:600;color:var(--muted)}
+.avl{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:12px 14px;display:flex;align-items:center;gap:13px;margin-bottom:10px}
+.avl .ic{width:42px;height:42px;flex-shrink:0}
+.avl .ax{flex:1}
+.avl .ax .a{font-size:14px;font-weight:800}
+.avl .ax .b{font-size:11.5px;font-weight:600;color:var(--muted);margin-top:1px}
+.avl .add{width:32px;height:32px;border-radius:10px;background:var(--orange-soft);color:var(--orange-deep);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;cursor:pointer;flex-shrink:0}
+.promo-card{position:relative;height:120px;border-radius:18px;overflow:hidden;margin-top:6px}
+.promo-card img{width:100%;height:100%;object-fit:cover}
+.promo-card .g{position:absolute;inset:0;background:linear-gradient(120deg,rgba(232,84,39,.82),rgba(21,33,59,.6))}
+.promo-card .t{position:absolute;left:18px;bottom:16px;right:18px;color:#fff;font-size:18px;font-weight:800;line-height:1.2}
+.btn-primary{height:52px;border-radius:15px;background:linear-gradient(135deg,var(--orange),var(--orange-deep));color:#fff;font-size:15px;font-weight:800;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;box-shadow:0 14px 28px -14px rgba(255,107,53,.7)}
+
+/* ---------- SERVICES (How can we help) ---------- */
+.svc-hero{position:relative;height:188px;overflow:hidden;display:flex;align-items:flex-start}
+.svc-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.svc-hero .g{position:absolute;inset:0;background:linear-gradient(150deg,rgba(21,33,59,.72),rgba(21,33,59,.5))}
+.svc-hero .in{position:relative;z-index:2;padding:24px 22px 0;color:#fff}
+.svc-hero h1{font-size:24px;font-weight:800;line-height:1.15;max-width:240px;letter-spacing:-.01em}
+.search-wrap{position:relative;margin:0 18px;margin-top:-30px;z-index:5}
+.search{background:#fff;border-radius:15px;box-shadow:0 16px 32px -18px rgba(20,30,60,.5);display:flex;align-items:center;gap:9px;padding:8px 8px 8px 15px;border:1px solid var(--line)}
+.search .ph{flex:1;color:var(--faint);font-size:13.5px;font-weight:600}
+.search .go{background:var(--orange);color:#fff;font-size:13px;font-weight:800;padding:10px 16px;border-radius:11px}
+.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qa-c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;box-shadow:0 6px 16px -14px rgba(20,30,60,.4)}
+.qa-c .ic{width:46px;height:46px}
+.qa-c span{font-size:13px;font-weight:800}
+.dept{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dept-i{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px;display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;cursor:pointer}
+.dept-i .d{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.assist{display:flex;align-items:center;gap:13px;background:var(--card);border:1.5px dashed #D6DBE6;border-radius:16px;padding:16px;margin-top:8px}
+.assist .q{width:42px;height:42px;border-radius:50%;background:var(--orange-soft);color:var(--orange-deep);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0}
+.assist .t{font-size:13.5px;font-weight:700;line-height:1.4}
+.assist .t span{color:var(--muted);font-weight:600}
+
+/* ---------- PARKING / 106 service hubs ---------- */
+.hub-hero{position:relative;height:230px;overflow:hidden;display:flex;align-items:flex-end}
+.hub-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hub-hero .g{position:absolute;inset:0}
+.hub-hero.park .g{background:linear-gradient(160deg,rgba(21,33,59,.25),rgba(21,33,59,.85))}
+.hub-hero.sos{background:linear-gradient(150deg,#FF7A45,#E85427 70%,#C9431C)}
+.hub-hero.sos .g{background:linear-gradient(160deg,rgba(232,84,39,.2),rgba(180,55,20,.55))}
+.hub-hero .in{position:relative;z-index:2;padding:0 22px 20px;color:#fff}
+.live{display:inline-flex;align-items:center;gap:6px;background:rgba(31,164,99,.95);font-size:10px;font-weight:800;letter-spacing:.04em;padding:4px 10px;border-radius:99px;text-transform:uppercase}
+.live.dim{background:rgba(255,255,255,.22);backdrop-filter:blur(6px)}
+.live .d{width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.3s infinite}
+.hub-hero h1{font-size:30px;font-weight:800;margin-top:11px;letter-spacing:-.02em;line-height:1.05}
+.hub-hero p{font-size:12.5px;font-weight:500;opacity:.92;margin-top:8px;line-height:1.45;max-width:300px}
+.search.flat{margin:16px 18px 0;box-shadow:0 10px 24px -18px rgba(20,30,60,.4)}
+.stat-row{display:flex;gap:10px;padding:0 18px;margin-top:13px}
+.stat-row .s{flex:1;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 13px;font-size:12px;font-weight:800;display:flex;align-items:center;gap:8px}
+.stat-row .s.g{color:var(--green)}.stat-row .s.o{color:var(--orange-deep)}
+.iconbar{display:flex;justify-content:space-between;padding:16px 20px 4px}
+.iconbar .i{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:9.5px;font-weight:700;color:var(--muted)}
+.iconbar .i .c{width:42px;height:42px;border-radius:13px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.permit{margin:6px 18px 0;border-radius:18px;padding:18px;color:#fff;background:linear-gradient(140deg,#FF7A45,#E85427 62%,#C9431C);box-shadow:0 20px 38px -22px rgba(232,84,39,.8);position:relative;overflow:hidden}
+.permit::before{content:"";position:absolute;right:-40px;top:-46px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.12)}
+.permit .row1{display:flex;align-items:center;gap:12px}
+.permit .pi{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.permit .tt{flex:1}
+.permit .tt .a{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px}
+.permit .tt .a .bd{font-size:9px;font-weight:800;background:rgba(255,255,255,.28);padding:3px 7px;border-radius:99px}
+.permit .tt .b{font-size:12px;font-weight:600;opacity:.92;margin-top:3px}
+.permit .acts{display:flex;gap:10px;margin-top:14px}
+.permit .acts .pb{flex:1;height:44px;border-radius:12px;font-size:13.5px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.permit .acts .pb.w{background:#fff;color:var(--orange-deep)}
+.permit .acts .pb.o{background:rgba(255,255,255,.16);color:#fff;border:1.5px solid rgba(255,255,255,.45)}
+.expl{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.expl-i{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px;display:flex;flex-direction:column;gap:9px;cursor:pointer}
+.expl-i .ic{width:40px;height:40px}
+.expl-i span{font-size:13px;font-weight:800}
+.insight{position:relative;height:130px;border-radius:18px;overflow:hidden;margin-top:6px}
+.insight img{width:100%;height:100%;object-fit:cover}
+.insight .g{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.75))}
+.insight .m{position:absolute;left:16px;right:16px;bottom:14px;color:#fff}
+.insight .m .h{font-size:13px;font-weight:800}
+.insight .m .d{font-size:11px;font-weight:600;opacity:.92;margin-top:3px;line-height:1.35}
+.insight .m .go{display:inline-flex;align-items:center;gap:5px;background:var(--orange);font-size:11px;font-weight:800;padding:5px 11px;border-radius:99px;margin-top:8px}
+.feed{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 15px}
+.feed-row{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line)}
+.feed-row:last-child{border-bottom:none}
+.feed-row .fi{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.feed-row .ft{flex:1}
+.feed-row .ft .a{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px}
+.feed-row .ft .b{font-size:11.5px;font-weight:600;color:var(--muted);margin-top:3px;line-height:1.4}
+.feed-row .ft .lk{font-size:11.5px;font-weight:800;color:var(--orange-deep);margin-top:5px}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:80px;margin:4px 0 12px}
+.bars .bar{flex:1;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,#FFC9AE,#FF8A5C)}
+.bars .bar.hot{background:linear-gradient(180deg,var(--orange),var(--orange-deep))}
+.chart .cn{font-size:12px;font-weight:600;color:var(--muted);line-height:1.4}
+.chart .cn b{color:var(--ink)}
+.act-row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:10px}
+.act-row .ai{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.act-row .at{flex:1}
+.act-row .at .a{font-size:13.5px;font-weight:800}
+.act-row .at .b{font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+.act-row .pay{background:var(--orange);color:#fff;font-size:12px;font-weight:800;padding:8px 13px;border-radius:10px;cursor:pointer}
+.act-row .amt{font-size:14px;font-weight:800}
+
+/* ---------- 106 specifics ---------- */
+.callcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 12px 26px -20px rgba(20,30,60,.4)}
+.callcard .row{display:flex;align-items:center;gap:12px}
+.callcard .ic2{width:48px;height:48px;border-radius:14px;background:var(--orange-soft);display:flex;align-items:center;justify-content:center}
+.callcard .tt .a{font-size:16px;font-weight:800}
+.callcard .tt .b{font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:5px}
+.callcard .tt .b::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+.callcard .acts{display:flex;gap:10px;margin-top:14px}
+.callcard .cb{flex:1;height:46px;border-radius:12px;font-size:13.5px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+.callcard .cb.o{background:linear-gradient(135deg,var(--orange),var(--orange-deep));color:#fff}
+.callcard .cb.ol{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.freq{display:flex;flex-wrap:wrap;gap:9px}
+.freq .f{font-size:12.5px;font-weight:700;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px 13px;cursor:pointer}
+.chan{display:flex;align-items:center;gap:13px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;cursor:pointer}
+.chan .ci{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chan .ci.wa{background:var(--green-bg)}.chan .ci.em{background:var(--blue-bg)}
+.chan .ct{flex:1}
+.chan .ct .a{font-size:14.5px;font-weight:800}
+.chan .ct .b{font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px;line-height:1.35}
+.chan .btn{font-size:12px;font-weight:800;padding:9px 14px;border-radius:11px;color:#fff}
+.chan .btn.wa{background:var(--green)}.chan .btn.em{background:var(--ink);display:flex;align-items:center;gap:5px}
+.rta{background:var(--dark);border-radius:18px;padding:16px;color:#fff}
+.rta .h{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.rta .h .t{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.rta .h .lv{font-size:9px;font-weight:800;color:#7CFFC4;background:rgba(124,255,196,.14);padding:3px 8px;border-radius:99px;letter-spacing:.05em}
+.rta-row{display:flex;gap:11px;align-items:flex-start;padding:9px 0}
+.rta-row .d{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.rta-row .rt .a{font-size:13px;font-weight:700}
+.rta-row .rt .b{font-size:10.5px;font-weight:600;color:#8b93a6;margin-top:2px}
+.rta .all{text-align:center;font-size:12px;font-weight:800;color:#fff;background:rgba(255,255,255,.08);border-radius:11px;padding:11px;margin-top:8px}
+.sys{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 15px}
+.sys-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line)}
+.sys-row:last-child{border-bottom:none}
+.sys-row .a{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:9px}
+.sys-row .st{font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.sys-row .st.ok{color:var(--green)}.sys-row .st.hi{color:var(--orange-deep)}
+
+/* ---------- FINANCE (payment form) ---------- */
+.fin-top{position:absolute;top:0;left:0;right:0;background:#fff;z-index:25;border-bottom:1px solid var(--line)}
+.fin-back{font-size:12px;font-weight:800;color:var(--orange-deep);padding:2px 18px 6px;display:flex;align-items:center;gap:4px;cursor:pointer}
+.fin-id{display:flex;align-items:center;gap:12px;padding:4px 18px 14px}
+.fin-id .bank{width:46px;height:46px;border-radius:13px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fin-id .ft{flex:1}
+.fin-id .ft .a{font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+.fin-id .ft .b{font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px}
+.fin-id .off{font-size:9px;font-weight:800;color:var(--green);background:var(--green-bg);padding:4px 9px;border-radius:99px;display:flex;align-items:center;gap:4px;text-transform:uppercase;letter-spacing:.03em}
+.fin-img{height:118px;border-radius:16px;overflow:hidden;position:relative;margin-bottom:18px}
+.fin-img img{width:100%;height:100%;object-fit:cover}
+.fin-img .g{position:absolute;inset:0;background:linear-gradient(120deg,rgba(21,33,59,.5),rgba(21,33,59,.15))}
+.fin-img .ref{position:absolute;left:14px;bottom:12px;color:#fff;font-size:12px;font-weight:800}
+.fin-img .ar{position:absolute;right:12px;top:12px;font-size:9px;font-weight:800;background:var(--orange);color:#fff;padding:4px 9px;border-radius:99px;text-transform:uppercase}
+.lbl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:18px 2px 10px}
+.vrow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line)}
+.vrow:last-child{border-bottom:none}
+.vrow .k{font-size:12.5px;font-weight:600;color:var(--muted)}
+.vrow .v{font-size:13.5px;font-weight:800;text-align:right}
+.field{margin-bottom:13px}
+.field .fl{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.field .fi{height:46px;border:1px solid var(--line);border-radius:12px;background:#fff;display:flex;align-items:center;padding:0 14px;font-size:13.5px;font-weight:600;color:var(--ink);position:relative}
+.field .fi.ph{color:var(--faint)}
+.field .fi .card{position:absolute;right:14px;color:var(--faint)}
+.frow{display:flex;gap:12px}
+.frow .field{flex:1}
+.total{display:flex;align-items:center;justify-content:space-between;margin:16px 0 4px}
+.total .k{font-size:14px;font-weight:700;color:var(--muted)}
+.total .v{font-size:24px;font-weight:800}
+.secured{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:13px;font-size:11.5px;font-weight:700;color:var(--muted)}
+
+/* payment/report success */
+.paid{position:absolute;inset:0;background:rgba(245,247,250,.97);backdrop-filter:blur(6px);z-index:55;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;opacity:0;visibility:hidden;transition:opacity .45s ease}
+.paid.show{opacity:1;visibility:visible}
+.paid .ring{width:100px;height:100px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;transform:scale(.6);transition:transform .5s cubic-bezier(.2,1.4,.4,1)}
+.paid.show .ring{transform:scale(1)}
+.paid h2{font-size:24px;font-weight:800;margin-top:18px}
+.paid p{font-size:14px;font-weight:600;color:var(--muted);margin-top:8px;line-height:1.5}
+.paid .tick{margin-top:15px;font-size:12.5px;font-weight:800;color:var(--green);background:var(--green-bg);padding:8px 15px;border-radius:99px}
+
+/* ---------- CALL ---------- */
+.call-screen{background:linear-gradient(165deg,#1B2A4A 0%,#16223F 55%,#0E1322 100%);color:#fff}
+.call-wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:90px 30px 40px;text-align:center}
+.call-top{font-size:12.5px;font-weight:700;letter-spacing:.03em;opacity:.7}
+.call-em{position:relative;width:120px;height:120px;margin:44px 0 6px;display:flex;align-items:center;justify-content:center}
+.call-em .core{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-deep));display:flex;align-items:center;justify-content:center;box-shadow:0 18px 40px -12px rgba(255,107,53,.7);z-index:2}
+.call-em .pr{position:absolute;width:100px;height:100px;border-radius:50%;border:2px solid rgba(255,107,53,.5);animation:cpr 2.1s ease-out infinite}
+.call-em .pr.d{animation-delay:1.05s}
+@keyframes cpr{0%{transform:scale(.85);opacity:.7}100%{transform:scale(1.55);opacity:0}}
+.call-nm{font-size:26px;font-weight:800;margin-top:18px}
+.call-sb{font-size:13.5px;font-weight:500;opacity:.72;margin-top:6px}
+.call-tm{font-size:16px;font-weight:700;opacity:.9;margin-top:16px;letter-spacing:.05em}
+.call-acts{display:flex;gap:22px;margin-top:auto;margin-bottom:22px}
+.call-acts .cb{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px}
+.call-end{width:68px;height:68px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 16px 32px -12px rgba(229,57,46,.8)}
+
+/* ---------- CHAT ---------- */
+.chat-screen{background:#ECE5DD}
+.chat-head{position:absolute;top:0;left:0;right:0;height:96px;background:linear-gradient(135deg,#1FA463,#15894F);z-index:25;display:flex;align-items:flex-end;padding:0 14px 11px;gap:11px}
+.chat-head .back{width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.chat-head .av{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.22);overflow:hidden;flex-shrink:0}
+.chat-head .av img{width:100%;height:100%;object-fit:cover}
+.chat-head .nm .a{font-size:15.5px;font-weight:800;color:#fff}
+.chat-head .nm .b{font-size:11.5px;font-weight:500;color:#DFF6E7;display:flex;align-items:center;gap:5px}
+.chat-head .nm .b::before{content:"";width:6px;height:6px;border-radius:50%;background:#9DFFB0}
+.chat-body{position:absolute;top:96px;left:0;right:0;bottom:62px;overflow:hidden;padding:16px 14px;display:flex;flex-direction:column;gap:8px;background:#ECE5DD}
+.bub{max-width:78%;padding:9px 12px;border-radius:13px;font-size:13px;font-weight:500;line-height:1.4;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.bub.in{background:#fff;align-self:flex-start;border-top-left-radius:4px}
+.bub.out{background:#DCF8C6;align-self:flex-end;border-top-right-radius:4px;color:#102a1a}
+.bub .tm{font-size:9.5px;opacity:.5;font-weight:600;margin-top:3px;text-align:right}
+.bub.photo{padding:4px;align-self:flex-end;width:58%}
+.bub.photo img{width:100%;border-radius:10px;display:block}
+.bub.ticket{background:#fff;border-left:3px solid var(--green);align-self:flex-start}
+.bub.ticket b{color:var(--green)}
+.chat-input{position:absolute;left:0;right:0;bottom:0;height:62px;background:#F0F0F0;display:flex;align-items:center;gap:10px;padding:0 13px;border-top:1px solid #ddd}
+.chat-input .f{flex:1;background:#fff;border-radius:22px;padding:11px 16px;font-size:13.5px;color:var(--faint);font-weight:500}
+.chat-input .s{width:42px;height:42px;border-radius:50%;background:#1FA463;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ---------- SPLASH / OUTRO ---------- */
+.splash{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;background:radial-gradient(120% 80% at 50% 20%,#fff 0%,#FFF4EA 55%,#FFE6D5 100%)}
+.splash .logo{width:228px;opacity:0;transform:translateY(16px) scale(.96)}
+.splash.go .logo{opacity:1;transform:none;transition:all .8s cubic-bezier(.2,.7,.2,1)}
+.splash .tl{font-size:18px;font-weight:700;color:var(--muted);margin-top:24px;opacity:0;transform:translateY(12px);line-height:1.4}
+.splash.go .tl{opacity:1;transform:none;transition:all .7s ease .35s}
+.splash .credit{position:absolute;bottom:56px;left:0;right:0;font-size:12.5px;font-weight:700;color:#B49C8E;opacity:0}
+.splash.go .credit{opacity:1;transition:opacity .6s ease .7s}
+.splash .stat{display:flex;gap:24px;margin-top:28px;opacity:0;transform:translateY(12px)}
+.splash.go .stat{opacity:1;transform:none;transition:all .7s ease .5s}
+.splash .stat .n{font-size:28px;font-weight:800;color:var(--orange-deep)}
+.splash .stat .l{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+/* ---------- cursor + ripple ---------- */
+.cursor{position:absolute;left:0;top:0;width:46px;height:46px;margin:-23px 0 0 -23px;z-index:70;pointer-events:none;opacity:0;transform:translate(180px,400px);transition:transform .58s cubic-bezier(.45,.05,.2,1);will-change:transform}
+.cursor .dot{width:100%;height:100%;border-radius:50%;background:rgba(21,33,59,.16);border:2.5px solid rgba(255,255,255,.9);box-shadow:0 6px 18px rgba(0,0,0,.32),inset 0 0 0 1.5px rgba(21,33,59,.35);transition:transform .14s ease}
+.cursor.down .dot{transform:scale(.72)}
+.ripple{position:absolute;left:0;top:0;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:rgba(255,107,53,.5);z-index:69;opacity:0;pointer-events:none}
+.ripple.go{animation:rip .55s ease-out}
+@keyframes rip{0%{opacity:.6;transform:scale(.35)}100%{opacity:0;transform:scale(4.4)}}
+.tapflash{animation:tapflash .28s ease}
+@keyframes tapflash{38%{transform:scale(.96)}100%{transform:scale(1)}}
+
+/* ---------- controls ---------- */
+.controls{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:200;display:flex;gap:8px;align-items:center;background:rgba(18,22,36,.82);backdrop-filter:blur(12px);padding:8px 10px;border-radius:99px;box-shadow:0 18px 40px -16px rgba(0,0,0,.6);transition:opacity .4s ease}
+.controls.hide{opacity:0;pointer-events:none}
+.controls button{border:none;background:rgba(255,255,255,.1);color:#fff;font-family:inherit;font-weight:700;font-size:13px;padding:9px 15px;border-radius:99px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .2s}
+.controls button:hover{background:rgba(255,255,255,.2)}
+.controls button.on{background:var(--orange)}
+.controls .sep{width:1px;height:22px;background:rgba(255,255,255,.18);margin:0 2px}
+.hint{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:200;background:rgba(18,22,36,.85);color:#fff;font-size:13px;font-weight:700;padding:9px 16px;border-radius:99px;opacity:0;transition:opacity .4s ease;pointer-events:none;backdrop-filter:blur(10px)}
+.hint.show{opacity:1}
+@media (max-width:520px){.controls button span.lbl{display:none}}
+svg{display:block}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="progress" id="progress"></div>
+  <div class="brandrow">
+    <div class="wm"><img src="projects/mydigitel-logo.png" alt="My Digitel" /></div>
+    <div class="tag">UX Concept · Amit Hilel</div>
+  </div>
+
+  <div class="phonezone" id="phonezone">
+    <div class="phone-wrap" id="phoneWrap">
+      <div class="phone" id="phone">
+        <div class="screenport" id="screenport">
+          <div class="screens" id="screens">
+
+            <!-- ========= SPLASH ========= -->
+            <section class="screen splash" data-screen="splash" id="scrSplash">
+              <img class="logo" src="projects/mydigitel-logo.png" alt="My Digitel" />
+              <div class="tl">Tel Aviv's services,<br/>finally in one place.</div>
+              <div class="credit">UX redesign concept · Amit Hilel</div>
+            </section>
+
+            <!-- ========= HOME ========= -->
+            <section class="screen" data-screen="home" id="scrHome">
+              <div class="apphead" id="HEAD"></div>
+              <div class="scroller"><div class="scroll-inner" id="homeScroll" style="padding-top:100px">
+                <div class="h-hero">
+                  <img src="projects/mydigitel-hero.png" alt="Tel Aviv" />
+                  <div class="grad"></div>
+                  <div class="h-greet">
+                    <span class="verified"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" fill="#fff" opacity=".25"/><path d="m8.5 12 2.5 2.5L16 9.5" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified Resident</span>
+                    <h1>Hi, Einat Grin</h1>
+                    <div class="loc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="10" r="2.4" fill="#fff"/></svg>Active in District 4 • Central Station Area</div>
+                  </div>
+                </div>
+                <div class="pad" style="padding-top:16px">
+                  <div class="sec" style="margin-top:0"><h3>Your Dashboard</h3><span class="lk" data-go="favorites"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 20h4L19 9l-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg> Edit Favorites</span></div>
+                  <div class="qgrid">
+                    <div class="qs" data-go="support" id="qsReport"><div class="ic r" style="width:42px;height:42px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H8l-4 4V5Z" stroke="var(--red)" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 10h6M9 13h4" stroke="var(--red)" stroke-width="1.9" stroke-linecap="round"/></svg></div><div class="t">106+ Center</div><div class="s">Report an Issue</div></div>
+                    <div class="qs" data-go="parking" id="qsParking"><div class="ic o" style="width:42px;height:42px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="3" stroke="var(--orange-deep)" stroke-width="1.9"/><path d="M9 8h4a2.5 2.5 0 0 1 0 5H9V8Zm0 5v3" stroke="var(--orange-deep)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="t">Parking</div><div class="s dot">Status: Active</div></div>
+                    <div class="qs" data-go="services" id="qsTransport"><div class="ic g" style="width:42px;height:42px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="13" rx="3" stroke="var(--green)" stroke-width="1.9"/><path d="M5 11h14M9 20l-1 1M16 20l-1 1" stroke="var(--green)" stroke-width="1.9" stroke-linecap="round"/></svg></div><div class="t">Transport</div><div class="s">Line 4: 2m</div></div>
+                    <div class="qs" data-go="services" id="qsPermits"><div class="ic p" style="width:42px;height:42px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7V3Z" stroke="var(--purple)" stroke-width="1.9" stroke-linejoin="round"/><path d="M13 3v5h5" stroke="var(--purple)" stroke-width="1.9" stroke-linecap="round"/></svg></div><div class="t">Permits</div><div class="s">2 Pending</div></div>
+                  </div>
+                  <div class="addw"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Add New Widget</div>
+
+                  <div class="sec"><div><h3>Community Stories</h3><div style="font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px">Your District 4 updates.</div></div><span class="lk" data-go="services">View All →</span></div>
+                  <div class="stories">
+                    <div class="story"><img src="projects/mydigitel-story-garden.png" alt="" /><div class="g"></div><div class="top"><span class="chip b">District 4</span><span class="ago">3 hours ago</span></div><div class="meta"><div class="ti">New Garden Opening</div></div></div>
+                    <div class="story"><img src="projects/mydigitel-story-festival.png" alt="" /><div class="g"></div><div class="top"><span class="chip">Culture</span><span class="ago">5 hours ago</span></div><div class="meta"><div class="ti">Music Under the Stars</div></div></div>
+                  </div>
+
+                  <div class="sec"><h3><span style="color:var(--red)">●</span> City Pulse</h3></div>
+                  <div class="pulse">
+                    <div class="pulse-h"><span class="dot"></span><h3 style="font-size:15px">Your District 4 updates</h3></div>
+                    <div style="display:flex;gap:12px;margin-top:12px"><div class="ic r" style="width:38px;height:38px;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3 2 20h20L12 3Z" stroke="var(--red)" stroke-width="1.9" stroke-linejoin="round"/><path d="M12 10v4" stroke="var(--red)" stroke-width="2" stroke-linecap="round"/></svg></div><div><div style="font-size:13.5px;font-weight:800">Road Maintenance Alert</div><div style="font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px;line-height:1.4">5th Ave work starts 10 PM tonight.</div></div></div>
+                  </div>
+                </div>
+              </div></div>
+              <div class="fab" data-go="support"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+              <nav class="bottomnav" data-nav="home"></nav>
+            </section>
+
+            <!-- ========= EDIT FAVORITES ========= -->
+            <section class="screen" data-screen="favorites" id="scrFavorites">
+              <div class="subhead" id="SUBFAV"></div>
+              <div class="scroller"><div class="scroll-inner" style="padding-top:100px"><div class="pad" style="padding-top:6px">
+                <p class="fav-intro">Choose your favorite services to pin them to your dashboard. Drag to reorder.</p>
+                <div class="sec" style="margin-top:0"><h3>Active Favorites</h3><span class="badge o">4 Selected</span></div>
+                <div class="fav-grid" id="favGrid">
+                  <div class="fchip"><div class="rm"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M5 12h14" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></div><div class="ic g"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="13" rx="3" stroke="var(--green)" stroke-width="1.9"/><path d="M5 11h14" stroke="var(--green)" stroke-width="1.9"/></svg></div><div class="t">Transport</div><div class="s">Line 4: 2m</div></div>
+                  <div class="fchip"><div class="rm"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M5 12h14" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></div><div class="ic o"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="3" stroke="var(--orange-deep)" stroke-width="1.9"/><path d="M9 8h4a2.5 2.5 0 0 1 0 5H9V8Z" stroke="var(--orange-deep)" stroke-width="1.9"/></svg></div><div class="t">Parking</div><div class="s">Status: Active</div></div>
+                  <div class="fchip"><div class="rm"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M5 12h14" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></div><div class="ic p"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7V3Z" stroke="var(--purple)" stroke-width="1.9" stroke-linejoin="round"/></svg></div><div class="t">Permits</div><div class="s">2 Pending</div></div>
+                  <div class="fchip"><div class="rm"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M5 12h14" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></div><div class="ic r"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H8l-4 4V5Z" stroke="var(--red)" stroke-width="1.9" stroke-linejoin="round"/></svg></div><div class="t">106+ Center</div><div class="s">Report Issue</div></div>
+                </div>
+                <div class="sec"><h3>Available Services</h3></div>
+                <div class="avl" id="avail1"><div class="ic g"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 7h14l-1 13H6L5 7Z" stroke="var(--green)" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 7V5h6v2" stroke="var(--green)" stroke-width="1.8"/></svg></div><div class="ax"><div class="a">Waste Management</div><div class="b">Schedule pick-ups and recycling</div></div><div class="add">+</div></div>
+                <div class="avl" id="avail2"><div class="ic b"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="var(--blue)" stroke-width="1.8"/><path d="M3 10h18" stroke="var(--blue)" stroke-width="1.8"/></svg></div><div class="ax"><div class="a">Property Tax</div><div class="b">View billing and payment history</div></div><div class="add">+</div></div>
+                <div class="avl" id="avail3"><div class="ic o"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="14" rx="2" stroke="var(--orange-deep)" stroke-width="1.8"/><path d="M8 9h8M8 13h5" stroke="var(--orange-deep)" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="ax"><div class="a">City News</div><div class="b">Official updates and announcements</div></div><div class="add">+</div></div>
+                <div class="avl" id="avail4"><div class="ic p"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 4 5 7v5c0 4 3 7 7 8 4-1 7-4 7-8V7l-7-3Z" stroke="var(--purple)" stroke-width="1.8" stroke-linejoin="round"/></svg></div><div class="ax"><div class="a">Community Events</div><div class="b">Local festivals and workshops</div></div><div class="add">+</div></div>
+                <div class="avl" id="avail5"><div class="ic b"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19h16M6 19V9l6-4 6 4v10" stroke="var(--blue)" stroke-width="1.8" stroke-linejoin="round"/></svg></div><div class="ax"><div class="a">Public Works</div><div class="b">Infrastructure and maintenance</div></div><div class="add">+</div></div>
+                <div class="promo-card"><img src="projects/mydigitel-hero.png" alt="" /><div class="g"></div><div class="t">Personalize your<br/>Digitel experience.</div></div>
+                <div class="btn-primary" style="margin-top:16px">Save Changes</div>
+              </div></div></div>
+              <nav class="bottomnav" data-nav="home"></nav>
+            </section>
+
+            <!-- ========= SERVICES ========= -->
+            <section class="screen" data-screen="services" id="scrServices">
+              <div class="apphead" id="HEAD2"></div>
+              <div class="scroller"><div class="scroll-inner" style="padding-top:100px">
+                <div class="svc-hero"><img src="projects/mydigitel-hero.png" alt="" /><div class="g"></div><div class="in"><h1>How can we help you today?</h1></div></div>
+                <div class="search-wrap"><div class="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="var(--faint)" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="var(--faint)" stroke-width="2" stroke-linecap="round"/></svg><span class="ph">Search for city services, permits…</span><span class="go" id="svcSearch">Search</span></div></div>
+                <div class="pad" style="padding-top:18px">
+                  <div class="sec-lbl"><span style="color:var(--orange)">★</span> Quick Access</div>
+                  <div class="qa-grid">
+                    <div class="qa-c" data-go="parking"><div class="ic g" style="width:46px;height:46px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="13" rx="3" stroke="var(--green)" stroke-width="1.8"/><path d="M5 11h14" stroke="var(--green)" stroke-width="1.8"/></svg></div><span>Transport Card</span></div>
+                    <div class="qa-c" data-go="finance"><div class="ic b" style="width:46px;height:46px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="var(--blue)" stroke-width="1.8"/><path d="M3 10h18" stroke="var(--blue)" stroke-width="1.8"/></svg></div><span>Pay Taxes</span></div>
+                    <div class="qa-c" data-go="services"><div class="ic p" style="width:46px;height:46px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="var(--purple)" stroke-width="1.8"/><path d="M8 3v4M16 3v4" stroke="var(--purple)" stroke-width="1.8" stroke-linecap="round"/></svg></div><span>Book Facility</span></div>
+                    <div class="qa-c" data-go="parking"><div class="ic o" style="width:46px;height:46px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 8h12l-1 12H7L6 8Z" stroke="var(--orange-deep)" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8V6h6v2" stroke="var(--orange-deep)" stroke-width="1.8"/></svg></div><span>Waste Pickup</span></div>
+                    <div class="qa-c" data-go="services"><div class="ic b" style="width:46px;height:46px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7V3Z" stroke="var(--blue)" stroke-width="1.8" stroke-linejoin="round"/></svg></div><span>Permits</span></div>
+                    <div class="qa-c" data-go="support"><div class="ic r" style="width:46px;height:46px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3 2 20h20L12 3Z" stroke="var(--red)" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4" stroke="var(--red)" stroke-width="2" stroke-linecap="round"/></svg></div><span>SOS</span></div>
+                  </div>
+                  <div class="sec"><h3>Explore Services</h3></div>
+                  <div class="sec-lbl">🔧 Public Works</div>
+                  <div class="dept">
+                    <div class="dept-i" data-go="support"><div class="d ic g"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 8h12l-1 12H7L6 8Z" stroke="var(--green)" stroke-width="1.9"/></svg></div>Garbage & Recycling</div>
+                    <div class="dept-i" data-go="support"><div class="d ic o"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v4M12 17v4M5 12H3M21 12h-2" stroke="var(--orange-deep)" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="12" r="4" stroke="var(--orange-deep)" stroke-width="1.9"/></svg></div>Street Lights</div>
+                    <div class="dept-i" data-go="support"><div class="d ic b"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3c4 5 6 8 6 11a6 6 0 1 1-12 0c0-3 2-6 6-11Z" stroke="var(--blue)" stroke-width="1.9"/></svg></div>Water Services</div>
+                    <div class="dept-i" data-go="report"><div class="d ic r"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="var(--red)" stroke-width="1.9"/></svg></div>Pothole Repair</div>
+                    <div class="dept-i" data-go="support"><div class="d ic p"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 18h16M7 18V8M17 18V8" stroke="var(--purple)" stroke-width="1.9" stroke-linecap="round"/></svg></div>Sidewalks</div>
+                    <div class="dept-i" data-go="support"><div class="d ic b"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8l7 4 7-4" stroke="var(--blue)" stroke-width="1.9" stroke-linecap="round"/></svg></div>Snow Removal</div>
+                  </div>
+                  <div class="sec-lbl">🌱 Environment</div>
+                  <div class="dept">
+                    <div class="dept-i" data-go="support"><div class="d ic g"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M12 9c-3 0-6-2-6-5 3 0 6 2 6 5Zm0 3c3 0 6-2 6-5-3 0-6 2-6 5Z" stroke="var(--green)" stroke-width="1.7"/></svg></div>Park Programs</div>
+                    <div class="dept-i" data-go="support"><div class="d ic g"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 20v-7M8 9a4 4 0 1 1 8 0c0 2-2 4-4 4S8 11 8 9Z" stroke="var(--green)" stroke-width="1.7"/></svg></div>Gardens</div>
+                    <div class="dept-i" data-go="support"><div class="d ic o"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 7h10l-1 13H8L7 7Z" stroke="var(--orange-deep)" stroke-width="1.8"/></svg></div>E-Waste</div>
+                    <div class="dept-i" data-go="support"><div class="d ic g"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 21V8M12 8c-2-3-5-3-5-3s0 4 5 3Z" stroke="var(--green)" stroke-width="1.7"/></svg></div>Tree Services</div>
+                  </div>
+                  <div class="sec-lbl">👥 Social Services</div>
+                  <div class="dept">
+                    <div class="dept-i" data-go="support"><div class="d ic p"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4 3 8l9 4 9-4-9-4ZM6 11v5l6 3 6-3v-5" stroke="var(--purple)" stroke-width="1.7"/></svg></div>Education Hub</div>
+                    <div class="dept-i" data-go="finance"><div class="d ic b"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 19V9l8-5 8 5v10" stroke="var(--blue)" stroke-width="1.7"/></svg></div>Housing Support</div>
+                    <div class="dept-i" data-go="support"><div class="d ic r"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5 7-11a7 7 0 0 0-14 0c0 6 7 11 7 11Z" stroke="var(--red)" stroke-width="1.7"/></svg></div>Public Health</div>
+                    <div class="dept-i" data-go="support"><div class="d ic o"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="var(--orange-deep)" stroke-width="1.7"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5" stroke="var(--orange-deep)" stroke-width="1.7"/></svg></div>Family Aid</div>
+                  </div>
+                  <div class="assist"><div class="q">?</div><div class="t">Can't find what you need?<br/><span>Our city assistant is available 24/7 to help guide you.</span></div></div>
+                </div>
+              </div></div>
+              <nav class="bottomnav" data-nav="services"></nav>
+            </section>
+
+            <!-- ========= PARKING SERVICES ========= -->
+            <section class="screen" data-screen="parking" id="scrParking">
+              <div class="apphead" id="HEAD3"></div>
+              <div class="scroller"><div class="scroll-inner" style="padding-top:100px">
+                <div class="hub-hero park"><img src="projects/mydigitel-hero.png" alt="" /><div class="g"></div><div class="in"><span class="live">● Live now: Broadway construction</span><h1>Parking<br/>Services</h1><p>Your direct line to urban solutions. Navigate city life with speed and transparency.</p></div></div>
+                <div class="search flat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="var(--faint)" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="var(--faint)" stroke-width="2" stroke-linecap="round"/></svg><span class="ph">Search parking or services…</span></div>
+                <div class="stat-row"><div class="s g"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="3" stroke="var(--green)" stroke-width="1.9"/><path d="M9 8h4a2.5 2.5 0 0 1 0 5H9V8Z" stroke="var(--green)" stroke-width="1.9"/></svg>2,482 Spots Available</div><div class="s o"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3 2 20h20L12 3Z" stroke="var(--orange-deep)" stroke-width="1.9" stroke-linejoin="round"/></svg>Moderate Traffic (+8m)</div></div>
+                <div class="iconbar">
+                  <div class="i"><div class="c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 4 4 6v14l5-2 6 2 5-2V4l-5 2-6-2Z" stroke="var(--ink)" stroke-width="1.7" stroke-linejoin="round"/></svg></div>City Map</div>
+                  <div class="i"><div class="c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2" stroke="var(--ink)" stroke-width="1.7"/><path d="M7 9h10M12 9v6l3 4M12 15l-3 4" stroke="var(--ink)" stroke-width="1.7" stroke-linecap="round"/></svg></div>Accessible</div>
+                  <div class="i"><div class="c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 13h13l3 3v3H3v-6ZM6 9l3-3h4l2 3" stroke="var(--ink)" stroke-width="1.7" stroke-linejoin="round"/></svg></div>Towed</div>
+                  <div class="i"><div class="c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7V3Z" stroke="var(--ink)" stroke-width="1.7" stroke-linejoin="round"/></svg></div>Reports</div>
+                  <div class="i"><div class="c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--ink)" stroke-width="1.7"/><path d="M12 11v5M12 8h.01" stroke="var(--ink)" stroke-width="1.9" stroke-linecap="round"/></svg></div>Info</div>
+                </div>
+                <div class="permit">
+                  <div class="row1"><div class="pi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="12" rx="2" stroke="#fff" stroke-width="1.8"/><path d="M8 10h4M8 13h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="tt"><div class="a">Resident Permit #2241 <span class="bd">ACTIVE</span></div><div class="b">Expires in 42 days (Oct 15, 2023)</div></div></div>
+                  <div class="acts"><div class="pb w">Renew Now</div><div class="pb o">Manage Plates</div></div>
+                </div>
+                <div class="pad" style="padding-top:6px">
+                  <div class="sec" style="margin-top:18px"><h3>Explore Services</h3><span class="lk">View All</span></div>
+                  <div class="expl">
+                    <div class="expl-i" data-go="finance"><div class="ic o" style="width:40px;height:40px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7V3Z" stroke="var(--orange-deep)" stroke-width="1.8"/></svg></div><span>Permit Portal</span></div>
+                    <div class="expl-i" data-go="parking"><div class="ic g" style="width:40px;height:40px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z" stroke="var(--green)" stroke-width="1.8" stroke-linejoin="round"/></svg></div><span>Find EV Charging</span></div>
+                    <div class="expl-i" data-go="finance"><div class="ic b" style="width:40px;height:40px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="var(--blue)" stroke-width="1.8"/><path d="M3 10h18" stroke="var(--blue)" stroke-width="1.8"/></svg></div><span>Pay Citations</span></div>
+                    <div class="expl-i" data-go="support"><div class="ic r" style="width:40px;height:40px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3 2 20h20L12 3Z" stroke="var(--red)" stroke-width="1.8"/></svg></div><span>Live Alerts</span></div>
+                  </div>
+                  <div class="sec"><h3>Smart Parking Insights</h3></div>
+                  <div class="insight"><img src="projects/mydigitel-story-festival.png" alt="" /><div class="g"></div><div class="m"><div class="h">Smart Parking Insights</div><div class="d">North Hub Garage currently has the highest turnover rate for quick errands.</div><span class="go" data-go="parking">Go There →</span></div></div>
+                  <div class="sec"><h3>Traffic Intel</h3><span class="lk">View Feed</span></div>
+                  <div class="feed">
+                    <div class="feed-row"><div class="fi ic r"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3 2 20h20L12 3Z" stroke="var(--red)" stroke-width="1.9"/></svg></div><div class="ft"><div class="a">Major Delay: Broadway Ave <span class="badge r">Severe</span></div><div class="b">Construction at District 4. Est. 25m delay.</div><div class="lk">Reroute now ›</div></div></div>
+                    <div class="feed-row"><div class="fi ic b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 11l2-6h10l2 6M5 11h14v6H5v-6Z" stroke="var(--blue)" stroke-width="1.7" stroke-linejoin="round"/></svg></div><div class="ft"><div class="a">Street Cleaning Schedule</div><div class="b">District 4 cleaning tomorrow, 8:00 AM.</div></div></div>
+                  </div>
+                  <div class="sec"><h3>Demand Trends</h3></div>
+                  <div class="chart">
+                    <div class="bars"><div class="bar" style="height:42%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:78%"></div><div class="bar hot" style="height:96%"></div><div class="bar hot" style="height:88%"></div><div class="bar" style="height:64%"></div><div class="bar" style="height:48%"></div></div>
+                    <div class="cn">Parking is <b>12% higher</b> than usual. Expect busier lots near Central Sq.</div>
+                  </div>
+                  <div class="sec"><h3>Recent Activity</h3></div>
+                  <div class="act-row"><div class="ai ic r"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="var(--red)" stroke-width="1.8"/></svg></div><div class="at"><div class="a">Citation #882</div><div class="b" style="color:var(--red)">Pending Payment</div></div><div class="pay" data-go="finance">Pay $45</div></div>
+                  <div class="act-row"><div class="ai ic g"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="var(--green)" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="at"><div class="a">Parking Session</div><div class="b" style="color:var(--muted)">Completed Aug 28</div></div><div class="amt">$4.25</div></div>
+                </div>
+              </div></div>
+              <nav class="bottomnav" data-nav="services"></nav>
+            </section>
+
+            <!-- ========= DEPARTMENT OF FINANCE ========= -->
+            <section class="screen" data-screen="finance" id="scrFinance">
+              <div class="fin-top" id="FINTOP"></div>
+              <div class="scroller"><div class="scroll-inner" id="finScroll" style="padding-top:138px"><div class="pad" style="padding-top:6px">
+                <div class="fin-img"><img src="projects/mydigitel-hero.png" alt="" /><div class="g"></div><span class="ar">Action Required</span><span class="ref">Reference #CP-2024-99812</span></div>
+                <div class="lbl">Violation Details</div>
+                <div class="vrow"><span class="k">Violation Type</span><span class="v">Expired Meter</span></div>
+                <div class="vrow"><span class="k">Date</span><span class="v">Oct 24, 2:14 PM</span></div>
+                <div class="vrow"><span class="k">Location</span><span class="v">1228 Oak Boulevard,<br/>West District</span></div>
+                <div class="lbl">Payment Information</div>
+                <div class="field"><div class="fl">CARDHOLDER NAME</div><div class="fi ph">Full name as on card</div></div>
+                <div class="field"><div class="fl">CARD NUMBER</div><div class="fi ph">0000 0000 0000 0000<svg class="card" width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.8"/></svg></div></div>
+                <div class="frow"><div class="field"><div class="fl">EXPIRY</div><div class="fi ph">MM/YY</div></div><div class="field"><div class="fl">CVV</div><div class="fi ph">•••</div></div></div>
+                <div class="total"><span class="k">Total Payment</span><span class="v">$45.00</span></div>
+                <div class="btn-primary" id="payBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#fff" stroke-width="1.8"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="#fff" stroke-width="1.8"/></svg> Pay $45.00 Securely</div>
+                <div class="secured"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z" stroke="var(--muted)" stroke-width="1.7"/></svg>Secured by CityPay Gateway</div>
+              </div></div></div>
+              <div class="paid" id="payPaid">
+                <div class="ring"><svg width="52" height="52" viewBox="0 0 24 24" fill="none"><path d="m6 12.5 4 4 8-9" stroke="var(--green)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <h2>Payment Confirmed</h2><p>$45.00 paid · Receipt #TA-90455<br/>sent to your account.</p><div class="tick">No call center. No paperwork.</div>
+              </div>
+              <nav class="bottomnav" data-nav="services"></nav>
+            </section>
+
+            <!-- ========= 106 PLUS SERVICES ========= -->
+            <section class="screen" data-screen="support" id="scrSupport">
+              <div class="apphead" id="HEAD4"></div>
+              <div class="scroller"><div class="scroll-inner" style="padding-top:100px">
+                <div class="hub-hero sos"><div class="g"></div><div class="in"><span class="live dim"><span class="d"></span> Live now: 120 agents online</span><h1>106 Plus<br/>Services</h1><p>Your direct line to urban solutions. Navigate city life with speed and transparency.</p></div></div>
+                <div class="search flat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="var(--faint)" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="var(--faint)" stroke-width="2" stroke-linecap="round"/></svg><span class="ph">Search services, report issues…</span></div>
+                <div class="pad" style="padding-top:18px">
+                  <div class="callcard">
+                    <div class="row"><div class="ic2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 4h6l1 4-2 1a9 9 0 0 0 5 5l1-2 4 1v6a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke="var(--orange-deep)" stroke-width="1.8" stroke-linejoin="round"/></svg></div><div class="tt"><div class="a">Call 106 Now</div><div class="b">Average wait time: 45 seconds</div></div></div>
+                    <div class="acts"><div class="cb o" id="callBtn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 4h6l1 4-2 1a9 9 0 0 0 5 5l1-2 4 1v6a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" fill="#fff"/></svg> Dial 106</div><div class="cb ol"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="13" height="12" rx="2" stroke="var(--ink)" stroke-width="1.8"/><path d="m16 10 5-3v10l-5-3" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round"/></svg> Video Assist</div></div>
+                  </div>
+                  <div class="sec"><h3>Frequently Requested</h3></div>
+                  <div class="freq">
+                    <div class="f" data-go="report">Street Light Outage</div><div class="f" data-go="report">Pothole Repair</div><div class="f" data-go="report">Noise Complaint</div><div class="f" data-go="report">Waste Collection</div><div class="f" data-go="report">Permit Status</div>
+                  </div>
+                  <div class="sec"><h3>Other Channels</h3></div>
+                  <div class="chan" data-go="chat" style="margin-bottom:11px"><div class="ci wa"><svg width="22" height="22" viewBox="0 0 24 24" fill="var(--green)"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.3A10 10 0 1 0 12 2Zm4.4 12.4c-.2.5-1 1-1.4 1-.4 0-.8.2-2.6-.6a9 9 0 0 1-3.7-3.3c-.3-.5-.7-1.2-.7-1.8 0-.6.3-.9.5-1.1.2-.2.4-.2.5-.2h.4c.1 0 .3 0 .5.4l.6 1.5c0 .1.1.3 0 .4l-.3.4-.2.2c-.1.1-.2.2-.1.4.1.2.6 1 1.3 1.5.9.7 1.5.9 1.7 1 .2 0 .3 0 .4-.1l.5-.6c.1-.2.3-.1.4-.1l1.4.7c.2.1.3.2.4.2 0 .2 0 .6-.2 1Z"/></svg></div><div class="ct"><div class="a">WhatsApp Chat</div><div class="b">Report issues instantly with photos and location tags.</div></div><span class="btn wa">Start Chat</span></div>
+                  <div class="chan" data-go="report"><div class="ci em"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="var(--blue)" stroke-width="1.8"/><path d="m4 7 8 6 8-6" stroke="var(--blue)" stroke-width="1.8" stroke-linejoin="round"/></svg></div><div class="ct"><div class="a">Email Support</div><div class="b">For formal requests, appeals, and document submissions.</div></div><span class="btn em">Send →</span></div>
+                  <div class="sec"><h3>Real-Time Activity</h3></div>
+                  <div class="rta">
+                    <div class="h"><span class="t">Live Feed</span><span class="lv">● LIVE</span></div>
+                    <div class="rta-row"><span class="d" style="background:#3ED27E"></span><div class="rt"><div class="a">Water leak reported in District 4</div><div class="b">2m ago • Assigned to Team Alpha</div></div></div>
+                    <div class="rta-row"><span class="d" style="background:#5B9DFF"></span><div class="rt"><div class="a">Street light fixed in Old Town</div><div class="b">5m ago • Resolution verified</div></div></div>
+                    <div class="rta-row"><span class="d" style="background:#FFB44D"></span><div class="rt"><div class="a">New park permit issued</div><div class="b">12m ago • District 7</div></div></div>
+                    <div class="all">View All Activity</div>
+                  </div>
+                  <div class="sec"><h3>System Status</h3><span style="font-size:11px;font-weight:700;color:var(--muted)">Updated 30s ago</span></div>
+                  <div class="sys">
+                    <div class="sys-row"><span class="a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3 2 20h20L12 3Z" stroke="var(--green)" stroke-width="1.8"/></svg>Emergency Dispatch</span><span class="st ok">● Operational</span></div>
+                    <div class="sys-row"><span class="a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 19h16M6 19V9l6-4 6 4v10" stroke="var(--green)" stroke-width="1.8"/></svg>Infrastructure Team</span><span class="st ok">● Operational</span></div>
+                    <div class="sys-row"><span class="a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 4h6l1 4-2 1a9 9 0 0 0 5 5l1-2 4 1v6a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke="var(--orange-deep)" stroke-width="1.8"/></svg>Support Line</span><span class="st hi">▲ High Traffic</span></div>
+                  </div>
+                </div>
+              </div></div>
+              <nav class="bottomnav" data-nav="support"></nav>
+            </section>
+
+            <!-- ========= CALL ========= -->
+            <section class="screen call-screen" data-screen="call" id="scrCall">
+              <div class="call-wrap">
+                <div class="call-top">106+ Service Center · Tel Aviv Municipality</div>
+                <div class="call-em"><div class="pr"></div><div class="pr d"></div><div class="core"><svg width="42" height="42" viewBox="0 0 24 24" fill="none"><path d="M5 4h6l1 4-2 1a9 9 0 0 0 5 5l1-2 4 1v6a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" fill="#fff"/></svg></div></div>
+                <div class="call-nm">Calling 106…</div>
+                <div class="call-sb">Connecting you to the right department</div>
+                <div class="call-tm" id="callTimer">00:04</div>
+                <div class="call-acts"><div class="cb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 5a3 3 0 0 1 6 0v6a3 3 0 0 1-6 0V5Z" stroke="#fff" stroke-width="1.8"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="cb"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><circle cx="6" cy="6" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg></div><div class="cb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4Z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg></div></div>
+                <div class="call-end" data-go="support"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 4h6l1 4-2 1a9 9 0 0 0 5 5l1-2 4 1v6a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" fill="#fff" transform="rotate(135 12 12)"/></svg></div>
+              </div>
+            </section>
+
+            <!-- ========= REPORT ========= -->
+            <section class="screen" data-screen="report" id="scrReport">
+              <div class="subhead" id="SUBREP"></div>
+              <div class="scroller"><div class="scroll-inner" style="padding-top:100px"><div class="pad" style="padding-top:4px">
+                <p class="fav-intro">Tell the 106+ Center what's happening. It routes straight to the right department.</p>
+                <div class="freq" style="margin-bottom:16px"><div class="f" style="border-color:var(--orange);background:var(--orange-soft);color:var(--orange-deep)">Pothole</div><div class="f">Lighting</div><div class="f">Sanitation</div><div class="f">Noise</div></div>
+                <div class="field"><div class="fl">DESCRIPTION</div><div class="fi" style="height:auto;padding:14px;line-height:1.5;display:block">Large pothole by the crosswalk — getting worse after the rain</div></div>
+                <div class="vrow" style="background:var(--green-bg);border:none;border-radius:13px;padding:13px 14px;margin-top:6px"><span class="k" style="color:#0B7A53;display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5 7-11a7 7 0 0 0-14 0c0 6 7 11 7 11Z" stroke="#0B7A53" stroke-width="1.8"/></svg>Allenby St 42, District 4</span><span class="v" style="color:#0B7A53;font-size:11px">DETECTED</span></div>
+                <div class="btn-primary" id="reportSubmit" style="margin-top:18px">Submit Report →</div>
+              </div></div></div>
+              <div class="paid" id="reportDone">
+                <div class="ring"><svg width="52" height="52" viewBox="0 0 24 24" fill="none"><path d="m6 12.5 4 4 8-9" stroke="var(--green)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <h2>Report Sent</h2><p>Ticket #106-4821 routed to the<br/>District 4 maintenance team.</p><div class="tick">Avg. response · 2 days</div>
+              </div>
+            </section>
+
+            <!-- ========= CHAT ========= -->
+            <section class="screen chat-screen" data-screen="chat" id="scrChat">
+              <div class="chat-head"><div class="back" data-go="support"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="m15 5-7 7 7 7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="av"><img src="projects/mydigitel-logo.png" alt="" /></div><div class="nm"><div class="a">106+ on WhatsApp</div><div class="b">online · typical reply 2 min</div></div></div>
+              <div class="chat-body">
+                <div class="bub in">Hi Einat 👋 You're chatting with the Tel Aviv 106+ Center. How can we help?<div class="tm">9:40</div></div>
+                <div class="bub out">There's a broken streetlight on Allenby St 42<div class="tm">9:40</div></div>
+                <div class="bub photo"><img src="projects/mydigitel-story-festival.png" alt="" /></div>
+                <div class="bub in">Thanks! We've located it in District 4.<div class="tm">9:41</div></div>
+                <div class="bub ticket">Opened ticket <b>#106-4822</b> · Lighting<br/>Estimated fix: 3 business days.<div class="tm">9:41</div></div>
+              </div>
+              <div class="chat-input"><div class="f">Message…</div><div class="s"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 12 20 4l-6 16-3-7-7-1Z" fill="#fff"/></svg></div></div>
+            </section>
+
+            <!-- ========= OUTRO ========= -->
+            <section class="screen splash" data-screen="outro" id="scrOutro">
+              <img class="logo" src="projects/mydigitel-logo.png" alt="My Digitel" />
+              <div class="tl">One app. Every service.<br/>Zero call-center queues.</div>
+              <div class="stat"><div><div class="n">240+</div><div class="l">Services</div></div><div><div class="n">2 taps</div><div class="l">To pay</div></div><div><div class="n">0</div><div class="l">Phone menus</div></div></div>
+              <div class="credit">My Digitel · UX redesign concept by Amit Hilel</div>
+            </section>
+
+          </div>
+          <div class="ripple" id="ripple"></div>
+          <div class="cursor" id="cursor"><div class="dot"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="caption" id="caption"><h2 id="capHead"></h2><p id="capSub"></p></div>
+</div>
+
+<div class="hint" id="hint">Tap services & the bottom nav to explore the app</div>
+<div class="controls" id="controls">
+  <button id="btnPlay"><span id="playIcon">⏸</span><span class="lbl" id="playLbl">Pause</span></button>
+  <button id="btnReplay">↻<span class="lbl">Replay</span></button>
+  <div class="sep"></div>
+  <button id="btnMode">👆<span class="lbl">Interact</span></button>
+  <button id="btnClean">🎬<span class="lbl">Record</span></button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+
+  /* status bar markup (13:18 / 28%) */
+  const STATUS='<div class="statusbar"><span>13:18</span><span class="sb-r"><svg width="17" height="11" viewBox="0 0 18 12"><rect y="7" width="3" height="5" rx="1" fill="currentColor"/><rect x="5" y="4" width="3" height="8" rx="1" fill="currentColor"/><rect x="10" y="1.5" width="3" height="10.5" rx="1" fill="currentColor"/><rect x="15" width="3" height="12" rx="1" fill="currentColor" opacity=".4"/></svg><svg width="16" height="11" viewBox="0 0 17 12"><path d="M8.5 11 4.2 6.7a6 6 0 0 1 8.6 0L8.5 11Z" fill="currentColor"/></svg><span class="batt"><b>28</b><svg width="22" height="11" viewBox="0 0 26 12"><rect x="1" y="1" width="21" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.5" y="2.5" width="6" height="7" rx="1.4" fill="#E8B500"/><rect x="23" y="4" width="2" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></span></div>';
+  const HEADROW='<div class="head-row"><div class="ava"><img src="projects/mydigitel-profile.png" alt=""/></div><div class="brand"><img src="projects/mydigitel-logo.png" alt="My Digitel"/></div><div class="bell"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 19a2 2 0 0 0 4 0" stroke="var(--ink)" stroke-width="1.8"/></svg></div></div>';
+  ['HEAD','HEAD2','HEAD3','HEAD4'].forEach(id=>{var e=document.getElementById(id);if(e)e.innerHTML=STATUS+HEADROW;});
+  function subhead(id,title,back){return STATUS+'<div class="row"><div class="back" data-go="'+back+'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="m15 5-7 7 7 7" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ttl">'+title+'</div><div class="sp"></div><img class="logo" src="projects/mydigitel-logo.png" alt=""/></div>';}
+  $('#SUBFAV').innerHTML=subhead('SUBFAV','Edit Favorites','home');
+  $('#SUBREP').innerHTML=subhead('SUBREP','Report an Issue','support');
+  $('#FINTOP').innerHTML=STATUS+'<div class="fin-back" data-go="home">‹ Back to My Digitel</div><div class="fin-id"><div class="bank"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 9 12 4l8 5M5 9v9h14V9M5 18h14" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 12v4M12 12v4M16 12v4" stroke="#fff" stroke-width="1.7"/></svg></div><div class="ft"><div class="a">Department of Finance</div><div class="b">Metropolis Civic District</div></div><span class="off"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="m6 12 4 4 8-9" stroke="var(--green)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Official</span></div>';
+
+  /* bottom nav */
+  const NAV=[
+    {k:'home',label:'Home',go:'home',ic:'<path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8Z"/>'},
+    {k:'services',label:'Services',go:'services',ic:'<rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/>'},
+    {k:'explore',label:'Explore',go:'services',ic:'<path d="M9 4 4 6v14l5-2 6 2 5-2V4l-5 2-6-2Z"/>'},
+    {k:'updates',label:'Updates',go:'support',ic:'<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/>'},
+    {k:'account',label:'Account',go:'favorites',ic:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/>'}
+  ];
+  $$('.bottomnav').forEach(nav=>{const cur=nav.dataset.nav;nav.innerHTML=NAV.map(n=>`<div class="nav-i${n.k===cur?' active':''}" data-go="${n.go}"><svg width="22" height="22" viewBox="0 0 24 24" fill="${n.k===cur?'currentColor':'none'}" stroke="${n.k===cur?'none':'currentColor'}" stroke-width="1.8" stroke-linejoin="round">${n.ic}</svg>${n.label}</div>`).join('');});
+
+  /* screens */
+  const screens={}; $$('.screen').forEach(s=>screens[s.dataset.screen]=s);
+  let curScreen='splash';
+  function show(name){ if(!screens[name])return; Object.values(screens).forEach(s=>s.classList.remove('is-active')); screens[name].classList.add('is-active'); curScreen=name;
+    if(name==='splash'||name==='outro'){screens[name].classList.remove('go');void screens[name].offsetWidth;screens[name].classList.add('go');}
+    const si=screens[name].querySelector('.scroll-inner'); if(si&&name!=='home') si.style.transform='translateY(0)'; }
+  function homeScroll(px){const el=$('#homeScroll'); if(el) el.style.transform='translateY(-'+px+'px)';}
+  function scrollOf(name,px){const el=screens[name]&&screens[name].querySelector('.scroll-inner'); if(el) el.style.transform='translateY(-'+px+'px)';}
+
+  /* cursor */
+  const cursorEl=$('#cursor'), rippleEl=$('#ripple');
+  function scaleNow(){const m=getComputedStyle($('#phoneWrap')).transform.match(/matrix\(([^,]+)/);return m?parseFloat(m[1])||1:1;}
+  function centerOf(el){const r=el.getBoundingClientRect();const p=$('#screenport').getBoundingClientRect();const sc=scaleNow();return {x:(r.left+r.width/2-p.left)/sc, y:(r.top+r.height/2-p.top)/sc};}
+  function hideCursor(){cursorEl.style.opacity='0';}
+  function moveTo(el){return new Promise(res=>{const c=centerOf(el);cursorEl.style.transition='none';cursorEl.style.opacity='0';cursorEl.style.transform='translate('+c.x+'px,'+(c.y+46)+'px)';void cursorEl.offsetWidth;cursorEl.style.transition='';cursorEl.style.opacity='1';cursorEl.style.transform='translate('+c.x+'px,'+c.y+'px)';setTimeout(res,620);});}
+  function tapAt(el){return new Promise(res=>{const c=centerOf(el);cursorEl.classList.add('down');rippleEl.style.left=c.x+'px';rippleEl.style.top=c.y+'px';rippleEl.classList.remove('go');void rippleEl.offsetWidth;rippleEl.classList.add('go');try{el.classList.add('tapflash');setTimeout(()=>el.classList.remove('tapflash'),300);}catch(e){}setTimeout(()=>cursorEl.classList.remove('down'),175);setTimeout(res,370);});}
+
+  const cap=$('#caption');
+  function renderCap(c){cap.classList.remove('show');void cap.offsetWidth;$('#capHead').textContent=c?c[0]:'';$('#capSub').textContent=c&&c[1]?c[1]:'';if(c)requestAnimationFrame(()=>cap.classList.add('show'));}
+
+  /* favorites editing helpers */
+  function markAdd(a){ if(!a) return; a.textContent='✓'; a.style.background='var(--green-bg)'; a.style.color='var(--green)'; }
+  function markRemove(chip){ if(!chip) return; chip.style.transition='opacity .3s ease, transform .3s ease'; chip.style.opacity='0'; chip.style.transform='scale(.8)'; chip.dataset.rm='1'; setTimeout(()=>{ if(chip.dataset.rm==='1') chip.style.display='none'; },320); }
+  function resetFav(){ $$('#scrFavorites .avl .add').forEach(a=>{a.textContent='+';a.style.background='var(--orange-soft)';a.style.color='var(--orange-deep)';}); $$('#scrFavorites .fchip').forEach(c=>{c.style.display='';c.style.opacity='';c.style.transform='';delete c.dataset.rm;}); }
+
+  /* ============ TOUR (real taps + transitions) ============ */
+  const TOUR=[
+    {noCursor:true, enter(){show('splash');}, cap:['Tel Aviv, in one app','A resident opens My Digitel'], dwell:1700},
+    {noCursor:true, enter(){show('home');homeScroll(0);}, cap:['A home that knows you','Personalized to District 4'], dwell:1600},
+    {target:'#qsReport', act(){show('support');}, cap:['Skip the call center','The hotline, reimagined'], dwell:1400},
+    {target:'#callBtn', act(){show('call');}, cap:['Dial 106 in-app','Straight to the right department'], dwell:1700},
+    {target:'#scrCall .call-end', act(){show('support');}, cap:['Or pick a channel','Call, WhatsApp or email'], dwell:1200},
+    {target:'#scrSupport .chan[data-go="chat"]', scroll:300, act(){show('chat');}, cap:['WhatsApp the city','Send a photo, get a ticket'], dwell:1900},
+    {target:'#scrChat .back', act(){show('support');}, cap:['Every channel logged','One case, one number'], dwell:1100},
+    {target:'#scrSupport .freq .f', scroll:170, act(){$('#reportDone').classList.remove('show');show('report');}, cap:['Report an issue','Pick a type, add a photo'], dwell:1500},
+    {target:'#reportSubmit', act(){$('#reportDone').classList.add('show');}, cap:['Sent in seconds','Tracked end to end'], dwell:2000},
+    {noCursor:true, enter(){$('#reportDone').classList.remove('show');show('home');homeScroll(0);}, cap:['Back home','No paperwork, no queue'], dwell:1300},
+    {target:'#qsParking', act(){show('parking');}, cap:['Parking, live','Permits, traffic & demand'], dwell:1500},
+    {target:'#scrParking .expl .expl-i:nth-child(3)', scroll:340, act(){$('#payPaid').classList.remove('show');show('finance');}, cap:['Pay a citation','Inside the app'], dwell:1500},
+    {target:'#payBtn', scroll:360, act(){$('#payPaid').classList.add('show');}, cap:['External services, no jumping out','Consistent design, no re-typing'], dwell:2100},
+    {noCursor:true, enter(){$('#payPaid').classList.remove('show');show('home');homeScroll(0);}, cap:['Your dashboard, your way','Add, remove, arrange widgets'], dwell:1300},
+    {target:'#scrHome .lk[data-go="favorites"]', act(){show('favorites');resetFav();}, cap:['Edit favorites','Pin what you use'], dwell:1200},
+    {target:'#avail1 .add', act(){markAdd($('#avail1 .add'));}, cap:['Add Waste Management','One tap to pin it'], dwell:1100},
+    {target:'#avail2 .add', act(){markAdd($('#avail2 .add'));}, cap:['Add Property Tax','Build your own home screen'], dwell:1100},
+    {target:'#scrFavorites .fav-grid .fchip:nth-child(3) .rm', act(){markRemove($('#scrFavorites .fav-grid .fchip:nth-child(3)'));}, cap:['Remove what you don’t need','It’s fully yours'], dwell:1300},
+    {noCursor:true, enter(){show('outro');}, cap:['One app. Every service.','UX concept · Amit Hilel'], dwell:3400},
+  ];
+
+  const prog=$('#progress'); TOUR.forEach(()=>{const d=document.createElement('div');d.className='seg';d.innerHTML='<i></i>';prog.appendChild(d);});
+  const segs=$$('.seg',prog);
+
+  let paused=false, aborted=false, interactive=false, runToken=0;
+  function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+  async function gate(){while(paused&&!aborted){await sleep(80);}}
+  async function doStep(s,i){
+    const total=(s.target?1000:0)+(typeof s.scroll==='number'?760:0)+(s.dwell||1100);
+    segs.forEach((g,k)=>{g.classList.remove('active','done');if(k<i)g.classList.add('done');});
+    const seg=segs[i]; seg.style.setProperty('--seg-dur',(total/1000)+'s');
+    renderCap(s.cap);
+    if(s.noCursor) hideCursor();
+    if(s.enter) s.enter();
+    if(typeof s.scroll==='number'){ scrollOf(curScreen,s.scroll); await sleep(780); if(aborted)return; }
+    requestAnimationFrame(()=>requestAnimationFrame(()=>seg.classList.add('active')));
+    if(s.target){ const el=$(s.target); if(el){ await moveTo(el); if(aborted)return; await tapAt(el); if(aborted)return; } }
+    if(s.act) s.act();
+    if(s.target) hideCursor();
+    await sleep(s.dwell||1100);
+  }
+  async function runTour(){ const my=++runToken; aborted=false;
+    while(!aborted && my===runToken){ for(let i=0;i<TOUR.length;i++){ if(aborted||my!==runToken) return; await gate(); if(aborted||my!==runToken) return; await doStep(TOUR[i],i); } if(aborted||my!==runToken) return; segs.forEach(g=>g.classList.remove('done','active')); } }
+  function start(){ if(interactive) setInteractive(false); paused=false; updateBtn(); runTour(); }
+  function updateBtn(){$('#playIcon').textContent=paused?'▶':'⏸';$('#playLbl').textContent=paused?'Play':'Pause';}
+  function setInteractive(on){ interactive=on; $('#btnMode').classList.toggle('on',on); $('#hint').classList.toggle('show',on);
+    if(on){ aborted=true; runToken++; paused=false; updateBtn(); hideCursor(); cap.classList.remove('show'); segs.forEach(g=>g.classList.remove('active','done')); show('home'); homeScroll(0); setTimeout(()=>$('#hint').classList.remove('show'),3400); }
+    else { $('#hint').classList.remove('show'); } }
+
+  /* manual taps */
+  $$('[data-go]').forEach(el=>el.addEventListener('click',()=>{ if(!interactive) return; const go=el.dataset.go; show(go); if(go==='home') homeScroll(0); }));
+  $('#payBtn')&&$('#payBtn').addEventListener('click',()=>{ if(interactive) setTimeout(()=>$('#payPaid').classList.add('show'),150); });
+  $('#reportSubmit')&&$('#reportSubmit').addEventListener('click',()=>{ if(interactive) setTimeout(()=>$('#reportDone').classList.add('show'),150); });
+  $$('#scrFavorites .avl .add').forEach(a=>a.addEventListener('click',()=>{ if(interactive) markAdd(a); }));
+  $$('#scrFavorites .fchip .rm').forEach(r=>r.addEventListener('click',()=>{ if(interactive) markRemove(r.closest('.fchip')); }));
+
+  let csec=4; setInterval(()=>{csec=(csec+1)%600;const t=$('#callTimer');if(t)t.textContent='00:'+String(csec).padStart(2,'0');},1000);
+
+  /* controls */
+  $('#btnPlay').addEventListener('click',()=>{ if(interactive){ start(); return; } paused=!paused; updateBtn(); });
+  $('#btnReplay').addEventListener('click',()=>{ aborted=true; runToken++; setTimeout(()=>{ segs.forEach(g=>g.classList.remove('done','active')); hideCursor(); start(); },70); });
+  $('#btnMode').addEventListener('click',()=> interactive? start() : setInteractive(true));
+  let clean=false; $('#btnClean').addEventListener('click',()=>{ clean=!clean; $('#controls').classList.toggle('hide',clean); });
+  let hideT=null; function bump(){ if(clean) return; $('#controls').classList.remove('hide'); clearTimeout(hideT); hideT=setTimeout(()=>{ if(!interactive&&!paused) $('#controls').classList.add('hide'); },3500); }
+  window.addEventListener('mousemove',bump); window.addEventListener('touchstart',bump);
+  window.addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault(); if(interactive){start();return;} paused=!paused; updateBtn();}
+    else if(e.key==='r'||e.key==='R'){ aborted=true; runToken++; setTimeout(()=>{segs.forEach(g=>g.classList.remove('done','active'));hideCursor();start();},70); }
+    else if(e.key==='i'||e.key==='I'){ interactive? start() : setInteractive(true); }
+    else if(e.key==='h'||e.key==='H'){ clean=!clean; $('#controls').classList.toggle('hide',clean); } });
+
+  function fit(){const z=$('#phonezone');const avail=z.clientHeight-30;const sc=Math.max(.3,Math.min(1,avail/820));$('#phoneWrap').style.transform='scale('+sc.toFixed(3)+')';}
+  window.addEventListener('resize',fit);
+  if(window.ResizeObserver){try{new ResizeObserver(fit).observe($('#phonezone'));}catch(e){}}
+  window.__dbg={show,scrollOf,homeScroll,centerOf,screens:Object.keys(screens),tourLen:TOUR.length};
+
+  function boot(){ fit(); show('splash'); updateBtn(); runTour(); setTimeout(bump,500); }
+  if(document.readyState!=='loading') setTimeout(boot,60); else window.addEventListener('DOMContentLoaded',boot);
+  window.addEventListener('load',fit);
+})();
+</script>
+</body>
+</html>
