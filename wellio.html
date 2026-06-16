@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wellio — Healthcare, made human · Amit Hilel</title>
+<meta name="description" content="Case study: Wellio — one calm mobile app that takes you from “I think I need a doctor” to booked, reminded, and followed up. Search, profiles, appointments, records, prescriptions, vaccinations, metrics, and chat in one place." />
+<link rel="icon" href="LOGO%20AMIT.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Nunito:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="case-study.css" />
+<style>
+/* scoped extras for the Wellio case study — keeps shared CSS untouched */
+.why-band{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+.why-stat{background:var(--brown-50);border:1px solid var(--brown-100);border-radius:18px;padding:22px 22px;text-align:left}
+.why-stat b{font-family:var(--serif);font-weight:600;font-size:1.55rem;color:var(--brown-800);display:block;line-height:1.1}
+.why-stat span{display:block;color:var(--brown-600);font-size:.92rem;margin-top:.5rem;line-height:1.5}
+.tcard{background:#fff;border:1px solid var(--brown-100);border-radius:18px;padding:24px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:.9rem}
+.tcard p{font-family:var(--serif);font-weight:500;font-size:1.04rem;line-height:1.5;color:var(--brown-800);margin:0}
+.tcard .by{font-family:var(--sans);font-weight:700;font-size:.82rem;color:var(--brown-600);letter-spacing:.02em}
+.tcard .stars{color:#E8A04A;letter-spacing:2px;font-size:.95rem}
+/* market-scan cards */
+.scan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+.scan-card{background:#fff;border:1px solid var(--brown-100);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm)}
+.scan-card h4{margin:0 0 .15rem;font-size:1.05rem;color:var(--brown-900)}
+.scan-card .ex{font-family:var(--sans);font-size:.78rem;color:var(--brown-400);font-style:italic;margin-bottom:.9rem}
+.scan-card .row{font-size:.9rem;color:var(--brown-600);line-height:1.5;margin:.35rem 0}
+.scan-card .row b{color:var(--brown-800)}
+/* IA spine */
+.spine{display:grid;gap:.6rem;margin-top:6px}
+.spine .lvl{background:#fff;border:1px solid var(--brown-100);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow-sm)}
+.spine .lvl b{color:var(--brown-900);font-family:var(--sans);font-weight:800}
+.spine .lvl span{color:var(--brown-600)}
+.hmw-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+.hmw{background:#fff;border:1px solid var(--brown-100);border-radius:16px;padding:18px 20px;font-family:var(--serif);font-weight:500;color:var(--brown-800);line-height:1.5;box-shadow:var(--shadow-sm)}
+@media(max-width:880px){.why-band,.scan-grid{grid-template-columns:1fr}.hmw-grid{grid-template-columns:1fr}}
+/* grouped screen gallery — breadth organised by the app's IA */
+.screen-group{margin-top:40px}
+.screen-group:first-of-type{margin-top:10px}
+.screen-group .grp{font-family:var(--sans);font-weight:800;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brown-400);margin:0 0 16px;display:flex;align-items:center;gap:12px}
+.screen-group .grp::after{content:"";flex:1;height:1px;background:var(--brown-100)}
+
+/* ===== Apple-style scroll walkthrough — the phone pins, screens + captions cross-fade as you scroll ===== */
+.flow{position:relative}
+.flow-track{position:relative;height:calc(var(--steps,7) * 46vh + 8vh)}
+.flow-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center}
+.flow-sticky .container{width:100%}
+.flow-grid{display:grid;grid-template-columns:1.05fr minmax(270px,300px);gap:54px;align-items:center}
+.flow-copy{position:relative}
+.flow-copy>.eyebrow{margin-bottom:18px}
+.flow-caps{position:relative;min-height:232px}
+.flow-cap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease;pointer-events:none}
+.flow-cap.is-active{opacity:1;transform:none}
+.flow-cap .step{font-family:var(--sans);font-weight:800;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--brown-400);margin-bottom:.8rem;
+  /* reset: '.step' collides with the home-page process-card class */
+  display:block;background:none;border:0;border-radius:0;padding:0;box-shadow:none}
+.flow-cap h3{font-family:var(--serif);font-weight:500;font-size:clamp(1.7rem,3.6vw,2.5rem);line-height:1.16;color:var(--brown-900);margin:0 0 .7rem;text-wrap:balance}
+.flow-cap p{color:var(--brown-600);font-size:1.08rem;line-height:1.6;max-width:44ch;margin:0}
+.flow-stage{display:flex;justify-content:center}
+.flow-phone{position:relative;width:300px;aspect-ratio:375/812;border:1px solid var(--brown-100);border-radius:34px;background:var(--cream-50);box-shadow:0 40px 70px -30px rgba(74,47,23,.5),0 8px 20px -10px rgba(74,47,23,.18);overflow:hidden}
+.flow-screen{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transform:scale(1.04);transition:opacity .6s ease,transform .9s cubic-bezier(.22,.61,.36,1)}
+.flow-screen.is-active{opacity:1;transform:scale(1)}
+.flow-rail{height:3px;width:100%;max-width:300px;background:var(--brown-100);border-radius:99px;margin-top:30px;overflow:hidden}
+.flow-rail i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brown-700),var(--brown-400));border-radius:99px}
+.flow-hint{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--sans);font-weight:700;font-size:.82rem;color:var(--brown-500);margin-top:18px;transition:opacity .4s}
+.flow-hint svg{width:16px;height:16px;animation:flowbob 1.6s ease-in-out infinite}
+@keyframes flowbob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+/* per-step app screen, injected into each caption card — shown on mobile only */
+.flow-cap-shot{display:none}
+@media(max-width:820px){
+  /* MOBILE: un-pin the scroll walkthrough (a sticky 100vh phone floated over
+     the section above it) and show the steps as compact cards — small step
+     label + tidy heading. The screens appear in full in the Screens gallery. */
+  .flow-track{height:auto}
+  .flow-sticky{position:static;height:auto;display:block;padding:4px 0 0}
+  .flow-grid{display:block}
+  .flow-copy{width:100%}
+  .flow-caps{position:static;min-height:0;display:flex;flex-direction:column;gap:14px}
+  .flow-cap{position:static!important;opacity:1!important;transform:none!important;display:block;text-align:left;
+    background:#fff;border:1px solid var(--brown-100);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow-sm)}
+  .flow-cap .step{font-size:.68rem;color:var(--brown-400);letter-spacing:.1em}
+  .flow-cap h3{font-size:1.2rem;margin:.3rem 0 .4rem;line-height:1.25}
+  .flow-cap p{margin:0;max-width:none;font-size:.95rem;line-height:1.55}
+  .flow-cap-shot{display:block;width:auto;height:auto;max-height:230px;max-width:62%;margin:2px auto 14px;
+    border-radius:16px;border:1px solid var(--brown-100);box-shadow:var(--shadow);background:var(--cream-50)}
+  .flow-stage,.flow-rail,.flow-hint{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .flow-screen{transition:opacity .25s;transform:none}
+  .flow-cap{transition:opacity .25s}
+}
+</style>
+</head>
+<body>
+<header class="site-header pill-header">
+  <nav class="nav-pill">
+    <a class="brand" href="index.html"><img class="avatar" src="LOGO%20AMIT.png" alt="Amit Hilel" /><span>Amit Hilel</span></a>
+    <div class="nav-center-wrap">
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="index.html#work" class="active">Design</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Writing</a>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a class="btn-dark" href="mailto:amithilel0211@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg><span>Say Hello</span></a>
+      <a class="btn-dark-sq" href="https://www.linkedin.com/in/amithilel" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21H17v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg></a>
+      <button class="nav-toggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    </div>
+  </nav>
+</header>
+
+<main>
+<section class="cs-hero2">
+  <div class="container">
+    <p class="eyebrow reveal in">Healthcare · Mobile · End-to-end UX/UI</p>
+    <h1 class="cs-title gradient-text reveal in">Wellio<span class="cs-subtitle">healthcare that feels less like paperwork and more like care</span></h1>
+  </div>
+
+  <div class="container reveal">
+    <div class="cs-overview panel">
+      <div class="cs-ov-item"><h3>Overview</h3><p>One calm app that carries the whole arc of care — find a doctor, decide, book, and stay on top of the admin that always slips: refills, vaccinations, follow-ups. From “I think I need a doctor” to booked, reminded, and followed up.</p></div>
+      <div class="cs-ov-item"><h3>My role</h3><p>UX Researcher &amp; Product Designer.<br>Research, IA, UX, UI &amp; a full design system.</p></div>
+      <div class="cs-ov-item"><h3>Scope</h3><div class="cs-team"><span class="tm me">16 feature areas</span><span class="tm">120+ screens</span></div></div>
+      <div class="cs-ov-item"><h3>Status</h3><p>Concept, validated with users</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Scroll-driven walkthrough — the story plays as you scroll -->
+<section class="flow" data-flow aria-label="Wellio walkthrough">
+  <div class="flow-track" style="--steps:7">
+    <div class="flow-sticky">
+      <div class="container">
+        <div class="flow-grid">
+          <div class="flow-copy">
+            <p class="eyebrow">See how it works</p>
+            <div class="flow-caps">
+              <article class="flow-cap is-active"><span class="step">Step 01 · Open</span><h3>It starts with calm.</h3><p>Just the mark, then you're in — no clutter, no pressure. The very first screen sets the tone for everything that follows.</p></article>
+              <article class="flow-cap"><span class="step">Step 02 · Welcome</span><h3>One promise, not a menu.</h3><p>A short onboarding that says one true thing — “healthcare made easy” — instead of five features fighting for attention. Calm is the first design decision.</p></article>
+              <article class="flow-cap"><span class="step">Step 03 · See today</span><h3>Your next appointment, first.</h3><p>Home answers the question people actually open the app with — what's next — then offers a fast way to act, and only then, to explore.</p></article>
+              <article class="flow-cap"><span class="step">Step 04 · Find</span><h3>Find the right doctor, fast.</h3><p>Search, then filter by location and compare on what matters — rating, specialty, distance — from clean cards you can decide on at a glance.</p></article>
+              <article class="flow-cap"><span class="step">Step 05 · Decide &amp; book</span><h3>A profile you can decide from.</h3><p>Photo, rating, specialty and credentials up top; reviews and availability a tap away — and one clear “Book appointment” when you're ready.</p></article>
+              <article class="flow-cap"><span class="step">Step 06 · Stay on track</span><h3>Reminders that fit real life.</h3><p>Set a medication reminder around your actual day — how often, and exactly which times — so doses and refills stop slipping through the cracks.</p></article>
+              <article class="flow-cap"><span class="step">Step 07 · Keep talking</span><h3>Care continues after the door.</h3><p>Chat, voice, photos and video keep your clinician one tap away — so the relationship doesn't end the moment the visit does.</p></article>
+            </div>
+            <div class="flow-rail"><i></i></div>
+            <span class="flow-hint">Scroll to play <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></span>
+          </div>
+          <div class="flow-stage">
+            <div class="flow-phone">
+              <img class="flow-screen is-active" src="WELLIO/splash.png" alt="Wellio — splash, the first screen" />
+              <img class="flow-screen" src="WELLIO/welcome.png" alt="Wellio — onboarding, Healthcare Made Easy" />
+              <img class="flow-screen" src="WELLIO/home.png" alt="Wellio — home, next appointment first" />
+              <img class="flow-screen" src="WELLIO/search.png" alt="Wellio — search by symptom" />
+              <img class="flow-screen" src="WELLIO/doctor.png" alt="Wellio — doctor profile" />
+              <img class="flow-screen" src="WELLIO/reminder.png" alt="Wellio — medication reminder" />
+              <img class="flow-screen" src="WELLIO/chat.png" alt="Wellio — chat and video with your clinician" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <nav class="cs-toc" id="csToc" aria-label="Sections">
+    <a href="#problem" class="active">Problem</a>
+    <a href="#research">Research</a>
+    <a href="#solutions">Solutions</a>
+    <a href="#screens">Screens</a>
+    <a href="#results">Results</a>
+  </nav>
+
+  <!-- PROBLEM -->
+  <section class="cs-section reveal" id="problem">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The problem</p></div>
+    <p class="cs-bigstatement">For most of us, the hard part of healthcare isn't the medicine. It's the logistics.</p>
+    <p class="cs-statement-sub">This project started with a small, unglamorous moment: a friend asking me to help her find the PDF of her blood test, because the clinic “sent it somewhere.” Twenty minutes later — an expired SMS link, a portal that logged her out twice — she still didn't have a number off a page. She wasn't sick. She was just trying to get to her own information. Getting care is technically possible and emotionally exhausting, and the admin around health quietly falls through the cracks until it becomes urgent.</p>
+
+    <div class="why-band reveal">
+      <div class="why-stat"><b>Three apps, one body</b><span>An insurer portal, a booking site, a tracking app — most people stitch their care together across tools that don't talk to each other.</span></div>
+      <div class="why-stat"><b>The admin is what fails</b><span>Refills run out on a Friday night; a child's vaccination slips a month. The visit goes fine — it's the before and after that breaks.</span></div>
+      <div class="why-stat"><b>The invisible manager</b><span>One person usually runs health for a whole family — booking, reminding, chasing results — and almost no app is built for them.</span></div>
+    </div>
+
+    <div class="grid-3" style="margin-top:40px">
+      <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><h4>People search by symptom</h4><p>Almost nobody wakes up looking for a “gastroenterologist.” They search “stomach” and hope the app meets them there. Forcing medical vocabulary is the first place we lose people.</p></div>
+      <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><h4>Trust is decided on the profile</h4><p>Before booking, people scan for the same five things — face, rating, languages, price, next slot. Miss one and they bounce to Google, and often don't come back.</p></div>
+      <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><h4>Continuity is missing</h4><p>The visit ends and the relationship ends with it. No record, no follow-up, no easy way to ask the one question you forgot in the room.</p></div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="cs-section reveal" id="research">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The approach</p><h2 class="gradient-text" style="text-align:center">Listening before designing</h2><p style="text-align:center;margin-inline:auto">You can't fix a feeling you haven't sat with. Before a single screen, I went to the people who carry the weight of “managing health” — and it's rarely just the patient.</p></div>
+    <div class="rsteps">
+      <div class="rstep-card reveal"><div class="num">01</div><h4>Talking to real users</h4><p>12 interviews and a survey across three groups — busy professionals, parents running a whole family's care, and people over 60 managing ongoing conditions. Each group breaks in a different place.</p><div class="tags"><span class="tag">Professionals</span><span class="tag">Parents</span><span class="tag">Over-60s</span></div></div>
+      <div class="rstep-card reveal d1"><div class="num">02</div><h4>Mapping the market</h4><p>Used insurer portals, booking marketplaces and wellness apps the way a patient would. Each nails one third of the journey — and none owns the whole arc.</p><div class="tags"><span class="tag">Competitive</span><span class="tag">Heuristics</span></div></div>
+      <div class="rstep-card reveal d2"><div class="num">03</div><h4>Stories, not wishlists</h4><p>I never asked “what features do you want.” I asked “walk me through the last time you needed a doctor.” Stories surface the friction that feature lists hide.</p><div class="tags"><span class="tag">Journey</span><span class="tag">Jobs-to-be-done</span></div></div>
+    </div>
+
+    <div class="panel panel-brown reveal" style="margin-top:34px">
+      <h3 style="text-align:center;margin-bottom:1.1rem">What people told me</h3>
+      <div class="grid-2">
+        <div class="quote">“I don't need an app to diagnose me. I need it to stop making me feel like I'm filing taxes every time I want to see someone.”</div>
+        <div class="quote">“I'm the one who books for my mum, my partner and my son. The apps all assume there's just… me.”</div>
+        <div class="quote">“The visit was fine. It's the prescription that ran out on a Saturday that ruined my week.”</div>
+        <div class="quote">“I looked up the doctor, couldn't find a rating, so I just Googled her instead and booked over the phone.”</div>
+      </div>
+    </div>
+
+    <!-- Market scan -->
+    <div class="reveal" style="margin-top:40px">
+      <div class="section-head"><h3 style="text-align:center;font-size:clamp(1.4rem,3vw,1.9rem)">Where the gap was hiding</h3><p style="text-align:center;margin-inline:auto">Three kinds of product, each owning one third of the journey — and a seam running straight down the middle that nobody had picked up.</p></div>
+      <div class="scan-grid">
+        <div class="scan-card"><h4>HMO / insurer portals</h4><p class="ex">Clalit · Maccabi · MyChart</p><p class="row"><b>Strength:</b> real medical data and official records.</p><p class="row"><b>Gap:</b> built around the institution, not the person — dense, clinical, intimidating.</p></div>
+        <div class="scan-card"><h4>Booking marketplaces</h4><p class="ex">ZocDoc · Practo · Doctolib</p><p class="row"><b>Strength:</b> finding and booking a doctor is genuinely easy.</p><p class="row"><b>Gap:</b> the relationship ends at the booking — no records, no follow-up.</p></div>
+        <div class="scan-card"><h4>Wellness &amp; tracking</h4><p class="ex">Apple Health · Ada · Flo</p><p class="row"><b>Strength:</b> beautiful, motivating, habit-forming.</p><p class="row"><b>Gap:</b> disconnected from real care — they watch you, but can't get you seen.</p></div>
+      </div>
+      <p class="muted" style="text-align:center;margin-inline:auto;margin-top:26px;max-width:60ch">Each category nails one third of the arc. Nobody owns the whole thing — <b>find → decide → book → remember → follow up</b> — as one continuous experience. That arc became Wellio's reason to exist.</p>
+    </div>
+
+    <!-- Reframe + IA -->
+    <div class="reveal" style="margin-top:44px">
+      <div class="section-head"><h3 style="text-align:center;font-size:clamp(1.4rem,3vw,1.9rem)">From problem to structure</h3><p style="text-align:center;margin-inline:auto">I turned the friction into How-Might-We questions, then answered the hardest one — with sixteen feature areas, what earns the home screen and what waits one tap away?</p></div>
+      <div class="hmw-grid">
+        <div class="hmw">How might we let people search in their own words and still land on the right specialist?</div>
+        <div class="hmw">How might we give enough to decide on a doctor without burying the one button that matters?</div>
+        <div class="hmw">How might we make refills, shots and follow-ups happen almost on their own?</div>
+        <div class="hmw">How might we hold a whole family's health without the app feeling like a spreadsheet?</div>
+      </div>
+      <div class="panel reveal" style="margin-top:24px">
+        <h3 style="text-align:center;margin-bottom:1rem">Four tabs, not ten</h3>
+        <div class="spine">
+          <div class="lvl"><b>Home</b> — <span>next appointment · book · specialisations · services</span></div>
+          <div class="lvl"><b>Records</b> — <span>reports · visit summaries · prescriptions · vaccinations · health metrics</span></div>
+          <div class="lvl"><b>Chat</b> — <span>messages · clinician chat · voice · video visit</span></div>
+          <div class="lvl"><b>Profile</b> — <span>patient card · insurance · family · settings</span></div>
+        </div>
+        <p class="muted" style="text-align:center;margin-inline:auto;margin-top:18px;max-width:58ch">Medical depth lives in Records, where people go looking with intent — not scattered across the surface where it just creates anxiety.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTIONS -->
+  <section class="cs-section reveal" id="solutions">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The solution</p><h2 class="gradient-text" style="text-align:center;font-size:clamp(2rem,4vw,2.8rem)">Three jobs, made effortless</h2><p style="text-align:center;margin-inline:auto">Every decision traces straight back to something a real person said.</p></div>
+
+    <div class="solution-row reveal" style="margin-bottom:56px">
+      <div class="sol-text">
+        <span class="from-research">From the research → <b>Find &amp; decide</b></span>
+        <p class="sol-num gradient-text">01</p>
+        <h3 style="margin:.3rem 0 .6rem">Find fast, decide with confidence</h3>
+        <p class="muted">Finding care is built to be quick and low-effort: search and filter by specialty, name or location, with results that lead with <b>rating and distance</b> so the choice is easy. And every doctor profile opens on what people actually scan for — <b>photo, rating, specialty and credentials</b> — with reviews and a clear “Book appointment” one tap away, so the page informs without burying the one button that matters.</p>
+        <div class="sol-metrics"><div class="sol-metric"><b>Find fast</b><span>filter by specialty &amp; location</span></div><div class="sol-metric"><b>Decide above the fold</b><span>rating &amp; credentials, first</span></div></div>
+      </div>
+      <div class="sol-media is-phone"><img src="WELLIO/search.png" alt="Wellio — symptom-first search" /><img src="WELLIO/doctor.png" alt="Wellio — doctor profile built for a decision" /></div>
+    </div>
+
+    <div class="solution-row reverse reveal" style="margin-bottom:56px">
+      <div class="sol-text">
+        <span class="from-research">From the research → <b>The admin that slips</b></span>
+        <p class="sol-num gradient-text">02</p>
+        <h3 style="margin:.3rem 0 .6rem">The boring stuff, quietly handled</h3>
+        <p class="muted">This is the fix that actually changes lives. Booking, rescheduling and cancelling all happen in-app, with designed success <em>and</em> failure states — the hold music is gone. Prescriptions, refills and history live together, medication reminders are built around real days (snooze, skip, mark as taken), and the <b>vaccination calendar remembers so a parent doesn't have to</b>.</p>
+        <div class="sol-metrics"><div class="sol-metric"><b>No phone call</b><span>book &amp; reschedule in-app</span></div><div class="sol-metric"><b>Nothing slips</b><span>refills &amp; shots, on time</span></div></div>
+      </div>
+      <div class="sol-media is-phone"><img src="WELLIO/appointments.png" alt="Wellio — appointments and rescheduling" /><img src="WELLIO/reminder.png" alt="Wellio — medication reminders" /></div>
+    </div>
+
+    <div class="solution-row reveal">
+      <div class="sol-text">
+        <span class="from-research">From the research → <b>Continuity</b></span>
+        <p class="sol-num gradient-text">03</p>
+        <h3 style="margin:.3rem 0 .6rem">Care that doesn't end at the door</h3>
+        <p class="muted">Health metrics gather <b>vitals, lifestyle, history and notes</b> into one organised picture — grouped to read at a glance, with calm empty states for anyone just starting out. And chat, voice notes, photo sharing and video visits keep the clinician one tap away after the appointment — typing states, message actions, lock-screen notifications all handled, so the channel feels as reliable as texting a friend.</p>
+        <div class="sol-metrics"><div class="sol-metric"><b>One clear picture</b><span>vitals, lifestyle &amp; history</span></div><div class="sol-metric"><b>One tap away</b><span>chat, voice &amp; video</span></div></div>
+      </div>
+      <div class="sol-media is-phone"><img src="WELLIO/metrics.png" alt="Wellio — health metrics as a trend" /><img src="WELLIO/chat.png" alt="Wellio — chat and video visit" /></div>
+    </div>
+  </section>
+
+  <!-- SCREENS -->
+  <section class="cs-section reveal" id="screens">
+    <div class="section-head"><h2 class="gradient-text" style="text-align:center">Every screen</h2><p style="text-align:center;margin-inline:auto">One calm system — soft teals, generous space, real photography, and one clear action per screen. Health is stressful enough; the interface should lower the heart rate, not raise it.</p></div>
+    <div class="screen-group">
+      <p class="grp">Onboarding &amp; your patient card</p>
+      <div class="screen-grid">
+        <img src="WELLIO/splash.png" alt="Splash" loading="lazy" />
+        <img src="WELLIO/welcome.png" alt="Onboarding — Healthcare Made Easy" loading="lazy" />
+        <img src="WELLIO/welcome2.png" alt="Onboarding — Here for You, Always" loading="lazy" />
+        <img src="WELLIO/welcome3.png" alt="Welcome to Wellio — create account or log in" loading="lazy" />
+        <img src="WELLIO/account.png" alt="Create account" loading="lazy" />
+        <img src="WELLIO/patient.png" alt="Patient card — personal data" loading="lazy" />
+        <img src="WELLIO/insurance.png" alt="Insurance information" loading="lazy" />
+        <img src="WELLIO/assessment.png" alt="Health assessment" loading="lazy" />
+      </div>
+    </div>
+    <div class="screen-group">
+      <p class="grp">Home — find &amp; book care</p>
+      <div class="screen-grid">
+        <img src="WELLIO/home.png" alt="Home — next appointment first" loading="lazy" />
+        <img src="WELLIO/specialties.png" alt="Specialisations list" loading="lazy" />
+        <img src="WELLIO/doctors.png" alt="Doctors near you" loading="lazy" />
+        <img src="WELLIO/search.png" alt="Search results" loading="lazy" />
+        <img src="WELLIO/doctor.png" alt="Doctor profile — about" loading="lazy" />
+        <img src="WELLIO/reviews.png" alt="Doctor profile — reviews" loading="lazy" />
+        <img src="WELLIO/book.png" alt="Book an appointment — price &amp; availability" loading="lazy" />
+        <img src="WELLIO/appointments.png" alt="Upcoming appointments" loading="lazy" />
+      </div>
+    </div>
+    <div class="screen-group">
+      <p class="grp">Records — everything in one place</p>
+      <div class="screen-grid">
+        <img src="WELLIO/records.png" alt="Medical records hub" loading="lazy" />
+        <img src="WELLIO/reports.png" alt="Lab reports" loading="lazy" />
+        <img src="WELLIO/visits.png" alt="Visit summaries" loading="lazy" />
+        <img src="WELLIO/prescriptions.png" alt="Prescriptions" loading="lazy" />
+        <img src="WELLIO/vaccination.png" alt="Vaccination calendar" loading="lazy" />
+        <img src="WELLIO/vaccination-detail.png" alt="Vaccination details" loading="lazy" />
+        <img src="WELLIO/metrics.png" alt="Health metrics overview" loading="lazy" />
+        <img src="WELLIO/reminder.png" alt="Medication reminder" loading="lazy" />
+      </div>
+    </div>
+    <div class="screen-group">
+      <p class="grp">Chat — care that continues</p>
+      <div class="screen-grid">
+        <img src="WELLIO/messages.png" alt="Messages" loading="lazy" />
+        <img src="WELLIO/chat.png" alt="Chat with your clinician" loading="lazy" />
+        <img src="WELLIO/video.png" alt="Video visit" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- The unglamorous 80% -->
+  <section class="cs-section reveal">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The craft</p><h2 class="gradient-text" style="text-align:center">The unglamorous 80%</h2><p style="text-align:center;margin-inline:auto">A demo is the happy path. A product is everything that happens when the happy path breaks. A real chunk of this project was the moments nobody screenshots.</p></div>
+    <div class="grid-2" style="margin-top:8px">
+      <div class="insight-card"><h4>Empty states</h4><p>No appointments, no prescriptions, no results yet — each reassures and points to the next action instead of showing a blank void.</p></div>
+      <div class="insight-card"><h4>Errors &amp; failures</h4><p>Expired links, taken slots, failed reschedules, dropped networks — written in human language, always with a way forward.</p></div>
+      <div class="insight-card"><h4>Accessibility</h4><p>Readable type, strong contrast on the teal palette, and tap targets sized for an older hand — not just a designer's thumb.</p></div>
+      <div class="insight-card"><h4>Trust &amp; privacy</h4><p>Sensitive data framed carefully, share actions made explicit, nothing on the home screen you wouldn't want a stranger to glance at.</p></div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="cs-section reveal" id="results">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">How I'd know it worked</p><h2 class="gradient-text" style="text-align:center">Measuring the right thing</h2><p style="text-align:center;margin-inline:auto">In healthcare, more time in the app isn't a win. I'd hold the design against numbers that mean someone's life actually got easier.</p></div>
+    <div class="cs-impact" style="margin-bottom:18px">
+      <div class="metric"><div class="mnum">Time to booked</div><div class="mlabel">Taps &amp; seconds</div><p>From opening the app to a confirmed appointment — measured in friction, not screens visited.</p></div>
+      <div class="metric"><div class="mnum">Admin completion</div><div class="mlabel">On time, on its own</div><p>Refills reordered and vaccinations kept on schedule without a human chasing them.</p></div>
+      <div class="metric"><div class="mnum">Return unprompted</div><div class="mlabel">Pull, not push</div><p>People coming back because it's genuinely easier here — not because a notification nagged them.</p></div>
+    </div>
+    <p class="impact-note" style="margin-bottom:34px">A concept validated with 12 interviews and a survey across three user groups — busy professionals, parents managing a family's care, and people over 60 — plus follow-up usability sessions. Directional signal, not production analytics.</p>
+
+    <div class="section-head"><h3 style="text-align:center;font-size:clamp(1.4rem,3vw,1.9rem)">What testers said</h3></div>
+    <div class="grid-3 synth" style="margin-bottom:36px">
+      <div class="tcard reveal"><span class="stars">★★★★★</span><p>“It's the first time booking a doctor felt like ordering a taxi. I didn't dread it.”</p><span class="by">— Participant, professional · usability session</span></div>
+      <div class="tcard reveal d1"><span class="stars">★★★★★</span><p>“The reminders are the bit I'd actually pay for. My dad's pills never run out anymore in the prototype.”</p><span class="by">— Participant, family carer · interview</span></div>
+      <div class="tcard reveal d2"><span class="stars">★★★★★</span><p>“Everything's in one place. I'm not hunting through three apps and an email for my own results.”</p><span class="by">— Participant, 60+ · usability session</span></div>
+    </div>
+
+    <div class="cs-testimonial reveal">
+      <blockquote>“I don't need an app to diagnose me. I need it to stop making me feel like I'm filing taxes every time I want to see someone.” — that line shaped the whole project.</blockquote>
+      <p class="who">— Participant, first round of interviews</p>
+    </div>
+  </section>
+
+  <!-- Lessons -->
+  <section class="cs-section reveal">
+    <div class="panel panel-brown"><h2 style="margin-bottom:.8rem">Lessons learned / next steps</h2><p class="muted" style="margin:0">The biggest lesson was restraint. With sixteen feature areas, the temptation was to surface everything — and every time I gave in, the home screen got a little more frightening. The work that mattered most wasn't adding; it was deciding what to hide, and trusting people to find depth when they needed it. Next, I'd prototype the family-account model properly — switching between “me” and “my dad” is the flow most likely to make or break this for the people who carry everyone else's health. That's the hard, human problem I'd want to solve next.</p></div>
+  </section>
+
+  <!-- More case studies -->
+  <section class="cs-section reveal">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">Keep exploring</p><h2 class="gradient-text" style="text-align:center">More case studies</h2></div>
+    <div class="more-cases">
+      <a class="mc-card" href="revolutionizing-cx.html"><div class="mc-thumb"><img src="REVOLUTIOZINING%20CX/nr-insights.png" alt="Revolutionizing CX" /></div><div class="mc-body"><span class="tag">Product · AI</span><h4>Revolutionizing CX</h4><p>A clearer research platform and an AI companion that turns weeks of synthesis into hours.</p><span class="read">Read case study →</span></div></a>
+      <a class="mc-card" href="routine-builder.html"><div class="mc-thumb"><img src="ROUTINE%20BUILDER/v2/4.png?v=clean1" alt="Routine Builder" /></div><div class="mc-body"><span class="tag">Accessibility · Mobile</span><h4>Routine Builder</h4><p>A warm, visual routine app autistic children can see, build, and run on their own.</p><span class="read">Read case study →</span></div></a>
+      <a class="mc-card" href="municipal-services.html"><div class="mc-thumb"><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/home.png" alt="Navigating Municipal Services" /></div><div class="mc-body"><span class="tag">Usability research</span><h4>Navigating Municipal Services</h4><p>Cutting friction across parking, services, and support on a city portal.</p><span class="read">Read case study →</span></div></a>
+    </div>
+    <div style="text-align:center;margin-top:40px"><a class="back-link" href="index.html#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to all projects</a></div>
+  </section>
+</div>
+</main>
+
+<footer class="site-footer"><div class="container">© <span data-year>2026</span> Amit Hilel. Designed &amp; built with care.</div></footer>
+<div class="lightbox"><button class="lightbox-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><img src="" alt="" /></div>
+
+<script>
+/* hide any case-study image that fails to load — and restore it if it loads later.
+   Fully reversible so there's no race between the probe and slow/late image loads. */
+(function(){
+  document.querySelectorAll('.screen-grid img').forEach(function(img){
+    function bad(){ img.style.display='none'; }
+    function good(){ img.style.display=''; }
+    img.addEventListener('error', bad);
+    img.addEventListener('load', good);
+    if(img.complete) (img.naturalWidth>0 ? good : bad)();
+  });
+  // a solution row shows its media column only if at least one image is present
+  document.querySelectorAll('.sol-media').forEach(function(m){
+    function evalMedia(){
+      var any=[].slice.call(m.querySelectorAll('img')).some(function(i){return i.complete && i.naturalWidth>0;});
+      m.style.display = any ? '' : 'none';
+    }
+    [].slice.call(m.querySelectorAll('img')).forEach(function(img){
+      img.addEventListener('error', function(){ img.style.display='none'; evalMedia(); });
+      img.addEventListener('load', function(){ img.style.display=''; evalMedia(); });
+      if(img.complete && img.naturalWidth===0) img.style.display='none';
+    });
+    evalMedia();
+  });
+})();
+</script>
+<script>
+/* section-spy for the sticky table of contents */
+(function(){var toc=document.getElementById('csToc');if(!toc||!('IntersectionObserver'in window))return;var links=[].slice.call(toc.querySelectorAll('a')),map={};links.forEach(function(a){var el=document.getElementById(a.getAttribute('href').slice(1));if(el)map[el.id]=a;});var spy=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});if(map[e.target.id])map[e.target.id].classList.add('active');}});},{rootMargin:'-45% 0px -50% 0px'});Object.keys(map).forEach(function(id){spy.observe(document.getElementById(id));});})();
+</script>
+<script>
+/* scroll-driven walkthrough: pin the phone, advance screens + captions with scroll progress.
+   Same proven logic as the other case studies — N is fixed to the 7 screens, which all ship. */
+(function(){
+  var flow=document.querySelector('[data-flow]'); if(!flow) return;
+  var track=flow.querySelector('.flow-track');
+  var screens=[].slice.call(flow.querySelectorAll('.flow-screen'));
+  var caps=[].slice.call(flow.querySelectorAll('.flow-cap'));
+  var rail=flow.querySelector('.flow-rail i');
+  var hint=flow.querySelector('.flow-hint');
+  var N=Math.min(screens.length,caps.length), cur=-1, ticking=false;
+  function set(idx,p){
+    if(idx!==cur){
+      cur=idx;
+      for(var i=0;i<screens.length;i++) screens[i].classList.toggle('is-active',i===idx);
+      for(var j=0;j<caps.length;j++) caps[j].classList.toggle('is-active',j===idx);
+    }
+    if(rail) rail.style.width=(Math.max(0,Math.min(1,p))*100).toFixed(1)+'%';
+    if(hint) hint.style.opacity = p>0.02 ? '0' : '1';
+  }
+  function update(){
+    ticking=false;
+    var total=track.offsetHeight-window.innerHeight;
+    var scrolled=Math.min(Math.max(-track.getBoundingClientRect().top,0),total);
+    var p= total>0 ? scrolled/total : 0;
+    var idx=Math.max(0,Math.min(N-1,Math.floor(p*N+0.00001)));
+    set(idx,p);
+  }
+  function req(){ if(ticking) return; ticking=true; requestAnimationFrame(update); }
+  window.addEventListener('scroll',req,{passive:true});
+  window.addEventListener('resize',req);
+  set(0,0); update();
+})();
+</script>
+<script>
+/* Mobile: pair each walkthrough step with its app screen. The captions and the
+   phone screens live in separate containers, so clone each screen into its
+   matching caption card. CSS shows these only on phones (≤820px). */
+(function(){
+  [].slice.call(document.querySelectorAll('[data-flow]')).forEach(function(flow){
+    var screens=[].slice.call(flow.querySelectorAll('.flow-screen'));
+    var caps=[].slice.call(flow.querySelectorAll('.flow-cap'));
+    caps.forEach(function(cap,i){
+      var src=screens[i] && screens[i].getAttribute('src'); if(!src) return;
+      var img=new Image();
+      img.src=src;
+      img.alt=screens[i].getAttribute('alt')||'';
+      img.className='flow-cap-shot';
+      img.loading='lazy';
+      cap.insertBefore(img, cap.firstChild);
+    });
+  });
+})();
+</script>
+<script src="main.js"></script>
+</body>
+</html>

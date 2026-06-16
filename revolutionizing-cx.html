@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Revolutionizing CX — Amit Hilel</title>
+<meta name="description" content="Case study: reimagining customer-experience management with a clearer platform and Go-Go AI — an end-to-end research companion." />
+<link rel="icon" href="LOGO%20AMIT.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Nunito:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<style>
+html{scroll-behavior:smooth}
+.cs-section[id]{scroll-margin-top:120px}
+
+/* Problem statement — leading line */
+.cs-bigstatement{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,3.4vw,2.4rem);line-height:1.3;color:var(--brown-900);max-width:20ch;margin:0 auto 1.2rem}
+.cs-statement-sub{text-align:center;color:var(--brown-600);font-size:1.12rem;max-width:60ch;margin:0 auto}
+.cs-title,.cs-bigstatement,.section-head h2,.cs-testimonial blockquote{text-wrap:balance}
+.cs-statement-sub,.section-head p,.cs-ov-item p,.rstep-card p,.insight-card p,.sol-text .muted,.metric p{text-wrap:pretty}
+
+/* Before -> After */
+.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch;margin-top:42px}
+.ba-col{border-radius:18px;padding:22px 24px;border:1px solid var(--brown-100)}
+.ba-col.before{background:#fff}
+.ba-col.after{background:var(--brown-50);border-color:var(--brown-200)}
+.ba-tag{display:inline-block;font-family:var(--sans);font-weight:800;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.ba-col.before .ba-tag{color:var(--brown-400)}
+.ba-col.after .ba-tag{color:var(--brown-700)}
+.ba-col ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+.ba-col li{position:relative;padding-left:24px;font-size:.95rem;line-height:1.45;color:var(--brown-700)}
+.ba-col.before li{color:var(--brown-500)}
+.ba-col.before li::before{content:"✕";position:absolute;left:0;color:#cf8a63;font-weight:800}
+.ba-col.after li::before{content:"✓";position:absolute;left:0;color:#6f8a4a;font-weight:800}
+.ba-arrow{display:flex;align-items:center;justify-content:center;font-size:1.7rem;color:var(--brown-300);font-weight:700}
+@media(max-width:760px){.ba{grid-template-columns:1fr}.ba-arrow{transform:rotate(90deg);padding:4px 0}}
+
+/* Impact metrics */
+.cs-impact{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:8px}
+.metric{background:#fff;border:1px solid var(--brown-100);border-radius:20px;padding:26px 24px;box-shadow:var(--shadow-sm)}
+.metric .mnum{font-family:var(--serif);font-weight:600;line-height:1;font-size:clamp(2.1rem,3.6vw,2.8rem);background:linear-gradient(120deg,var(--brown-700),var(--brown-400));-webkit-background-clip:text;background-clip:text;color:transparent}
+.metric .mlabel{font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-500);margin:.7rem 0 .5rem}
+.metric p{color:var(--brown-600);font-size:.95rem;margin:0;line-height:1.55}
+.impact-note{text-align:center;color:var(--brown-400);font-size:.82rem;margin-top:14px}
+
+/* Sticky TOC */
+.cs-toc{position:sticky;top:74px;z-index:30;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;background:rgba(254,248,240,.82);backdrop-filter:blur(10px);border:1px solid var(--brown-100);border-radius:999px;padding:8px;margin:0 auto;max-width:max-content;box-shadow:var(--shadow-sm)}
+.cs-toc a{font-family:var(--sans);font-weight:600;font-size:.82rem;color:var(--brown-600);padding:.45rem .95rem;border-radius:999px;transition:.2s;white-space:nowrap}
+.cs-toc a:hover{background:var(--brown-100);color:var(--brown-800)}
+.cs-toc a.active{background:var(--brown-700);color:#fff}
+@media(max-width:560px){
+  /* sticky section-nav doesn't earn its space on a phone — hide it */
+  .cs-toc{display:none}
+  .wt-tabs{flex-wrap:wrap;justify-content:center}
+}
+
+/* Research step cards (text only — no mismatched screenshots) */
+.rsteps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rstep-card{background:#fff;border:1px solid var(--brown-100);border-radius:18px;padding:24px;box-shadow:var(--shadow-sm)}
+.rstep-card .num{font-family:var(--serif);font-size:1.7rem;color:var(--brown-300);font-weight:600}
+.rstep-card h4{font-size:1.15rem;margin:.3rem 0 .5rem}
+.rstep-card p{color:var(--brown-600);font-size:.92rem;margin:0 0 .9rem;line-height:1.55}
+.rstep-card .tags{display:flex;gap:.4rem;flex-wrap:wrap}
+
+/* Metric callouts inside solution rows */
+.sol-metrics{display:flex;gap:14px;flex-wrap:wrap;margin-top:1.1rem}
+.sol-metric{flex:1;min-width:140px;background:var(--brown-50);border:1px solid var(--brown-100);border-radius:14px;padding:13px 15px}
+.sol-metric b{display:block;font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--brown-800);line-height:1}
+.sol-metric span{font-family:var(--sans);font-size:.82rem;color:var(--brown-600);display:block;margin-top:.35rem;line-height:1.4}
+
+/* Framed product shot */
+.shot-frame{position:relative;border-radius:18px;overflow:hidden;background:#fff;border:1px solid var(--brown-200);box-shadow:0 30px 60px -34px rgba(74,47,23,.5)}
+.shot-chrome{display:flex;align-items:center;gap:7px;padding:11px 14px;background:linear-gradient(180deg,#fff,var(--cream-100));border-bottom:1px solid var(--brown-100)}
+.shot-chrome i{width:11px;height:11px;border-radius:999px}
+.shot-chrome i:nth-child(1){background:#e6a07a}.shot-chrome i:nth-child(2){background:#e8c98a}.shot-chrome i:nth-child(3){background:#a9c79a}
+.shot-chrome span{margin-left:10px;font-family:var(--sans);font-size:.76rem;color:var(--brown-500);font-weight:600}
+.shot-frame img{display:block;width:100%}
+.cs-caption{text-align:center;color:var(--brown-400);font-size:.85rem;margin-top:12px}
+
+/* Big testimonial */
+.cs-testimonial{background:linear-gradient(135deg,var(--brown-800),var(--brown-900));border-radius:26px;padding:48px 44px;text-align:center;color:#fff;box-shadow:var(--shadow)}
+.cs-testimonial blockquote{font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,2.8vw,2rem);line-height:1.35;margin:0 auto;max-width:26ch}
+.cs-testimonial .who{font-family:var(--sans);font-weight:600;font-size:.9rem;letter-spacing:.04em;color:var(--brown-200);margin-top:1.4rem;text-transform:uppercase}
+
+/* More case studies */
+.more-cases{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.mc-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--brown-100);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .3s,box-shadow .3s}
+.mc-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.mc-thumb{aspect-ratio:16/11;overflow:hidden;background:var(--brown-100)}
+.mc-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.mc-body{padding:18px 20px 22px}
+.mc-body .tag{margin-bottom:.5rem}
+.mc-body h4{font-size:1.18rem;margin:.1rem 0 .35rem}
+.mc-body p{color:var(--brown-600);font-size:.9rem;margin:0 0 .8rem}
+.mc-body .read{font-family:var(--sans);font-weight:700;color:var(--brown-700);font-size:.88rem}
+
+/* ===== Interactive walkthrough — Go-Go AI web research ===== */
+.wt{margin-top:10px}
+.wt-tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+.wt-step{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--brown-100);border-radius:999px;padding:7px 16px 7px 7px;cursor:pointer;box-shadow:var(--shadow-sm);transition:border-color .25s,box-shadow .25s,transform .25s;font-family:var(--sans);color:var(--ink);position:relative;overflow:hidden}
+.wt-step:hover{transform:translateY(-2px);border-color:var(--brown-300)}
+.wt-step .wt-ic{flex:none;width:28px;height:28px;border-radius:999px;background:var(--brown-100);color:var(--brown-600);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;font-family:var(--serif);transition:.25s}
+.wt-step .wt-lbl{font-weight:700;font-size:.9rem;color:var(--brown-700);white-space:nowrap}
+.wt-step .wt-bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:transparent;opacity:0;transition:opacity .25s}
+.wt-step .wt-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brown-600),var(--brown-300))}
+.wt-step.is-active{border-color:var(--brown-400);box-shadow:0 12px 28px -16px rgba(111,68,35,.5)}
+.wt-step.is-active .wt-ic{background:linear-gradient(135deg,var(--brown-500),var(--brown-700));color:#fff}
+.wt-step.is-active .wt-lbl{color:var(--brown-900)}
+.wt-step.is-active .wt-bar{opacity:1}
+.wt-frame{position:relative;border-radius:16px;overflow:hidden;background:#fff;border:1px solid var(--brown-200);box-shadow:0 36px 72px -38px rgba(74,47,23,.55)}
+.wt-chrome{display:flex;align-items:center;gap:7px;padding:12px 16px;background:linear-gradient(180deg,#fff,var(--cream-100));border-bottom:1px solid var(--brown-100)}
+.wt-chrome i{width:11px;height:11px;border-radius:999px;background:var(--brown-200)}
+.wt-chrome i:nth-child(1){background:#e6a07a}.wt-chrome i:nth-child(2){background:#e8c98a}.wt-chrome i:nth-child(3){background:#a9c79a}
+.wt-chrome span{margin-left:10px;font-family:var(--sans);font-size:.78rem;color:var(--brown-500);font-weight:600}
+.wt-shots{position:relative;aspect-ratio:2572/1499;background:var(--cream-100)}
+.wt-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease}
+.wt-shot.is-active{opacity:1}
+.wt-foot{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:18px;flex-wrap:wrap}
+.wt-desc{flex:1;min-width:240px}
+.wt-desc b{display:block;font-size:1.05rem;color:var(--brown-900);margin-bottom:3px}
+.wt-desc span{color:var(--brown-600);font-size:.95rem;line-height:1.5}
+.wt-controls{display:flex;align-items:center;gap:16px}
+.wt-play{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.65);border:1.5px solid var(--brown-300);color:var(--brown-800);font-family:var(--sans);font-weight:600;font-size:.86rem;padding:.5rem 1rem;border-radius:999px;cursor:pointer;transition:.25s}
+.wt-play:hover{background:#fff;border-color:var(--brown-500)}
+.wt-play svg{width:15px;height:15px}.wt-play .ic-play{display:none}
+.wt.is-paused .wt-play .ic-pause{display:none}.wt.is-paused .wt-play .ic-play{display:inline}
+.wt-count{font-family:var(--sans);font-weight:600;color:var(--brown-500);font-size:.86rem}.wt-count b{color:var(--brown-800)}
+.wt-outcome{margin-top:16px;color:var(--brown-700);font-size:.98rem;background:var(--brown-50);border:1px solid var(--brown-100);border-radius:14px;padding:14px 18px;line-height:1.55}
+.wt-outcome b{color:var(--brown-900)}
+
+@media(max-width:880px){
+  .cs-impact{grid-template-columns:1fr}
+  .rsteps{grid-template-columns:1fr}
+  .more-cases{grid-template-columns:1fr}
+  .wt-step .wt-lbl{display:none}
+  .wt-desc{min-width:0}
+}
+</style>
+</head>
+<body>
+<header class="site-header pill-header">
+  <nav class="nav-pill">
+    <a class="brand" href="index.html"><img class="avatar" src="LOGO%20AMIT.png" alt="Amit Hilel" /><span>Amit Hilel</span></a>
+    <div class="nav-center-wrap">
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="index.html#work" class="active">Design</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Writing</a>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a class="btn-dark" href="mailto:amithilel0211@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg><span>Say Hello</span></a>
+      <a class="btn-dark-sq" href="https://www.linkedin.com/in/amithilel" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21H17v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg></a>
+      <button class="nav-toggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    </div>
+  </nav>
+</header>
+
+<main>
+<section class="cs-hero2">
+  <div class="container">
+    <p class="eyebrow reveal in">Market Research · Product Design · UX</p>
+    <h1 class="cs-title gradient-text reveal in">Revolutionizing CX:<span class="cs-subtitle">a clearer research platform — and an AI companion that turns weeks of synthesis into hours</span></h1>
+  </div>
+
+  <!-- Overview / My role / Team / Timeline -->
+  <div class="container reveal">
+    <div class="cs-overview panel">
+      <div class="cs-ov-item">
+        <h3>Overview</h3>
+        <p><b>insight</b> — an end-to-end market-research platform I designed from the inside. As a market researcher, I'd lived the pain of slow, clunky, siloed tools, so I built the workflow I wished I had: guided surveys and dashboards, plus Go-Go AI — an assistant that does the slow part (reading, clustering, citing) so teams decide faster.</p>
+      </div>
+      <div class="cs-ov-item">
+        <h3>My role</h3>
+        <p>Sole UX Researcher &amp; Product Designer — and the researcher it was built for. Design strategy, UI, UX &amp; market research.</p>
+      </div>
+      <div class="cs-ov-item">
+        <h3>Team</h3>
+        <div class="cs-team">
+          <span class="tm me">Me</span><span class="tm">PM</span><span class="tm">Eng</span><span class="tm">Data</span>
+        </div>
+      </div>
+      <div class="cs-ov-item">
+        <h3>Timeline</h3>
+        <p>2024</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero product shot -->
+  <div class="container reveal" style="margin-top:48px">
+    <div class="shot-frame">
+      <div class="shot-chrome"><i></i><i></i><i></i><span>insight.app — Insights report</span></div>
+      <video src="REVOLUTIOZINING%20CX/InsiGht_flow_16x9.mp4" poster="REVOLUTIOZINING%20CX/nr-insights.png" autoplay loop muted playsinline preload="metadata" style="display:block;width:100%"></video>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- Sticky table of contents -->
+  <nav class="cs-toc" id="csToc" aria-label="Sections">
+    <a href="#problem" class="active">Problem</a>
+    <a href="#research">Research</a>
+    <a href="#platform">The platform</a>
+    <a href="#gogo">Go-Go AI</a>
+    <a href="#results">Results</a>
+  </nav>
+
+  <!-- PROBLEM (leads the story) -->
+  <section class="cs-section reveal" id="problem">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The problem</p></div>
+    <p class="cs-bigstatement" style="text-align:center">Market researchers sit on a goldmine of feedback — and the tools make it painful to use.</p>
+    <p class="cs-statement-sub">I'd felt this firsthand. The platforms I worked in were dated and rigid, and the research around them took <b>weeks</b> of manual work that lived in silos — so by the time an insight was ready, the decision had usually already been made.</p>
+    <div class="grid-3" style="margin-top:40px">
+      <div class="insight-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <h4>A clunky platform</h4><p>Non-intuitive screens and rigid survey tools made simple tasks take far more effort than they should.</p>
+      </div>
+      <div class="insight-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <h4>Research that took weeks</h4><p>Synthesizing transcripts, clustering themes, and writing up personas was slow, manual, and easy to put off.</p>
+      </div>
+      <div class="insight-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <h4>Insights stuck in silos</h4><p>Findings were scattered across docs and tools — hard to revisit, hard to share, and slow to reach a decision.</p>
+      </div>
+    </div>
+
+    <div class="ba reveal">
+      <div class="ba-col before"><span class="ba-tag">Before · the tools I used</span>
+        <ul>
+          <li>Start at a blank, rigid survey builder</li>
+          <li>Wait weeks for manual synthesis</li>
+          <li>Findings scattered across docs &amp; tabs — no source trail</li>
+          <li>The insight lands after the decision</li>
+        </ul>
+      </div>
+      <div class="ba-arrow" aria-hidden="true">→</div>
+      <div class="ba-col after"><span class="ba-tag">After · insight</span>
+        <ul>
+          <li>Start from the research goal — the tool shapes the study</li>
+          <li>Live analysis: themes &amp; sentiment as data lands</li>
+          <li>Every AI finding cited &amp; traceable to its source</li>
+          <li>Decision-ready report in one click</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="cs-section reveal" id="research">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The approach</p><h2 class="gradient-text" style="text-align:center">How I tackled it</h2><p style="text-align:center;margin-inline:auto">Three research moves to pin down exactly where the experience broke — before designing anything.</p></div>
+    <div class="rsteps">
+      <div class="rstep-card reveal">
+        <div class="num">01</div>
+        <h4>Discovery interviews</h4>
+        <p>Talked with CX researchers and account managers about a real day in the tool — where they hesitated, what they avoided, and the workarounds they'd quietly built.</p>
+        <div class="tags"><span class="tag">8 interviews</span><span class="tag">Account managers</span></div>
+      </div>
+      <div class="rstep-card reveal d1">
+        <div class="num">02</div>
+        <h4>Competitive &amp; heuristic review</h4>
+        <p>Benchmarked modern survey and analytics tools against the legacy platform and audited the core flows — surfacing the biggest usability gaps.</p>
+        <div class="tags"><span class="tag">6 competitors</span><span class="tag">Flow audit</span></div>
+      </div>
+      <div class="rstep-card reveal d2">
+        <div class="num">03</div>
+        <h4>Usability testing</h4>
+        <p>Watched people attempt real tasks. Opinions became evidence: users lost track of their data, struggled to build a poll, and had nowhere to orient.</p>
+        <div class="tags"><span class="tag">Task-based</span><span class="tag">Think-aloud</span></div>
+      </div>
+    </div>
+    <p class="cs-statement-sub" style="margin-top:34px">Across all three, the same theme kept surfacing: <b>the product was capable, but every task asked for too much effort — and the research never kept up with the questions.</b></p>
+  </section>
+
+  <!-- PRINCIPLES — research turned into design decisions -->
+  <section class="cs-section reveal">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">From research to decisions</p><h2 class="gradient-text" style="text-align:center">Three principles I designed against</h2><p style="text-align:center;margin-inline:auto">Each one came straight out of what I watched people struggle with — and each shaped a specific part of the product.</p></div>
+    <div class="rsteps">
+      <div class="rstep-card reveal"><div class="num">P1</div><h4>Start from intent, not a blank form</h4><p>People froze at empty builders and rigid survey tools. So every flow now opens with the research goal — and the product shapes the study around it.</p><div class="tags"><span class="tag">→ Define the study</span></div></div>
+      <div class="rstep-card reveal d1"><div class="num">P2</div><h4>Kill the wait</h4><p>By the time synthesis was done, the decision had moved on. So analysis runs live — themes and sentiment form as responses land, not weeks later.</p><div class="tags"><span class="tag">→ Live analysis &amp; Go-Go AI</span></div></div>
+      <div class="rstep-card reveal d2"><div class="num">P3</div><h4>Never lose the source</h4><p>Findings scattered across docs with no trail back. So every AI finding stays cited, and personas carry the evidence behind them.</p><div class="tags"><span class="tag">→ Cited findings &amp; personas</span></div></div>
+    </div>
+  </section>
+
+  <!-- THE PLATFORM (solution flow, all warm, image matches text) -->
+  <section class="cs-section reveal" id="platform">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The solution</p><h2 class="gradient-text" style="text-align:center;font-size:clamp(2rem,4vw,2.8rem)">One guided flow, end to end</h2><p style="text-align:center;margin-inline:auto">I rebuilt the journey so a researcher can go from a fuzzy goal to a shareable report without ever feeling lost.</p></div>
+
+    <div class="solution-row reveal" style="margin-bottom:56px">
+      <div class="sol-text">
+        <p class="sol-num gradient-text">01</p>
+        <h3 style="margin:.3rem 0 .6rem">Define the study</h3>
+        <p class="muted">It starts with the goal, not a blank form. You write the research question and pick a type; Go-Go AI suggests the method, sample size, and timeline — shaping the whole study around your intent.</p>
+        <div class="sol-metrics">
+          <div class="sol-metric"><b>1 brief</b><span>goal in, study plan out</span></div>
+          <div class="sol-metric"><b>AI-shaped</b><span>method &amp; sample suggested</span></div>
+        </div>
+      </div>
+      <div class="sol-media"><img src="REVOLUTIOZINING%20CX/wr-1-define.png" alt="Define the research goal" /></div>
+    </div>
+
+    <div class="solution-row reverse reveal" style="margin-bottom:56px">
+      <div class="sol-text">
+        <p class="sol-num gradient-text">02</p>
+        <h3 style="margin:.3rem 0 .6rem">Know who you're studying</h3>
+        <p class="muted">Personas and sample live in one view. Pick target personas, define the sample, and see audience coverage in real time — so you know your study actually represents the people you care about.</p>
+        <div class="sol-metrics">
+          <div class="sol-metric"><b>82%</b><span>audience coverage, visible live</span></div>
+          <div class="sol-metric"><b>1 view</b><span>personas + sample together</span></div>
+        </div>
+      </div>
+      <div class="sol-media"><img src="REVOLUTIOZINING%20CX/nr-audience.png" alt="Audience and personas" /></div>
+    </div>
+
+    <div class="solution-row reveal" style="margin-bottom:56px">
+      <div class="sol-text">
+        <p class="sol-num gradient-text">03</p>
+        <h3 style="margin:.3rem 0 .6rem">Build the survey — AI-assisted</h3>
+        <p class="muted">A guided builder turns a blank page into a finished survey fast. An AI assistant drafts question sets and suggests benchmarked KPIs, while a drag-and-drop canvas and question bank keep complex design feeling simple.</p>
+        <div class="sol-metrics">
+          <div class="sol-metric"><b>AI drafts</b><span>question sets &amp; KPI benchmarks</span></div>
+          <div class="sol-metric"><b>Drag &amp; drop</b><span>question bank + progress tracker</span></div>
+        </div>
+      </div>
+      <div class="sol-media"><img src="REVOLUTIOZINING%20CX/nr-survey.png" alt="AI-assisted survey builder" /></div>
+    </div>
+
+    <div class="solution-row reverse reveal" style="margin-bottom:56px">
+      <div class="sol-text">
+        <p class="sol-num gradient-text">04</p>
+        <h3 style="margin:.3rem 0 .6rem">Collect &amp; analyse — live</h3>
+        <p class="muted">As responses arrive, the study analyses itself: completion and timing update in real time, a live feed streams incoming answers, and Go-Go AI clusters themes and scores sentiment as it reads — no waiting for the field to close.</p>
+        <div class="sol-metrics">
+          <div class="sol-metric"><b>Real-time</b><span>themes &amp; sentiment as data lands</span></div>
+          <div class="sol-metric"><b>Live feed</b><span>responses you can watch arrive</span></div>
+        </div>
+      </div>
+      <div class="sol-media"><img src="REVOLUTIOZINING%20CX/nr-collect.png" alt="Collecting and analysing responses live" /></div>
+    </div>
+
+    <div class="solution-row reveal">
+      <div class="sol-text">
+        <p class="sol-num gradient-text">05</p>
+        <h3 style="margin:.3rem 0 .6rem">A report that's ready to act on</h3>
+        <p class="muted">Headline KPIs with deltas, the strongest findings, and an AI-written executive summary land in one place — so the insight is decision-ready and a single click from your stakeholders.</p>
+        <div class="sol-metrics">
+          <div class="sol-metric"><b>1 report</b><span>KPIs, findings &amp; summary</span></div>
+          <div class="sol-metric"><b>1 click</b><span>to share with stakeholders</span></div>
+        </div>
+      </div>
+      <div class="sol-media"><img src="REVOLUTIOZINING%20CX/nr-insights.png" alt="Insights report" /></div>
+    </div>
+  </section>
+
+  <!-- GO-GO AI + WALKTHROUGH (the big bet) -->
+  <section class="cs-section reveal" id="gogo">
+    <div class="section-head">
+      <p class="eyebrow" style="text-align:center">The big bet</p>
+      <h2 class="gradient-text" style="text-align:center">Go-Go AI — from an open question to a cited insight</h2>
+      <p style="text-align:center;margin-inline:auto"><b>The friction:</b> desk research before a study is slow and scattered — analysts open 40 tabs, paste links into a doc, and lose the trail of where each finding came from. Here's how Go-Go AI's web-research flow turns that into a guided, cited workflow.</p>
+    </div>
+
+    <div class="wt" id="wt" data-auto="4500">
+      <div class="wt-tabs" role="tablist" aria-label="Walkthrough steps">
+        <button class="wt-step is-active" data-i="0" role="tab" aria-selected="true" data-title="Start with the goal" data-desc="Define the research question — Go-Go AI shapes the search around it.">
+          <span class="wt-ic">1</span><span class="wt-lbl">Start with the goal</span><span class="wt-bar"><i></i></span>
+        </button>
+        <button class="wt-step" data-i="1" role="tab" aria-selected="false" data-title="Let AI do the desk research" data-desc="Instead of 40 open tabs, it scans the web, news &amp; reports — reading and ranking sources live.">
+          <span class="wt-ic">2</span><span class="wt-lbl">AI desk research</span><span class="wt-bar"><i></i></span>
+        </button>
+        <button class="wt-step" data-i="2" role="tab" aria-selected="false" data-title="Cited findings, not a pile of links" data-desc="It returns decision-ready findings — each linked to its source, so the trail is never lost.">
+          <span class="wt-ic">3</span><span class="wt-lbl">Cited findings</span><span class="wt-bar"><i></i></span>
+        </button>
+        <button class="wt-step" data-i="3" role="tab" aria-selected="false" data-title="Ground personas in evidence" data-desc="Findings flow straight into personas backed by real sources and a confidence level.">
+          <span class="wt-ic">4</span><span class="wt-lbl">Evidence-based personas</span><span class="wt-bar"><i></i></span>
+        </button>
+        <button class="wt-step" data-i="4" role="tab" aria-selected="false" data-title="Share decision-ready insights" data-desc="Export and share the report with stakeholders in one click.">
+          <span class="wt-ic">5</span><span class="wt-lbl">Share insights</span><span class="wt-bar"><i></i></span>
+        </button>
+      </div>
+
+      <div class="wt-frame">
+        <div class="wt-chrome"><i></i><i></i><i></i><span>insight.app · Go-Go AI — web research</span></div>
+        <div class="wt-shots">
+          <img class="wt-shot is-active" src="REVOLUTIOZINING%20CX/wr-1-define.png" alt="Define the research goal" loading="lazy" />
+          <img class="wt-shot" src="REVOLUTIOZINING%20CX/wr-2-searching.png" alt="Go-Go AI scanning the web for sources" loading="lazy" />
+          <img class="wt-shot" src="REVOLUTIOZINING%20CX/wr-3-findings.png" alt="Synthesised, cited web findings" loading="lazy" />
+          <img class="wt-shot" src="REVOLUTIOZINING%20CX/wr-4-persona.png" alt="Evidence-based persona detail" loading="lazy" />
+          <img class="wt-shot" src="REVOLUTIOZINING%20CX/wr-5-share.png" alt="Share and export the insights report" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="wt-foot">
+        <div class="wt-desc"><b id="wtTitle">Start with the goal</b><span id="wtDesc">Define the research question — Go-Go AI shapes the search around it.</span></div>
+        <div class="wt-controls">
+          <button class="wt-play" aria-label="Pause walkthrough">
+            <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+            <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span class="wt-ptext">Pause</span>
+          </button>
+          <span class="wt-count"><b>01</b> / 05</span>
+        </div>
+      </div>
+      <p class="wt-outcome"><b>The outcome:</b> hours of manual desk research compressed into a guided, evidence-backed flow — every insight traceable to its source.</p>
+    </div>
+
+    <div class="panel reveal" style="margin-top:38px">
+      <h3 style="text-align:center;margin:0 0 1.2rem">Designing AI people actually trust</h3>
+      <div class="grid-3">
+        <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><h4>Always cited</h4><p>Every finding links back to its source. No black box — you can check the AI's work in a click.</p></div>
+        <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 0-9 9"/><path d="M12 7v5l4 2"/></svg><h4>Shows its confidence</h4><p>Personas and findings carry a confidence level — the AI is honest about what it's sure of and what it isn't.</p></div>
+        <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg><h4>Suggests, never decides</h4><p>Go-Go AI drafts and recommends; the researcher makes every call. Human-in-the-loop by design.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="cs-section reveal" id="results">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The impact</p><h2 class="gradient-text" style="text-align:center">What changed</h2></div>
+    <div class="cs-impact" style="margin-bottom:40px">
+      <div class="metric"><div class="mnum">Weeks → hours</div><div class="mlabel">Research synthesis</div><p>The qualitative cycle — summarize, cluster, personas — collapses into a single guided session.</p></div>
+      <div class="metric"><div class="mnum">5 → 1</div><div class="mlabel">Tools, unified</div><p>Surveys, dashboards, clients, and research share one workspace instead of scattered tabs and docs.</p></div>
+      <div class="metric"><div class="mnum">−40%</div><div class="mlabel">Time to launch a study</div><p>Smart, AI-assisted flows remove the busywork between “new idea” and “study in the field.”</p></div>
+    </div>
+    <p class="impact-note" style="margin-bottom:34px">Directional outcomes from 8 discovery interviews, a 6-competitor audit, and task-based usability testing — internal benchmarks, not production analytics.</p>
+    <div class="cs-testimonial reveal">
+      <blockquote>“It made a complex system feel simple — and turned our research into decisions we could actually act on.”</blockquote>
+      <p class="who">— Pilot user, CX research team</p>
+    </div>
+  </section>
+
+  <!-- Lessons -->
+  <section class="cs-section reveal">
+    <div class="panel panel-brown">
+      <h2 style="margin-bottom:.8rem">Lessons learned</h2>
+      <p class="muted" style="margin:0">My first instinct was to let the AI do <em>more</em> — automate the study end to end. Testing pushed back hard: people didn't want a black box, they wanted a fast assistant they could check. The real win wasn't more automation — it was making the AI's work <b>visible, cited, and easy to overrule</b>. That's the version people trusted.</p>
+    </div>
+  </section>
+
+  <!-- More case studies -->
+  <section class="cs-section reveal">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">Keep exploring</p><h2 class="gradient-text" style="text-align:center">More case studies</h2></div>
+    <div class="more-cases">
+      <a class="mc-card" href="municipal-services.html">
+        <div class="mc-thumb"><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/home.png" alt="Navigating Municipal Services" /></div>
+        <div class="mc-body"><span class="tag">Usability research</span><h4>Navigating Municipal Services</h4><p>Cutting friction across payments, parking, and services on a city portal.</p><span class="read">Read case study →</span></div>
+      </a>
+      <a class="mc-card" href="routine-builder.html">
+        <div class="mc-thumb"><img src="ROUTINE%20BUILDER/v2/4.png?v=clean1" alt="Routine Builder" /></div>
+        <div class="mc-body"><span class="tag">Accessibility</span><h4>Routine Builder</h4><p>An accessible app helping autistic individuals build and keep daily routines.</p><span class="read">Read case study →</span></div>
+      </a>
+      <a class="mc-card" href="mycookbook.html">
+        <div class="mc-thumb"><img src="MY%20COOKBOOK/cover.png" alt="MyCookBook" /></div>
+        <div class="mc-body"><span class="tag">Product design</span><h4>MyCookBook</h4><p>A personal recipe collection that centralizes, organizes, and shares dishes.</p><span class="read">Read case study →</span></div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:40px">
+      <a class="back-link" href="index.html#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to all projects</a>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">© <span data-year>2026</span> Amit Hilel. Designed &amp; built with care.</div>
+</footer>
+
+<div class="lightbox"><button class="lightbox-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><img src="" alt="" /></div>
+
+<script>
+(function(){
+  /* ---- Interactive walkthrough ---- */
+  var wt=document.getElementById('wt');
+  if(wt){
+    var steps=[].slice.call(wt.querySelectorAll('.wt-step'));
+    var shots=[].slice.call(wt.querySelectorAll('.wt-shot'));
+    var playBtn=wt.querySelector('.wt-play');
+    var ptext=wt.querySelector('.wt-ptext');
+    var countB=wt.querySelector('.wt-count b');
+    var dur=parseInt(wt.getAttribute('data-auto'),10)||3800;
+    var i=0,timer=null,paused=false;
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var pad=function(n){return (n<10?'0':'')+n;};
+    var clearBars=function(){steps.forEach(function(s){var b=s.querySelector('.wt-bar i');if(b){b.style.transition='none';b.style.width='0';}});};
+    var runBar=function(s){var b=s&&s.querySelector('.wt-bar i');if(!b)return;b.style.transition='none';b.style.width='0';void b.offsetWidth;b.style.transition='width '+dur+'ms linear';b.style.width='100%';};
+    var titleEl=document.getElementById('wtTitle'),descEl=document.getElementById('wtDesc');
+    var show=function(n){i=(n+shots.length)%shots.length;steps.forEach(function(s,k){var on=k===i;s.classList.toggle('is-active',on);s.setAttribute('aria-selected',on?'true':'false');});shots.forEach(function(s,k){s.classList.toggle('is-active',k===i);});var st=steps[i];if(st){if(titleEl)titleEl.textContent=st.getAttribute('data-title')||'';if(descEl)descEl.textContent=st.getAttribute('data-desc')||'';}if(countB)countB.textContent=pad(i+1);clearBars();if(!paused&&!reduce)runBar(steps[i]);};
+    var next=function(){show(i+1);};
+    var start=function(){if(reduce)return;stop();timer=setInterval(next,dur);clearBars();if(!paused)runBar(steps[i]);};
+    var stop=function(){if(timer){clearInterval(timer);timer=null;}};
+    var setPaused=function(p){paused=p;wt.classList.toggle('is-paused',p);if(ptext)ptext.textContent=p?'Play':'Pause';if(p){stop();clearBars();}else{start();}};
+    steps.forEach(function(s){s.addEventListener('click',function(){show(parseInt(s.getAttribute('data-i'),10));if(!paused)start();});});
+    playBtn.addEventListener('click',function(){setPaused(!paused);});
+    show(0);
+    if('IntersectionObserver'in window&&!reduce){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!paused)start();}else{stop();}});},{threshold:.25});
+      io.observe(wt);
+    }else if(!reduce){start();}
+  }
+  /* ---- Sticky TOC active highlighting ---- */
+  var toc=document.getElementById('csToc');
+  if(toc&&'IntersectionObserver'in window){
+    var links=[].slice.call(toc.querySelectorAll('a'));
+    var map={};
+    links.forEach(function(a){var id=a.getAttribute('href').slice(1);var el=document.getElementById(id);if(el)map[id]=a;});
+    var spy=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a)a.classList.add('active');}});},{rootMargin:'-45% 0px -50% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){var el=document.getElementById(id);if(el)spy.observe(el);});
+  }
+})();
+</script>
+<script src="main.js"></script>
+</body>
+</html>

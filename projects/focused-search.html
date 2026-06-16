@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instagram · Focused Search — interactive prototype</title>
+<style>
+  :root{
+    --cream:#fefcf7; --cream2:#fdeee0; --b100:#f4e6d9; --b200:#e8cdb3; --b400:#c08552; --b500:#a67542; --b600:#8b5a2b; --b700:#6f4423; --b900:#4a2f17;
+    --ink:#262626; --sub:#8e8e8e; --line:#dbdbdb; --soft:#fafafa; --blue:#0095f6;
+    --ig:linear-gradient(95deg,#feda75,#fa7e1e 30%,#d62976 55%,#962fbf 80%,#4f5bd5);
+    --ease:cubic-bezier(.32,.72,0,1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:radial-gradient(900px 500px at 80% -5%,var(--cream2),transparent 60%),var(--cream);
+    font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--b900);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:26px 16px}
+
+  .head{text-align:center;max-width:520px}
+  .head .eyebrow{font-weight:800;letter-spacing:.18em;text-transform:uppercase;font-size:.7rem;color:var(--b500);margin:0 0 6px}
+  .head h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.7rem;margin:0 0 6px;color:var(--b900)}
+  .head p{margin:0;color:var(--b600);font-size:.95rem;line-height:1.5}
+
+  /* phase + step caption (live) */
+  .caption{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--b100);border-radius:999px;
+    padding:8px 16px 8px 8px;box-shadow:0 10px 24px -14px rgba(90,57,29,.3);min-height:44px}
+  .phase{font-weight:800;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--b500);
+    padding:5px 11px;border-radius:999px;transition:background .3s}
+  .phase.after{background:none;background-image:var(--ig)}
+  .caption .step{font-weight:600;font-size:.92rem;color:var(--b800,#5c391d)}
+
+  /* phone */
+  .phone{position:relative;width:330px;height:716px;border-radius:46px;background:#000;padding:10px;
+    box-shadow:0 50px 90px -40px rgba(74,47,23,.55),0 10px 30px -14px rgba(74,47,23,.3)}
+  .viewport{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#fff}
+  .screen{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;overflow:hidden;will-change:transform,opacity}
+  /* status bar (identical on every screen so it never visibly jumps) */
+  .sbar{display:flex;justify-content:space-between;align-items:center;padding:13px 20px 6px;font-weight:700;font-size:13px;color:var(--ink);flex:none}
+  .sbar.light{color:#fff}
+  .sbar .bat{width:20px;height:11px;border-radius:3px;background:currentColor}
+
+  /* ---- iOS push stack ---- */
+  .screen.push{transition:transform .42s var(--ease),filter .42s var(--ease)}
+  .screen.right{transform:translateX(100%)}          /* offscreen right */
+  .screen.left{transform:translateX(-28%);filter:brightness(.82)}  /* parallax behind */
+  .screen.hidden{display:none}
+
+  /* ---- bottom sheet ---- */
+  .scrim{position:absolute;inset:0;background:rgba(0,0,0,.34);opacity:0;pointer-events:none;transition:opacity .4s ease;z-index:20}
+  .scrim.show{opacity:1}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;z-index:21;
+    transform:translateY(100%);transition:transform .5s var(--ease);box-shadow:0 -10px 40px rgba(0,0,0,.16);padding:10px 0 22px}
+  .sheet.up{transform:translateY(0)}
+
+  /* ---- reel open (scale + fade from grid) ---- */
+  .screen.reel{z-index:25;opacity:0;transform:scale(.92);transition:opacity .34s ease,transform .42s var(--ease);transform-origin:50% 60%}
+  .screen.reel.open{opacity:1;transform:scale(1)}
+
+  /* in-place results fade */
+  .resultsBody{opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s var(--ease)}
+  .resultsBody.in{opacity:1;transform:none}
+
+  /* ---------- Instagram UI bits ---------- */
+  .title{font-weight:800;font-size:22px;padding:6px 16px 8px}
+  .field{display:flex;align-items:center;gap:9px;margin:0 14px;background:#efefef;border-radius:11px;padding:10px 12px;color:var(--sub);font-weight:600;font-size:15px}
+  .field .mag{width:16px;height:16px;border:2px solid var(--sub);border-radius:999px;position:relative;flex:none}
+  .field .mag::after{content:"";position:absolute;right:-4px;bottom:-4px;width:7px;height:2px;background:var(--sub);transform:rotate(45deg)}
+  .field.dark{background:#efefef}
+  .fpill{margin-left:auto;display:flex;align-items:center;gap:5px;background-image:var(--ig);color:#fff;font-weight:700;font-size:12px;padding:6px 11px;border-radius:999px}
+  .spark{width:12px;height:12px;display:inline-block;background:#fff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+  .recent{padding:10px 14px 4px}
+  .recent .lbl{font-weight:800;font-size:10px;letter-spacing:.08em;color:var(--sub);margin-bottom:8px}
+  .chips{display:flex;gap:7px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:6px 11px;font-size:12px;font-weight:600;color:var(--ink)}
+  .chip.sel{border:0;background-image:var(--ig);color:#fff}
+  .grid{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;padding:8px 0 0;overflow:hidden}
+  .cell{aspect-ratio:1;background:linear-gradient(135deg,var(--a),var(--b))}
+  .tabbar{flex:none;display:flex;justify-content:space-around;align-items:center;padding:11px 22px 22px;border-top:1px solid var(--line)}
+  .tabbar i{width:24px;height:24px;border:2px solid var(--sub);border-radius:6px;display:block}
+  .tabbar i.act{border-color:var(--ink)}
+  .tabbar i.r{border-radius:999px}
+
+  /* sheet content */
+  .grab{width:40px;height:5px;border-radius:9px;background:#d9d9d9;margin:0 auto 10px}
+  .sheet h3{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;margin:0 16px 4px}
+  .sheet .gico{width:24px;height:24px;border-radius:7px;background-image:var(--ig);display:flex;align-items:center;justify-content:center}
+  .grp{padding:12px 16px 0}
+  .grp .gl{font-weight:800;font-size:10px;letter-spacing:.08em;color:var(--sub);margin-bottom:9px}
+  .cta{margin:18px 16px 0;background-image:var(--ig);color:#fff;font-weight:800;font-size:16px;text-align:center;padding:15px;border-radius:14px}
+
+  /* results */
+  .rhead{display:flex;align-items:center;gap:9px;padding:6px 14px 8px}
+  .rhead .back{font-size:20px;color:var(--ink);font-weight:700}
+  .rhead .q{flex:1;background:#efefef;border-radius:10px;padding:8px 12px;font-weight:600;font-size:14px}
+  .rhead .ed{display:flex;align-items:center;gap:4px;background-image:var(--ig);color:#fff;font-weight:700;font-size:11px;padding:6px 10px;border-radius:999px}
+  .summary{display:flex;gap:6px;align-items:center;padding:0 14px 6px;flex-wrap:wrap}
+  .summary .mc{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600}
+  .summary .cnt{margin-left:auto;color:var(--sub);font-size:11px;font-weight:600}
+  .sec{padding:8px 14px 2px}
+  .sec .sl{font-weight:800;font-size:10px;letter-spacing:.05em;color:var(--sub);margin:6px 0 8px}
+  .reels{display:flex;gap:9px;padding:0 14px}
+  .rc{width:104px;height:178px;border-radius:13px;flex:none;background:linear-gradient(160deg,var(--a),var(--b));position:relative;overflow:hidden}
+  .rc .h{position:absolute;left:9px;bottom:8px;color:#fff;font-weight:700;font-size:11px;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+  .rc .pl{position:absolute;top:8px;right:8px;width:0;height:0;border-left:12px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;opacity:.95}
+  .places{padding:6px 14px 0}
+  .place{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid #efefef}
+  .place .pin{width:34px;height:34px;border-radius:999px;background:#f3f0ef;flex:none}
+  .place b{font-size:14px;display:block}.place span{font-size:11px;color:var(--sub)}
+
+  /* reel detail */
+  .screen.reel{background:linear-gradient(165deg,#7a4a2c,#3c2414 55%,#140c07);color:#fff}
+  .reel .topbar{display:flex;align-items:center;gap:10px;padding:4px 14px 4px;font-weight:700}
+  .reel .found{display:flex;align-items:center;gap:9px;margin:8px 14px 0;background:rgba(0,0,0,.32);border-radius:13px;padding:11px 12px}
+  .reel .found .gico{width:26px;height:26px;border-radius:8px;background-image:var(--ig);flex:none;display:flex;align-items:center;justify-content:center}
+  .reel .found b{font-size:13px;display:block}.reel .found span{font-size:11px;opacity:.85}
+  .reel .spacer{flex:1}
+  .reel .cap{padding:0 60px 18px 14px}
+  .reel .cap .who{display:flex;align-items:center;gap:9px;font-weight:700;margin-bottom:8px}
+  .reel .cap .who .av{width:30px;height:30px;border-radius:999px;background-image:var(--ig)}
+  .reel .cap p{margin:0;font-size:13px;line-height:1.5;opacity:.92}
+  .reel .rail{position:absolute;right:12px;bottom:120px;display:flex;flex-direction:column;gap:18px;align-items:center}
+  .reel .rail i{width:27px;height:27px;border:2px solid #fff;border-radius:7px;display:block}
+  .reel .rail i.h{border-radius:999px 999px 4px 4px;transform:rotate(45deg)}
+
+  /* tap indicator (finger) */
+  .tap{position:absolute;width:46px;height:46px;border-radius:999px;border:2px solid rgba(255,255,255,.95);
+    background:rgba(255,255,255,.28);left:0;top:0;transform:translate(-50%,-50%) scale(.001);opacity:0;z-index:60;
+    pointer-events:none;box-shadow:0 2px 10px rgba(0,0,0,.25);transition:left .5s var(--ease),top .5s var(--ease),opacity .2s,transform .2s}
+  .tap.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .tap.press{transform:translate(-50%,-50%) scale(.7)}
+
+  .controls{display:flex;gap:10px}
+  .controls button{font:inherit;font-weight:700;font-size:.85rem;border-radius:999px;padding:.55rem 1.1rem;cursor:pointer;border:1.5px solid var(--b200);background:#fff;color:var(--b700)}
+  .controls button.primary{background:var(--b600);color:#fff;border-color:var(--b600)}
+  .hint{color:var(--b500);font-size:.78rem;font-weight:600}
+</style>
+</head>
+<body>
+  <div class="head">
+    <p class="eyebrow">A feature I wish existed · Instagram</p>
+    <h1>Focused Search</h1>
+    <p>Find the reel you already saw — by intent, not by scrolling. Plays on its own; tap <b>Interact</b> to drive it.</p>
+  </div>
+
+  <div class="caption"><span class="phase" id="phase">Step</span><span class="step" id="step">Loading…</span></div>
+
+  <div class="phone">
+    <div class="viewport" id="vp">
+
+      <!-- HOME (search) -->
+      <div class="screen push" id="home">
+        <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+        <div class="title">Search</div>
+        <div class="field" id="searchField"><span class="mag"></span><span>Search</span>
+          <span class="fpill" id="focusedPill"><span class="spark"></span>Focused</span></div>
+        <div class="recent"><div class="lbl">RECENT</div>
+          <div class="chips"><span class="chip">ramen near me</span><span class="chip">that cabin reel</span><span class="chip">hila wedding</span></div></div>
+        <div class="grid" id="exploreGrid"></div>
+        <div class="tabbar"><i></i><i class="act r"></i><i></i><i></i><i class="r"></i></div>
+      </div>
+
+      <!-- RESULTS (after) -->
+      <div class="screen push right" id="results">
+        <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+        <div class="rhead"><span class="back">‹</span><span class="q">ramen</span><span class="ed"><span class="spark" style="width:11px;height:11px"></span>Edit</span></div>
+        <div class="summary"><span class="mc">Reels</span><span class="mc">People I follow</span><span class="mc">Near me</span><span class="cnt">24 results</span></div>
+        <div class="resultsBody" id="resultsBody" style="flex:1;overflow:hidden">
+          <div class="sec"><div class="sl">REELS · FROM PEOPLE YOU FOLLOW</div></div>
+          <div class="reels" id="reelsRow"></div>
+          <div class="sec"><div class="sl">PLACES NEAR YOU</div></div>
+          <div class="places">
+            <div class="place"><span class="pin"></span><div><b>Ramen Bar TLV</b><span>0.4 mi · open till 23:00</span></div></div>
+            <div class="place"><span class="pin"></span><div><b>Menli Ramen</b><span>0.9 mi · 2 friends went</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REEL (found) -->
+      <div class="screen reel" id="reel">
+        <div class="sbar light"><span>9:41</span><span class="bat"></span></div>
+        <div class="topbar"><span style="font-size:20px">‹</span><span>Reel</span>
+          <span class="fpill" style="margin-left:auto"><span class="spark"></span>Found via Focused</span></div>
+        <div class="found"><span class="gico"><span class="spark"></span></span><div><b>Found in one move</b><span>Matched “ramen” in a reel you saved 3 weeks ago</span></div></div>
+        <div class="spacer"></div>
+        <div class="rail"><i class="h"></i><i></i><i style="transform:rotate(20deg)"></i><i></i></div>
+        <div class="cap"><div class="who"><span class="av"></span>noodlebar.tlv <span style="border:1.3px solid #fff;border-radius:7px;padding:3px 10px;font-size:11px">Follow</span></div>
+          <p>the ramen place everyone keeps asking me about 🍜 the broth is unreal #ramen #telaviv</p></div>
+      </div>
+
+      <!-- sheet + scrim (focused filters) -->
+      <div class="scrim" id="scrim"></div>
+      <div class="sheet" id="sheet">
+        <div class="grab"></div>
+        <h3><span class="gico"><span class="spark"></span></span>Focused search</h3>
+        <div class="grp"><div class="gl">WHAT KIND?</div><div class="chips"><span class="chip sel">Reels</span><span class="chip">Posts</span><span class="chip">Guides</span><span class="chip">Places</span></div></div>
+        <div class="grp"><div class="gl">FROM WHOM?</div><div class="chips"><span class="chip">Everyone</span><span class="chip sel">People I follow</span><span class="chip">Saved</span></div></div>
+        <div class="grp"><div class="gl">WHEN &amp; WHERE</div><div class="chips"><span class="chip">Any time</span><span class="chip sel">Last 30 days</span><span class="chip sel">Near me</span></div></div>
+        <div class="cta" id="showResults">Show 24 results</div>
+      </div>
+
+      <!-- tap indicator -->
+      <div class="tap" id="tap"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="replay">▶ Replay</button>
+    <button id="interact">✋ Interact</button>
+  </div>
+  <div class="hint" id="hintTxt">It plays on its own.</div>
+
+<script>
+(function(){
+  var vp=document.getElementById('vp');
+  var home=document.getElementById('home'), results=document.getElementById('results'), reel=document.getElementById('reel');
+  var scrim=document.getElementById('scrim'), sheet=document.getElementById('sheet');
+  var tap=document.getElementById('tap'), phase=document.getElementById('phase'), step=document.getElementById('step');
+  var hintTxt=document.getElementById('hintTxt');
+
+  // fill explore grid + reels with warm gradient placeholders
+  var pairs=[['#f6c1a8','#e89b7a'],['#c9dcef','#9bb8e0'],['#e7cdf0','#c79bd6'],['#cfe9d4','#9fd0ad'],['#f3d0c2','#e0a48f'],['#d7cdef','#b3a4e0'],['#f6e2a8','#e8c87a'],['#bfe0e6','#8ec6d0'],['#efc6d2','#dc9bb0']];
+  var grid=document.getElementById('exploreGrid');
+  pairs.concat(pairs.slice(0,3)).forEach(function(p){var c=document.createElement('div');c.className='cell';c.style.setProperty('--a',p[0]);c.style.setProperty('--b',p[1]);grid.appendChild(c);});
+  var reels=[['#7a4a2e','#2f1a10','@noodlebar.tlv'],['#8a4250','#2e1820','@ramen.daily'],['#4f5a34','#23281a','@eats.with.dan']];
+  var reelsRow=document.getElementById('reelsRow');
+  reels.forEach(function(r){var c=document.createElement('div');c.className='rc';c.style.setProperty('--a',r[0]);c.style.setProperty('--b',r[1]);c.innerHTML='<span class="pl"></span><span class="h">'+r[2]+'</span>';reelsRow.appendChild(c);});
+
+  function reset(){
+    home.className='screen push'; results.className='screen push right'; reel.className='screen reel';
+    scrim.className='scrim'; sheet.className='sheet';
+    document.getElementById('resultsBody').classList.remove('in');
+    tap.className='tap';
+  }
+  // move tap indicator to an element's centre (relative to viewport), then "press"
+  function tapAt(el, cb){
+    var vr=vp.getBoundingClientRect(), er=el.getBoundingClientRect();
+    var x=er.left-vr.left+er.width/2, y=er.top-vr.top+er.height/2;
+    tap.style.left=x+'px'; tap.style.top=y+'px'; tap.classList.add('show');
+    setTimeout(function(){ tap.classList.add('press');
+      setTimeout(function(){ tap.classList.remove('press'); if(cb)cb(); }, 180);
+    }, 520);
+  }
+  function say(ph, txt, after){ phase.textContent=ph; phase.className='phase'+(ph==='After'?' after':''); step.textContent=txt; }
+
+  var timers=[];
+  function at(t,fn){ timers.push(setTimeout(fn,t)); }
+  function clearAll(){ timers.forEach(clearTimeout); timers=[]; }
+
+  function play(){
+    clearAll(); reset();
+    say('Step','This is Search today — endless to dig through.');
+    // 1. tap the Focused entry
+    at(1400, function(){ say('Focused','Tap “Focused” to search by intent.');
+      tapAt(document.getElementById('focusedPill'), function(){
+        // sheet rises (real spring), scrim dims
+        scrim.classList.add('show'); sheet.classList.add('up'); tap.classList.remove('show');
+      });
+    });
+    // 2. show filters
+    at(2700, function(){ say('Focused','Filter by type, the people you follow, place & time.'); });
+    // 3. tap Show results → sheet dismisses, results load in place
+    at(4200, function(){ say('Focused','Apply — results come pre-sorted.');
+      tapAt(document.getElementById('showResults'), function(){
+        sheet.classList.remove('up'); scrim.classList.remove('show'); tap.classList.remove('show');
+        // bring results screen in (it sits over home); fade its body in place
+        results.classList.remove('right');           // slide results in
+        home.classList.add('left');                  // parallax home behind
+        setTimeout(function(){ document.getElementById('resultsBody').classList.add('in'); }, 260);
+      });
+    });
+    // 4. tap first reel → opens fullscreen (scale+fade)
+    at(6400, function(){ say('After','Reels from people you follow — tap the one you meant.');
+      tapAt(reelsRow.children[0], function(){
+        tap.classList.remove('show');
+        reel.classList.add('open');                  // scale+fade to fullscreen
+      });
+    });
+    // 5. found
+    at(7900, function(){ say('After','Found in one move — the reel you half-remembered.'); });
+    // 6. loop
+    at(11200, function(){ if(auto) play(); });
+  }
+
+  var auto=true;
+  document.getElementById('replay').onclick=function(){ auto=true; hintTxt.textContent='It plays on its own.'; document.getElementById('interact').classList.remove('primary'); document.getElementById('replay').classList.add('primary'); play(); };
+  document.getElementById('interact').onclick=function(){ auto=false; clearAll(); reset(); say('You','Tap around — drive it yourself.'); tap.classList.remove('show');
+    hintTxt.textContent='Manual mode — tap the Focused pill, the filters, then a reel.';
+    this.classList.add('primary'); document.getElementById('replay').classList.remove('primary'); };
+
+  // manual interactions (work any time)
+  document.getElementById('focusedPill').onclick=function(){ if(!auto){ scrim.classList.add('show'); sheet.classList.add('up'); } };
+  document.getElementById('scrim').onclick=function(){ if(!auto){ sheet.classList.remove('up'); scrim.classList.remove('show'); } };
+  document.getElementById('showResults').onclick=function(){ if(!auto){ sheet.classList.remove('up'); scrim.classList.remove('show'); results.classList.remove('right'); home.classList.add('left'); setTimeout(function(){document.getElementById('resultsBody').classList.add('in');},260);} };
+  reelsRow.addEventListener('click',function(e){ if(!auto){ reel.classList.add('open'); } });
+
+  play();
+})();
+</script>
+</body>
+</html>

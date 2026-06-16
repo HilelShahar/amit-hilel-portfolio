@@ -1,17 +1,401 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/favicon.png"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Amit Hilel - Portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Amit Hilel — UX Researcher & Product Designer</title>
+<meta name="description" content="Amit Hilel turns messy human behavior into clear digital products. UX Researcher and UI Designer with a background in Social Psychology, CX research, and data analysis." />
+<meta property="og:title" content="Amit Hilel — UX Researcher & Product Designer" />
+<meta property="og:description" content="I turn messy human behavior into clear digital products." />
+<link rel="icon" href="LOGO%20AMIT.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Nunito:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- HEADER (pill nav) -->
+<header class="site-header pill-header">
+  <nav class="nav-pill">
+    <a class="brand" href="index.html">
+      <img class="avatar" src="LOGO%20AMIT.png" alt="Amit Hilel" /><span>Amit Hilel</span>
+    </a>
+    <div class="nav-center-wrap">
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="active">Home</a>
+        <a href="index.html#work">Design</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Writing</a>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a class="btn-dark" href="mailto:amithilel0211@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        <span>Say Hello</span>
+      </a>
+      <a class="btn-dark-sq" href="https://www.linkedin.com/in/amithilel" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21H17v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg>
+      </a>
+      <button class="nav-toggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    </div>
+  </nav>
+</header>
+
+<main>
+<!-- HERO + spaced hover-reveal grids -->
+<section class="hero3">
+  <div class="container">
+    <p class="eyebrow reveal in">UX Researcher · CX Research · Behavioral Insights</p>
+    <h1 class="reveal in">Hi, I'm Amit.<br>Researcher <span class="amp">&amp;</span> Builder.</h1>
+    <p class="sub reveal in d1">Lead UX Researcher with a Social Psychology background, CX research, and data analysis. I help teams discover what users really need and turn messy human behavior into clear digital products.</p>
+
+    <div class="fancards reveal in d2">
+      <a class="fcard fc-work" href="#work">
+        <span class="fc-deco"><img src="REVOLUTIOZINING%20CX/nr-survey.png" alt=""><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/parking.png" alt=""><img src="REVOLUTIOZINING%20CX/nr-audience.png" alt=""></span>
+        <h3>Recent Works</h3>
+        <p>See how I turn research into shipped product experiences.</p>
+        <span class="fc-btn">Read case studies</span>
+      </a>
+      <div class="fcard fc-video">
+        <span class="fc-vidlabel">In case you're tired of reading
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6 C22 6 31 17 30 32"/><path d="M22 27 l8 6 3 -9"/></svg>
+        </span>
+        <video class="fc-vid" autoplay loop muted playsinline controls preload="auto" poster="amit-intro-poster.jpg">
+          <source src="amit-intro.mp4?v=2" type="video/mp4" />
+        </video>
+      </div>
+      <a class="fcard fc-about" href="about.html">
+        <h3>About Me</h3>
+        <p>Researcher at heart, builder by craft — turning human insight into products people love.</p>
+        <span class="fc-btn">Get to know me</span>
+      </a>
+      <a class="fcard fc-writing" href="blog.html">
+        <h3>Writing</h3>
+        <p>Notes on research, AI, and the craft of better products.</p>
+        <span class="fc-btn">Read my writing</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- A BIT ABOUT ME -->
+<section class="section section-alt">
+  <div class="container reveal">
+    <p class="eyebrow">A bit about me</p>
+    <h2 class="gradient-text" style="font-size:clamp(2rem,4.5vw,3.4rem)">Research is how I think.<br>Building is how I prove it.</h2>
+    <p class="muted" style="font-size:1.18rem;margin-top:1.1rem;line-height:1.6">I come from Social Psychology and customer experience research, so I naturally look for the "why" behind user behavior. I care about products that feel simple, useful, and emotionally clear — especially when the system underneath is complex.</p>
+    <div style="margin-top:1.6rem"><a class="btn btn-primary" href="about.html">Learn more about Amit</a></div>
+  </div>
+</section>
+
+<!-- SOME RECENT WORK — year timeline -->
+<section class="section" id="work">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">From research engagements &amp; freelance</p>
+      <h2>Some recent work</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-year">2026</div>
+        <a class="tl-card tl-card--featured" href="wellio.html" aria-label="Wellio — read case study">
+          <div class="tl-feat-head">
+            <span class="tl-tag">Healthcare · Mobile · UX/UI</span>
+            <h3>Wellio</h3>
+            <p>One calm healthcare app that carries the whole arc of care — find a doctor, book without a phone call, and stay on top of the admin that always slips: refills, vaccinations, follow-ups.</p>
+            <span class="btn btn-ghost tl-cta">Read case study →</span>
+          </div>
+          <div class="tl-media tl-media--big tl-media--screens" style="background:radial-gradient(130% 130% at 50% 0%,#f2faf9,#dff0ec 65%,#cfe8e2)"><span class="screens-row"><img src="WELLIO/welcome.png" alt="Wellio onboarding" loading="lazy" /><img src="WELLIO/doctors.png" alt="Wellio — find a doctor" loading="lazy" /><img src="WELLIO/appointments.png" alt="Wellio — appointments" loading="lazy" /></span><span class="tl-open">Open case study →</span></div>
+        </a>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2026</div>
+        <a class="tl-card tl-card--featured" href="revolutionizing-cx.html" aria-label="Revolutionizing CX — read case study">
+          <div class="tl-feat-head">
+            <span class="tl-tag">Product · UX</span>
+            <h3>Revolutionizing CX</h3>
+            <p>Reimagined customer-experience management — personalized surveys, dashboards, and an AI research companion that compresses weeks of synthesis into a guided workflow.</p>
+            <span class="btn btn-ghost tl-cta">Read case study →</span>
+          </div>
+          <div class="tl-media tl-media--big"><video src="REVOLUTIOZINING%20CX/InsiGht_flow_16x9.mp4" poster="REVOLUTIOZINING%20CX/nr-insights.png" autoplay loop muted playsinline preload="metadata"></video><span class="tl-vidbadge"><span class="d"></span>Case study</span><span class="tl-open">Open case study →</span></div>
+        </a>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2025</div>
+        <a class="tl-card tl-card--featured" href="municipal-services.html" aria-label="Navigating Municipal Services — read case study">
+          <div class="tl-feat-head">
+            <span class="tl-tag">Usability research</span>
+            <h3>Navigating Municipal Services</h3>
+            <p>Mixed-methods usability research on a city's resident portal — cutting friction across payments, parking, and services on mobile and desktop.</p>
+            <span class="btn btn-ghost tl-cta">Read case study →</span>
+          </div>
+          <div class="tl-media tl-media--big"><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/Frame%20427319095%20(1).png" alt="Municipal services" loading="lazy" /><span class="tl-open">Open case study →</span></div>
+        </a>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2024</div>
+        <a class="tl-card tl-card--featured" href="routine-builder.html" aria-label="Routine Builder — read case study">
+          <div class="tl-feat-head">
+            <span class="tl-tag">Accessibility · Mobile</span>
+            <h3>Routine Builder</h3>
+            <p>An accessible app helping autistic individuals build and keep daily routines, designed with caregivers and therapists.</p>
+            <span class="btn btn-ghost tl-cta">Read case study →</span>
+          </div>
+          <div class="tl-media tl-media--big tl-media--screens" style="background:radial-gradient(130% 130% at 50% 0%,#fdf3e6,#f7e3c9 65%,#f0d6b2)"><span class="screens-row"><img src="ROUTINE%20BUILDER/v2/4.png?v=clean1" alt="Routy — routine library" loading="lazy" /><img src="ROUTINE%20BUILDER/v2/3.png?v=clean1" alt="Routy — today's journey" loading="lazy" /><img src="ROUTINE%20BUILDER/v2/5.png?v=clean1" alt="Routy — AI routine builder" loading="lazy" /></span><span class="tl-open">Open case study →</span></div>
+        </a>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2023</div>
+        <a class="tl-card tl-card--featured" href="mycookbook.html" aria-label="MyCookBook — read case study">
+          <div class="tl-feat-head">
+            <span class="tl-tag">0→1 product design</span>
+            <h3>MyCookBook</h3>
+            <p>A personal recipe collection that centralizes, organizes, and shares your favorite dishes — born from a love of cooking.</p>
+            <span class="btn btn-ghost tl-cta">Read case study →</span>
+          </div>
+          <div class="tl-media tl-media--big tl-media--shot" style="background:radial-gradient(130% 130% at 50% 8%,#fbf3ea,#efd9c3 68%,#e6cbb0)"><img src="MY%20COOKBOOK/5f4ebf8b732-1-1-1%20(2).png" alt="MyCookBook" loading="lazy" /><span class="tl-open">Open case study →</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW I TURN RESEARCH INTO PRODUCTS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">My process</p><h2>How I turn research into products</h2></div>
+    <div class="process">
+      <div class="step reveal"><div class="num">01</div><h4>Understand</h4><p>Interviews, surveys, market research, behavioral context.</p></div>
+      <div class="step reveal d1"><div class="num">02</div><h4>Synthesize</h4><p>Patterns, personas, pain points, opportunity areas — with AI where it adds speed and clarity.</p></div>
+      <div class="step reveal d2"><div class="num">03</div><h4>Design</h4><p>Flows, wireframes, UI systems, prototypes.</p></div>
+      <div class="step reveal d3"><div class="num">04</div><h4>Validate</h4><p>Usability testing, analytics, feedback loops.</p></div>
+      <div class="step reveal d4"><div class="num">05</div><h4>Improve</h4><p>Iterations, dashboards, product recommendations.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOME OTHER THINGS I DO -->
+<section class="section" id="apps">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Some other things I do</p>
+      <h2>Amit, what else do you do?</h2>
+      <p>My answer is: I build features. A lot of features.</p>
+    </div>
+
+    <style>
+      /* Ben-style feature carousel: one big card + arrows + dots + icon thumbnails */
+      .fc{margin-top:6px}
+      .fc-stage{position:relative;border-radius:22px;overflow:hidden;background:#0e0c0a;height:clamp(320px,40vw,470px);box-shadow:0 34px 70px -34px rgba(74,47,23,.45);border:1px solid var(--brown-100)}
+      .fc-cover{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity .4s ease;overflow:hidden}
+      .fc.is-img .fc-cover{opacity:1}
+      .fc-cover-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(30px) brightness(.62);transform:scale(1.2)}
+      .fc-cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:16px}
+      /* concept scenes — features I wish existed */
+      .fc-scene{position:absolute;inset:0;z-index:1;display:none;align-items:center;justify-content:center;padding:20px;background:linear-gradient(150deg,var(--g1),var(--g2))}
+      .fc.is-scene .fc-scene.on{display:flex}
+      .sc-card{width:min(430px,86%);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 22px 50px -20px rgba(0,0,0,.5)}
+      .sc-card.sc-dark{background:rgba(0,0,0,.4);backdrop-filter:blur(6px);color:#fff}
+      .sc-card.sc-light{background:rgba(255,255,255,.94);color:#2a2118}
+      .sc-chips{display:flex;gap:8px;flex-wrap:wrap}
+      .sc-chips span{font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.18);color:#fff}
+      .sc-chips span.on{background:#fff;color:#111}
+      .sc-now,.sc-pick{display:flex;align-items:center;gap:12px}
+      .sc-art{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,rgba(255,255,255,.35),rgba(255,255,255,.12));flex:none}
+      .sc-poster{width:42px;height:58px;border-radius:8px;background:linear-gradient(135deg,rgba(255,255,255,.35),rgba(255,255,255,.12));flex:none}
+      .sc-now b,.sc-pick b{display:block;font-size:14px} .sc-now span,.sc-pick span{font-size:11px;opacity:.82}
+      .sc-play{margin-left:auto;width:34px;height:34px;border-radius:999px;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;font-size:12px;flex:none}
+      .sc-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+      .sc-q{font-size:13px;opacity:.92} .sc-pill{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;background:#e50914;color:#fff;flex:none}
+      .sc-stop{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.08)}
+      .sc-stop b{width:22px;height:22px;border-radius:999px;background:#2a7d4f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex:none}
+      .sc-route{margin-top:4px;font-size:12px;font-weight:800;color:#2a7d4f}
+      .fc-phone{position:absolute;inset:0;z-index:1;display:none;align-items:center;justify-content:center;background:radial-gradient(120% 120% at 50% -10%,#fef8f0,#f4e6d9)}
+      .fc.is-phone .fc-phone{display:flex}
+      .fc-phone iframe{width:228px;height:450px;border:0;background:transparent}
+      .fc-glyph{position:absolute;inset:0;z-index:1;display:none;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:5rem;color:#fff;background:linear-gradient(135deg,var(--g1,#d4a574),var(--g2,#8b5a2b))}
+      .fc.is-glyph .fc-glyph{display:flex}
+      .fc-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.16),transparent 28%,transparent 60%,rgba(0,0,0,.5))}
+      .fc.is-phone .fc-scrim,.fc.is-glyph .fc-scrim{background:linear-gradient(180deg,transparent 72%,rgba(0,0,0,.26))}
+      .fc-cap{position:absolute;left:24px;bottom:22px;z-index:3;color:#fff;max-width:64%}
+      .fc-cap .e{font-family:var(--sans);font-weight:800;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;opacity:.92;margin:0}
+      .fc-cap h3{font-family:var(--serif);font-weight:600;font-size:1.9rem;margin:.25rem 0 0;color:#fff;line-height:1.06}
+      .fc.is-phone .fc-cap,.fc.is-phone .fc-cap h3{color:var(--brown-900)} .fc.is-phone .fc-cap .e{color:var(--brown-500)}
+      .fc-explore{position:absolute;right:18px;bottom:18px;z-index:3;display:none;align-items:center;gap:.45rem;background:rgba(20,12,7,.72);color:#fff;font-family:var(--sans);font-weight:700;font-size:.82rem;padding:.62rem 1.05rem;border-radius:12px;text-decoration:none;backdrop-filter:blur(4px)}
+      .fc.has-link .fc-explore{display:inline-flex}
+      .fc.is-phone.has-link .fc-explore{background:rgba(74,47,23,.82)}
+      .fc-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:42px;height:42px;border-radius:999px;border:0;background:rgba(20,12,7,.42);color:#fff;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);transition:background .2s}
+      .fc-arrow:hover{background:rgba(20,12,7,.64)}
+      .fc-arrow.prev{left:14px}.fc-arrow.next{right:14px}
+      .fc.is-phone .fc-arrow{background:rgba(74,47,23,.34)}
+      .fc-dots{position:absolute;left:0;right:0;bottom:14px;z-index:3;display:flex;gap:6px;justify-content:center}
+      .fc-dots i{width:6px;height:6px;border-radius:999px;background:rgba(255,255,255,.55);cursor:pointer;transition:width .25s,background .25s}
+      .fc-dots i.on{width:20px;background:#fff}
+      .fc.is-phone .fc-dots i{background:rgba(74,47,23,.28)} .fc.is-phone .fc-dots i.on{background:var(--brown-700)}
+      .fc-thumbs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+      .fc-thumb{width:58px;height:58px;border-radius:17px;border:2px solid transparent;background:#fff;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;appearance:none;-webkit-appearance:none;transition:transform .2s,border-color .2s,box-shadow .2s}
+      .fc-thumb .g{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:1.02rem;color:#fff;background:linear-gradient(135deg,var(--g1),var(--g2))}
+      .fc-thumb.on{border-color:var(--brown-500);transform:translateY(-3px);box-shadow:0 12px 24px -12px rgba(111,68,35,.5)}
+      @media(max-width:760px){ .fc-cap{max-width:82%} .fc-cap h3{font-size:1.5rem} .fc-thumb{width:50px;height:50px} .fc-thumb .g{width:34px;height:34px} }
+    </style>
+
+    <div class="fc reveal" id="fc">
+      <div class="fc-stage" id="fcStage">
+        <div class="fc-cover" id="fcCover"><div class="fc-cover-bg" id="fcCoverBg"></div><img class="fc-cover-img" id="fcCoverImg" alt="" /></div>
+        <div class="fc-phone"><iframe id="fcFrame" title="Instagram Area Guide — interactive prototype" scrolling="no"></iframe></div>
+        <div class="fc-glyph" id="fcGlyph"></div>
+        <div class="fc-scene" id="scene-spotify" style="--g1:#1ed760;--g2:#0a5128"><div class="sc-card sc-dark"><div class="sc-chips"><span>🚆 Commute</span><span class="on">🎧 Deep focus</span><span>🏃 Run</span></div><div class="sc-now"><div class="sc-art"></div><div><b>Focus Flow</b><span>auto-built for your 2 pm block — no search</span></div><span class="sc-play">▶</span></div></div></div>
+        <div class="fc-scene" id="scene-netflix" style="--g1:#7a1a1a;--g2:#160808"><div class="sc-card sc-dark"><div class="sc-row"><span class="sc-q">How do you feel?</span><span class="sc-pill">Cozy</span></div><div class="sc-row"><span class="sc-q">How long have you got?</span><span class="sc-pill">45 min</span></div><div class="sc-pick"><div class="sc-poster"></div><div><b>One pick for you</b><span>no endless scrolling</span></div></div></div></div>
+        <div class="fc-scene" id="scene-maps" style="--g1:#bfe0c8;--g2:#8fc6a4"><div class="sc-card sc-light"><div class="sc-stop"><b>1</b> Pharmacy · open now</div><div class="sc-stop"><b>2</b> Dry cleaner · 0.4 mi</div><div class="sc-stop"><b>3</b> Coffee · on the way</div><div class="sc-route">Optimized · 22 min · all open now</div></div></div>
+        <div class="fc-scrim"></div>
+        <button class="fc-arrow prev" id="fcPrev" type="button" aria-label="Previous">‹</button>
+        <button class="fc-arrow next" id="fcNext" type="button" aria-label="Next">›</button>
+        <div class="fc-cap"><p class="e" id="fcEyebrow"></p><h3 id="fcTitle"></h3></div>
+        <a class="fc-explore" id="fcExplore">Tap to explore <span aria-hidden="true">↗</span></a>
+        <div class="fc-dots" id="fcDots"></div>
+      </div>
+      <div class="fc-thumbs" id="fcThumbs"></div>
+    </div>
+
+    <script>
+    (function(){
+      var ITEMS=[
+        {key:'ig',glyph:'IG',media:'phone',eyebrow:'Feature concept · Instagram',title:'Area Guide',grad:['#fa7e1e','#962fbf']},
+        {key:'gogo',glyph:'G',media:'REVOLUTIOZINING%20CX/wr-3-findings.png',eyebrow:'Featured prototype',title:'Go-Go AI',link:'revolutionizing-cx.html#gogo',grad:['#d4a574','#8b5a2b']},
+        {key:'routy',glyph:'R',media:'ROUTINE%20BUILDER/Frame%20427319103.png',eyebrow:'App · Accessibility',title:'Routy',link:'routine-builder.html',grad:['#e8a06a','#c0652f']},
+        {key:'cx',glyph:'CX',media:'REVOLUTIOZINING%20CX/Celestial%20Laptop%20Mockup.png',eyebrow:'Research platform',title:'CX platform',link:'revolutionizing-cx.html',grad:['#c08552','#6f4423']},
+        {key:'mc',glyph:'MC',media:'MY%20COOKBOOK/cover.png',eyebrow:'App',title:'MyCookBook',link:'mycookbook.html',grad:['#e0b48a','#a67542']},
+        {key:'digitel',glyph:'μ',media:'NAVIGATIONG%20MUNICIPAL%20SERVICES/home-1.png',eyebrow:'Gov · App',title:'My DigiTel',link:'municipal-services.html',grad:['#6fb3c4','#3f7e8e']},
+        {key:'spotify',glyph:'S',media:'scene',scene:'spotify',eyebrow:'Feature concept · Spotify',title:'Moment Mixes',grad:['#1ed760','#0a5128']},
+        {key:'netflix',glyph:'N',media:'scene',scene:'netflix',eyebrow:'Feature concept · Netflix',title:'Mood & Minutes',grad:['#e50914','#7a1010']},
+        {key:'maps',glyph:'M',media:'scene',scene:'maps',eyebrow:'Feature concept · Google Maps',title:'Errand Run',grad:['#4f8a5f','#2a6b3f']}
+      ];
+      var fc=document.getElementById('fc'), stage=document.getElementById('fcStage'), cover=document.getElementById('fcCover'),
+          frame=document.getElementById('fcFrame'), glyph=document.getElementById('fcGlyph'), eb=document.getElementById('fcEyebrow'),
+          ti=document.getElementById('fcTitle'), explore=document.getElementById('fcExplore'),
+          dots=document.getElementById('fcDots'), thumbs=document.getElementById('fcThumbs');
+      var idx=0;
+      thumbs.innerHTML=ITEMS.map(function(it,i){ return '<button class="fc-thumb" type="button" data-i="'+i+'" style="--g1:'+it.grad[0]+';--g2:'+it.grad[1]+'" aria-label="'+it.title+'"><span class="g">'+it.glyph+'</span></button>'; }).join('');
+      dots.innerHTML=ITEMS.map(function(it,i){ return '<i data-i="'+i+'"></i>'; }).join('');
+      function paint(){
+        var it=ITEMS[idx];
+        fc.classList.remove('is-img','is-phone','is-glyph','is-scene','has-link');
+        fc.classList.add(it.media==='phone'?'is-phone':it.media==='glyph'?'is-glyph':it.media==='scene'?'is-scene':'is-img');
+        if(it.link) fc.classList.add('has-link');
+        eb.textContent=it.eyebrow; ti.textContent=it.title;
+        stage.style.setProperty('--g1',it.grad[0]); stage.style.setProperty('--g2',it.grad[1]);
+        if(it.media==='phone'){ if(!frame.getAttribute('src')) frame.src='projects/ig-places.html?embed=1'; }
+        else if(it.media==='glyph'){ glyph.textContent=it.glyph; }
+        else if(it.media==='scene'){ [].forEach.call(document.querySelectorAll('.fc-scene'),function(s){ s.classList.toggle('on',s.id==='scene-'+it.scene); }); }
+        else { document.getElementById('fcCoverImg').src=it.media; document.getElementById('fcCoverImg').alt=it.title; document.getElementById('fcCoverBg').style.backgroundImage='url("'+it.media+'")'; }
+        if(it.link) explore.href=it.link;
+        [].forEach.call(thumbs.children,function(t,i){ t.classList.toggle('on',i===idx); });
+        [].forEach.call(dots.children,function(d,i){ d.classList.toggle('on',i===idx); });
+      }
+      function go(i){ idx=(i+ITEMS.length)%ITEMS.length; paint(); }
+      thumbs.addEventListener('click',function(e){ var t=e.target.closest('.fc-thumb'); if(t) go(+t.getAttribute('data-i')); });
+      dots.addEventListener('click',function(e){ var d=e.target.closest('i'); if(d) go(+d.getAttribute('data-i')); });
+      document.getElementById('fcPrev').addEventListener('click',function(){ go(idx-1); });
+      document.getElementById('fcNext').addEventListener('click',function(){ go(idx+1); });
+      paint();
+    })();
+    </script>
+  </div>
+</section>
+
+<!-- I WRITE -->
+<section class="section section-alt" id="write">
+  <div class="container">
+    <div class="section-head reveal" style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px">
+      <div><p class="eyebrow">Words</p><h2>I write. Quite a lot.</h2></div>
+      <a class="btn btn-ghost" href="blog.html">Explore all writings</a>
+    </div>
+    <div class="writing-list reveal">
+      <a class="write-card" href="blog.html#ai">
+        <div class="wc-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"/></svg></div>
+        <div><span class="reads">AI · Field note · Interactive</span><h4>The confident wrong answer</h4><p>An AI confidently merged two opposite findings from my interviews. Flip between the two answers.</p></div>
+      </a>
+      <a class="write-card" href="blog.html#defaults">
+        <div class="wc-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg></div>
+        <div><span class="reads">Behavioral Design · Interactive</span><h4>The default is the design</h4><p>The pre‑selected option quietly decides behavior — try the toggle.</p></div>
+      </a>
+      <a class="write-card" href="blog.html#digitel">
+        <div class="wc-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m11-7h-6M7 12H1"/></svg></div>
+        <div><span class="reads">Tel Aviv portal · Interactive</span><h4>A generic hello</h4><p>A city app that knew everything about you — and still felt generic. Run the 5‑second test.</p></div>
+      </a>
+      <a class="write-card" href="blog.html">
+        <div class="wc-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <div><span class="reads">The notebook</span><h4>Open the field notebook</h4><p>Research stories, opinions, and interactive scraps — paper, pen and all.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- COLLABORATOR LETTER -->
+<section class="section section-alt">
+  <div class="container letter-wrap">
+    <div class="section-head reveal" style="text-align:center"><p class="eyebrow" style="text-align:center">Interested in collaborating?</p><h2>Let's build something good</h2><p style="margin-inline:auto">I wrote a little letter for you, if you're interested in chatting.</p></div>
+    <div class="letter reveal">
+      <p>Dear potential collaborator,</p>
+      <p>I enjoy understanding people, and turning what I learn into products that feel simple and useful.</p>
+      <p>I care about small magics — the little moments of clarity that make a product feel like it was built <em>for you</em>.</p>
+      <p>…and I enjoy wearing different hats to ship the best product. I don't like being limited to "Researcher" — I'm a builder too. :)</p>
+      <p>If that feels like your team, let's chat.</p>
+      <p>Thanks for reading this.</p>
+      <p class="sign">— Amit</p>
+    </div>
+    <p class="letter-deco reveal">✿ &nbsp; Have a nice day &nbsp; ✿</p>
+  </div>
+</section>
+
+<!-- LET'S CONNECT -->
+<section class="section connect">
+  <div class="container narrow">
+    <div class="section-head reveal" style="text-align:center"><p class="eyebrow" style="text-align:center">Say hello</p><h2 class="gradient-text">Let's connect</h2></div>
+    <div class="connect-row reveal">
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/amithilel" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="Amit_Hilel_CV_2026.pdf" target="_blank" rel="noopener">Resume</a>
+      <button class="btn btn-primary" data-copy-email="amithilel0211@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy my email</button>
+    </div>
+    <p class="copy-toast" data-copy-toast></p>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer" style="text-align:left">
+  <div class="container">
+    <div class="foot-cols">
+      <div>
+        <div class="foot-brand">Amit Hilel</div>
+        <p class="muted" style="margin-top:8px;max-width:34ch">UX Researcher &amp; Product Designer turning human behavior into clear digital products.</p>
+        <div class="social-row" style="justify-content:flex-start;margin-top:8px">
+          <a class="icon-btn" href="https://www.linkedin.com/in/amithilel" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21H17v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg></a>
+          <a class="icon-btn" href="https://www.facebook.com/amit.hilel.7" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6v1.9H16l-.4 2.9h-2.1v7A10 10 0 0 0 22 12z"/></svg></a>
+          <a class="icon-btn" href="mailto:amithilel0211@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h5>Navigation</h5>
+        <a href="#work">Recent work</a>
+        <a href="#apps">Apps I build</a>
+        <a href="about.html">About me</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h5>More</h5>
+        <a href="Amit_Hilel_CV_2026.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="blog.html">Writing</a>
+      </div>
+    </div>
+    <div style="text-align:center;color:var(--brown-500);font-size:.85rem;padding-top:10px">© <span data-year>2026</span> Amit Hilel. Designed &amp; built with care.</div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
 </html>

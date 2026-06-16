@@ -1,0 +1,47 @@
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Amit avatar">
+<defs><clipPath id="c"><circle cx="120" cy="120" r="120"/></clipPath></defs>
+<g clip-path="url(#c)">
+<rect width="240" height="240" fill="#fbeede"/>
+<!-- hair back -->
+<path d="M54 134 C36 66 80 30 120 30 C160 30 204 66 186 134 C180 172 188 214 196 248 L150 248 C158 200 152 162 144 148 L96 148 C88 162 82 200 90 248 L44 248 C52 214 60 172 54 134 Z" fill="#2f2118"/>
+<!-- hair shine -->
+<path d="M78 70 C70 100 70 140 76 172 C82 150 82 104 90 78 Z" fill="#4a3526" opacity="0.6"/>
+<path d="M162 70 C170 100 170 140 164 172 C158 150 158 104 150 78 Z" fill="#4a3526" opacity="0.6"/>
+<!-- face -->
+<path d="M75 116 C75 84 95 62 120 62 C145 62 165 84 165 116 C165 152 145 180 120 180 C95 180 75 152 75 116 Z" fill="#edc7a2"/>
+<!-- ears + studs -->
+<circle cx="75" cy="120" r="8" fill="#edc7a2"/>
+<circle cx="165" cy="120" r="8" fill="#edc7a2"/>
+<circle cx="73" cy="128" r="2.4" fill="#e8b14a"/>
+<circle cx="167" cy="128" r="2.4" fill="#e8b14a"/>
+<!-- center-part front hair, slightly side-swept -->
+<path d="M120 40 C154 40 180 70 180 114 C180 94 170 76 150 70 C150 70 138 88 116 90 C98 91 90 72 90 72 C72 78 60 96 60 114 C60 68 86 40 120 40 Z" fill="#2f2118"/>
+<!-- soft fringe sweep -->
+<path d="M150 70 C156 84 156 100 150 112 C150 96 146 82 138 76 Z" fill="#2f2118"/>
+<!-- brows -->
+<path d="M94 104 C101 99 113 99 120 103" fill="none" stroke="#2f2118" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M120 103 C127 99 139 99 146 104" fill="none" stroke="#2f2118" stroke-width="3.6" stroke-linecap="round"/>
+<!-- eyes -->
+<ellipse cx="106" cy="120" rx="8.5" ry="9.5" fill="#fff" stroke="#2f2118" stroke-width="2.6"/>
+<circle cx="107" cy="121" r="4.6" fill="#3a2418"/>
+<circle cx="108.8" cy="119.2" r="1.5" fill="#fff"/>
+<ellipse cx="134" cy="120" rx="8.5" ry="9.5" fill="#fff" stroke="#2f2118" stroke-width="2.6"/>
+<circle cx="133" cy="121" r="4.6" fill="#3a2418"/>
+<circle cx="134.8" cy="119.2" r="1.5" fill="#fff"/>
+<!-- eyeliner flicks + lashes -->
+<path d="M97 112 C102 108 111 108 116 112" fill="none" stroke="#2f2118" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M124 112 C129 108 138 108 143 112" fill="none" stroke="#2f2118" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M96 113 l-4 -2" stroke="#2f2118" stroke-width="2" stroke-linecap="round"/>
+<path d="M144 113 l4 -2" stroke="#2f2118" stroke-width="2" stroke-linecap="round"/>
+<!-- nose + stud -->
+<path d="M120 127 C118 135 116 140 121 143" fill="none" stroke="#cda484" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="113" cy="143" r="2.2" fill="#d23b2b"/>
+<!-- big warm smile -->
+<path d="M97 150 C112 171 128 171 143 150 C128 162 112 162 97 150 Z" fill="#9c3a32"/>
+<path d="M103 153 C113 160 127 160 137 153 C127 156 113 156 103 153 Z" fill="#fff"/>
+<path d="M97 150 C112 170 128 170 143 150" fill="none" stroke="#2f2118" stroke-width="3" stroke-linecap="round"/>
+<!-- cheeks -->
+<circle cx="89" cy="143" r="7.5" fill="#e8917e" opacity="0.45"/>
+<circle cx="151" cy="143" r="7.5" fill="#e8917e" opacity="0.45"/>
+</g>
+</svg>

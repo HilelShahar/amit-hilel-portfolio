@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MyCookBook — Amit Hilel</title>
+<meta name="description" content="Case study: a personal recipe collection that centralizes, organizes, and shares your favorite dishes." />
+<link rel="icon" href="LOGO%20AMIT.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Nunito:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="case-study.css" />
+</head>
+<body>
+<header class="site-header pill-header">
+  <nav class="nav-pill">
+    <a class="brand" href="index.html"><img class="avatar" src="LOGO%20AMIT.png" alt="Amit Hilel" /><span>Amit Hilel</span></a>
+    <div class="nav-center-wrap">
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="index.html#work" class="active">Design</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Writing</a>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a class="btn-dark" href="mailto:amithilel0211@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg><span>Say Hello</span></a>
+      <a class="btn-dark-sq" href="https://www.linkedin.com/in/amithilel" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21H17v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg></a>
+      <button class="nav-toggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    </div>
+  </nav>
+</header>
+
+<main>
+<section class="cs-hero2">
+  <div class="container">
+    <p class="eyebrow reveal in">Consumer · 0→1 Product Design</p>
+    <h1 class="cs-title gradient-text reveal in">MyCookBook:<span class="cs-subtitle">one home for every recipe you love</span></h1>
+  </div>
+
+  <div class="container reveal">
+    <div class="cs-overview panel">
+      <div class="cs-ov-item"><h3>Overview</h3><p>A personal recipe app, born from a love of cooking and the need to organize years of favorite recipes — store, find, and share them in one place instead of hunting across a dozen websites.</p></div>
+      <div class="cs-ov-item"><h3>My role</h3><p>UX Researcher &amp; Product Designer.<br>Research, UX, UI &amp; prototyping.</p></div>
+      <div class="cs-ov-item"><h3>Type</h3><div class="cs-team"><span class="tm me">Personal</span><span class="tm">0→1</span></div></div>
+      <div class="cs-ov-item"><h3>Platform</h3><p>Mobile app</p></div>
+    </div>
+  </div>
+
+  <div class="container reveal" style="margin-top:40px">
+    <div class="shot-frame"><div class="shot-chrome"><i></i><i></i><i></i><span>MyCookBook — mobile app</span></div><img src="MY%20COOKBOOK/5f4ebf8b732-1-1-1%20(2).png" alt="MyCookBook app" /></div>
+    <p class="cs-caption">MyCookBook — a personal recipe collection that travels with you.</p>
+  </div>
+</section>
+
+<div class="container">
+  <nav class="cs-toc" id="csToc" aria-label="Sections">
+    <a href="#problem" class="active">Problem</a>
+    <a href="#research">Research</a>
+    <a href="#solutions">Solutions</a>
+    <a href="#results">Results</a>
+  </nav>
+
+  <!-- PROBLEM -->
+  <section class="cs-section reveal" id="problem">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The problem</p></div>
+    <p class="cs-bigstatement">Years of favorite recipes — scattered across a dozen websites.</p>
+    <p class="cs-statement-sub">As a foodie always experimenting, I kept losing track of dishes that actually worked. Saved recipes lived everywhere and nowhere — slow to find, hard to follow, and a hassle to share with the people I cooked for.</p>
+    <div class="grid-3" style="margin-top:40px">
+      <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><h4>Scattered &amp; slow to find</h4><p>A growing collection spread across platforms meant wasted time relocating a saved recipe.</p></div>
+      <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><h4>Plain text, not visual</h4><p>People follow recipes with step-by-step photos or video — most tools were walls of text.</p></div>
+      <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg><h4>Cumbersome to share</h4><p>Sending a favorite dish to friends or family felt clunky and broke the cooking flow.</p></div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="cs-section reveal" id="research">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The approach</p><h2 class="gradient-text" style="text-align:center">How I tackled it</h2><p style="text-align:center;margin-inline:auto">A personal itch, validated properly — so the app solved real cooking behavior, not just mine.</p></div>
+    <div class="rsteps">
+      <div class="rstep-card reveal"><div class="num">01</div><h4>User research</h4><p>Interviews with home cooks to map how people actually save, find, and follow recipes day to day.</p><div class="tags"><span class="tag">Interviews</span><span class="tag">Needs &amp; pains</span></div></div>
+      <div class="rstep-card reveal d1"><div class="num">02</div><h4>Competitive analysis</h4><p>Reviewed existing recipe apps to find what people loved, what they tolerated, and where the gaps were.</p><div class="tags"><span class="tag">Benchmarking</span></div></div>
+      <div class="rstep-card reveal d2"><div class="num">03</div><h4>Prototyping &amp; testing</h4><p>Designed, prototyped, and ran usability testing to keep the interface simple and genuinely accessible.</p><div class="tags"><span class="tag">Prototype</span><span class="tag">Usability</span></div></div>
+    </div>
+    <p class="cs-statement-sub" style="margin-top:34px">Three needs kept surfacing: <b>visual recipes, fast retrieval, and effortless sharing.</b></p>
+  </section>
+
+  <!-- SOLUTIONS -->
+  <section class="cs-section reveal" id="solutions">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The solution</p><h2 class="gradient-text" style="text-align:center;font-size:clamp(2rem,4vw,2.8rem)">One app, three jobs done well</h2></div>
+    <div class="shot-frame reveal" style="max-width:760px;margin:0 auto 44px"><div class="shot-chrome"><i></i><i></i><i></i><span>MyCookBook — key screens</span></div><img src="MY%20COOKBOOK/Frame-23-scaled.png" alt="MyCookBook key designs" /></div>
+    <div class="rsteps">
+      <div class="rstep-card reveal"><div class="num">01</div><h4>Organize</h4><p>A single recipe card holds photos, video, and rich text. Upload media, add multiple recipes, and arrange everything into the right folder.</p><div class="tags"><span class="tag">📷 Photos</span><span class="tag">🎬 Video</span><span class="tag">📝 Rich text</span></div></div>
+      <div class="rstep-card reveal d1"><div class="num">02</div><h4>Find fast</h4><p>A clear folder structure (“Family,” “Desserts,” “Favorites”) plus search and filtering by ingredient or type — so a saved recipe is seconds away.</p><div class="tags"><span class="tag">📁 Folders</span><span class="tag">🔍 Smart search</span></div></div>
+      <div class="rstep-card reveal d2"><div class="num">03</div><h4>Share</h4><p>A share button on every card sends a recipe to friends or posts to social — without ever leaving the app.</p><div class="tags"><span class="tag">🔗 One-tap</span><span class="tag">👥 Social</span></div></div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="cs-section reveal" id="results">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The impact</p><h2 class="gradient-text" style="text-align:center">What it delivers</h2></div>
+    <div class="cs-impact" style="margin-bottom:40px">
+      <div class="metric"><div class="mnum">1 home</div><div class="mlabel">For every recipe</div><p>No more hunting across a dozen sites — everything you cook lives in one place.</p></div>
+      <div class="metric"><div class="mnum">Photo · video · text</div><div class="mlabel">Visual by default</div><p>Recipes you can actually follow, the way people really cook.</p></div>
+      <div class="metric"><div class="mnum">One tap</div><div class="mlabel">To share</div><p>Send a dish to family or post it — without leaving the app.</p></div>
+    </div>
+    <p class="impact-note" style="margin-bottom:34px">A self-initiated 0→1 concept, shaped by interviews with home cooks and competitive analysis — a personal project, not a shipped product.</p>
+    <div class="panel panel-brown reveal">
+      <h2 style="margin-bottom:.6rem">Lessons learned / next steps</h2>
+      <p class="muted" style="margin:0">Building MyCookBook taught me to set clear boundaries while simplifying — managing recipes, multimedia, and sharing all surfaced trade-offs early. The takeaway: detailed, early scope keeps a 0→1 product on time, and research lets you balance flexibility with the original vision.</p>
+    </div>
+  </section>
+
+  <!-- More case studies -->
+  <section class="cs-section reveal">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">Keep exploring</p><h2 class="gradient-text" style="text-align:center">More case studies</h2></div>
+    <div class="more-cases">
+      <a class="mc-card" href="revolutionizing-cx.html"><div class="mc-thumb"><img src="REVOLUTIOZINING%20CX/nr-insights.png" alt="Revolutionizing CX" /></div><div class="mc-body"><span class="tag">Product · AI</span><h4>Revolutionizing CX</h4><p>A clearer research platform and an AI companion that turns weeks of synthesis into hours.</p><span class="read">Read case study →</span></div></a>
+      <a class="mc-card" href="municipal-services.html"><div class="mc-thumb"><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/home.png" alt="Navigating Municipal Services" /></div><div class="mc-body"><span class="tag">Usability research</span><h4>Navigating Municipal Services</h4><p>Cutting friction across payments, parking, and services on a city portal.</p><span class="read">Read case study →</span></div></a>
+      <a class="mc-card" href="routine-builder.html"><div class="mc-thumb"><img src="ROUTINE%20BUILDER/v2/4.png?v=clean1" alt="Routine Builder" /></div><div class="mc-body"><span class="tag">Accessibility</span><h4>Routine Builder</h4><p>An accessible app helping autistic individuals build and keep daily routines.</p><span class="read">Read case study →</span></div></a>
+    </div>
+    <div style="text-align:center;margin-top:40px"><a class="back-link" href="index.html#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to all projects</a></div>
+  </section>
+</div>
+</main>
+
+<footer class="site-footer"><div class="container">© <span data-year>2026</span> Amit Hilel. Designed &amp; built with care.</div></footer>
+<div class="lightbox"><button class="lightbox-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><img src="" alt="" /></div>
+<script>
+(function(){var toc=document.getElementById('csToc');if(!toc||!('IntersectionObserver'in window))return;var links=[].slice.call(toc.querySelectorAll('a')),map={};links.forEach(function(a){var el=document.getElementById(a.getAttribute('href').slice(1));if(el)map[el.id]=a;});var spy=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});if(map[e.target.id])map[e.target.id].classList.add('active');}});},{rootMargin:'-45% 0px -50% 0px'});Object.keys(map).forEach(function(id){spy.observe(document.getElementById(id));});})();
+</script>
+<script src="main.js"></script>
+</body>
+</html>

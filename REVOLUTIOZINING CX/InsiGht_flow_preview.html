@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>InsiGht — scroll-play preview</title>
+<style>
+  :root{--cream:#f7f3ec;--brown900:#2a1f15;--brown700:#5b4636;--brown500:#8a7a68;--accent:#caa46e}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;background:var(--cream);color:var(--brown900)}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  .spacer{min-height:88vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
+  .spacer h2{font-size:clamp(22px,3vw,34px);color:var(--brown700)}
+  .spacer p{color:#8a7a68;max-width:560px}
+  .hint{font-size:13px;color:#a99}
+  .hero{padding:40px 0 80px}
+  .hero h1{font-size:clamp(26px,4vw,46px);font-weight:800;text-align:center;margin-bottom:10px;
+    background:linear-gradient(90deg,#6b4f2e,#caa46e);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{text-align:center;color:var(--brown700);max-width:620px;margin:0 auto 28px}
+  .videoCard{position:relative;width:100%;border-radius:20px;overflow:hidden;background:#1c1712;
+    box-shadow:0 40px 90px rgba(42,31,21,.28),0 0 0 1px rgba(0,0,0,.05);cursor:pointer}
+  .videoCard video{display:block;width:100%;height:auto}
+  .badge{position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:8px;background:rgba(28,23,18,.7);
+    color:#fff;font-size:12px;font-weight:600;padding:7px 12px;border-radius:999px;backdrop-filter:blur(6px)}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)}
+  .dot.live{background:#54d27a;box-shadow:0 0 10px #54d27a;animation:pulse 1.4s infinite}
+  @keyframes pulse{0%{opacity:1}50%{opacity:.4}100%{opacity:1}}
+  .cap{text-align:center;color:#8a7a68;font-size:13px;margin-top:12px}
+  .fs{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:.25s;background:rgba(42,31,21,0)}
+  .videoCard:hover .fs{opacity:1;background:rgba(42,31,21,.15)}
+  .fs span{background:rgba(255,255,255,.92);color:var(--brown700);font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px}
+</style>
+</head>
+<body>
+  <div class="spacer">
+    <h2>↓ Scroll down to the project</h2>
+    <p>This is just filler so you can test the effect. The video below starts playing automatically the moment it scrolls into view — and pauses when you scroll away.</p>
+    <span class="hint">(same behavior as benshih.design)</span>
+  </div>
+
+  <div class="wrap hero">
+    <h1>Revolutionizing CX</h1>
+    <p class="sub">A guided walk through the redesigned InsiGht experience — Smart Search, dashboards, the AI poll builder, and Go-Go AI.</p>
+
+    <div class="videoCard" id="card">
+      <video id="v" src="./InsiGht_flow_16x9.mp4" poster="./InsiGht_flow_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <div class="badge"><span class="dot" id="dot"></span><span id="state">Interactive walkthrough</span></div>
+      <div class="fs"><span>⛶ Click for fullscreen</span></div>
+    </div>
+    <p class="cap">Auto-plays on scroll-in · pauses on scroll-out · click for fullscreen</p>
+  </div>
+
+  <div class="spacer">
+    <h2>↑ Scroll back up</h2>
+    <p>Notice the video paused as soon as it left the screen, and resumes when it comes back. The green dot shows when it’s actively playing.</p>
+  </div>
+
+<script>
+  const v=document.getElementById('v'), dot=document.getElementById('dot'), state=document.getElementById('state'), card=document.getElementById('card');
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && e.intersectionRatio>=0.4){ v.play().catch(()=>{}); }
+      else { v.pause(); }
+    });
+  },{threshold:[0,0.4,0.75]});
+  io.observe(v);
+  v.addEventListener('play',()=>{dot.classList.add('live');state.textContent='Playing';});
+  v.addEventListener('pause',()=>{dot.classList.remove('live');state.textContent='Paused';});
+  card.addEventListener('click',()=>{ if(document.fullscreenElement){document.exitFullscreen();} else {v.requestFullscreen?.();} });
+</script>
+</body>
+</html>

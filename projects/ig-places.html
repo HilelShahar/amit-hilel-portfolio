@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instagram · Area Guide — concept prototype</title>
+<style>
+  :root{
+    --cream:#fefcf7;--cream2:#fdeee0;--b100:#f4e6d9;--b200:#e8cdb3;--b400:#c08552;--b500:#a67542;--b600:#8b5a2b;--b700:#6f4423;--b800:#5c391d;--b900:#4a2f17;
+    --ink:#262626;--sub:#8e8e8e;--line:#dbdbdb;--soft:#fafafa;--blue:#0095f6;
+    --ig:linear-gradient(95deg,#feda75,#fa7e1e 30%,#d62976 55%,#962fbf 80%,#4f5bd5);
+    --ease:cubic-bezier(.32,.72,0,1);
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(900px 500px at 80% -5%,var(--cream2),transparent 60%),var(--cream);
+    font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--b900);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px 16px}
+  .head{text-align:center;max-width:560px}
+  .head .eyebrow{font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:.68rem;color:var(--b500);margin:0 0 6px}
+  .head h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.6rem;margin:0 0 6px}
+  .head p{margin:0;color:var(--b600);font-size:.92rem;line-height:1.5}
+  .caption{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--b100);border-radius:999px;padding:8px 16px 8px 8px;box-shadow:0 10px 24px -14px rgba(90,57,29,.3);min-height:44px;max-width:90vw}
+  .phase{font-weight:800;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:#fff;background-image:var(--ig);padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .caption .step{font-weight:600;font-size:.88rem;color:var(--b800)}
+
+  .phone{position:relative;width:332px;height:720px;border-radius:46px;background:#000;padding:10px;box-shadow:0 50px 90px -40px rgba(74,47,23,.55),0 10px 30px -14px rgba(74,47,23,.3)}
+  .viewport{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#fff}
+  .screen{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;overflow:hidden;will-change:transform}
+  .sbar{display:flex;justify-content:space-between;align-items:center;padding:13px 20px 6px;font-weight:700;font-size:13px;flex:none}
+  .bat{width:20px;height:11px;border-radius:3px;background:currentColor}
+  .screen.push{transition:transform .44s var(--ease),filter .44s var(--ease)}
+  .screen.right{transform:translateX(100%)}
+  .screen.left{transform:translateX(-26%);filter:brightness(.82)}
+  .z1{z-index:1}.z2{z-index:2}.z3{z-index:3}.z4{z-index:4}
+
+  /* search field */
+  .topsearch{padding:4px 14px 6px;flex:none}
+  .field{display:flex;align-items:center;gap:9px;background:#efefef;border-radius:11px;padding:10px 12px;font-weight:700;font-size:15px;color:var(--ink)}
+  .field .mag{width:15px;height:15px;border:2px solid var(--sub);border-radius:999px;position:relative;flex:none}
+  .field .mag::after{content:"";position:absolute;right:-4px;bottom:-4px;width:7px;height:2px;background:var(--sub);transform:rotate(45deg)}
+  .field .ph{color:var(--sub)}
+  .caret{width:2px;height:17px;background:#3897f0;border-radius:2px;opacity:0;margin-left:1px}
+  .field.active .caret{opacity:1;animation:blink 1.05s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* HOME (search entry) */
+  .home-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
+  .home-body .suggest{display:none}
+  .home-body.typing .home-default{display:none}
+  .home-body.typing .suggest{display:flex;flex-direction:column}
+  .reclbl{font-weight:800;font-size:10px;letter-spacing:.06em;color:var(--sub);margin:8px 16px 8px}
+  .recents{display:flex;gap:7px;flex-wrap:wrap;padding:0 16px}
+  .rc{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:6px 11px;font-size:12px;font-weight:600}
+  .exhead{font-weight:800;font-size:12px;color:var(--sub);padding:12px 16px 6px}
+  .exgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;flex:1;overflow:hidden;align-content:start}
+  .exgrid .c{aspect-ratio:1;background:linear-gradient(135deg,var(--a),var(--b))}
+
+  /* search suggestions — destination becomes a first-class result */
+  .suggest{padding:6px 0}
+  .sg-area{display:flex;align-items:center;gap:12px;margin:6px 12px 10px;padding:13px;border-radius:15px;background:linear-gradient(120deg,#ffffff,#fdeee0);position:relative;box-shadow:0 10px 24px -12px rgba(150,47,191,.35)}
+  .sg-area::before{content:"";position:absolute;inset:0;border-radius:15px;padding:1.6px;background:var(--ig);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+  .sg-ico{width:42px;height:42px;border-radius:12px;background-image:var(--ig);display:flex;align-items:center;justify-content:center;font-size:21px;flex:none}
+  .sg-t{flex:1}.sg-t b{font-size:15px;display:block}.sg-t span{font-size:11.5px;color:var(--b500);font-weight:700}
+  .sg-badge{background-image:var(--ig);color:#fff;font-weight:800;font-size:10px;padding:5px 9px;border-radius:999px;flex:none}
+  .sg-divide{font-size:10px;font-weight:800;letter-spacing:.06em;color:var(--sub);padding:2px 18px 6px}
+  .sg-row{display:flex;align-items:center;gap:12px;padding:8px 18px}
+  .sg-av{width:34px;height:34px;border-radius:999px;background-image:var(--ig);flex:none}
+  .sg-row b{font-size:14px;display:block}.sg-row span{font-size:11px;color:var(--sub)}
+
+  /* AREA GUIDE header + categories */
+  .areabar{display:flex;align-items:center;gap:8px;padding:2px 16px 8px;flex:none}
+  .areabar .ico{width:26px;height:26px;border-radius:8px;background-image:var(--ig);display:flex;align-items:center;justify-content:center}
+  .spark{width:13px;height:13px;display:inline-block;background:#fff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+  .areabar b{font-weight:800;font-size:13px}.areabar span{font-size:11px;color:var(--sub)}
+  .cats{display:flex;gap:8px;padding:2px 14px 10px;flex:none;overflow:hidden}
+  .cat{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;transition:.25s}
+  .cat .e{font-size:19px;line-height:1}
+  .cat .l{font-weight:800;font-size:11px;color:var(--b700)}
+  .cat.on{border:0;background-image:var(--ig)}
+  .cat.on .l{color:#fff}
+  .plist{flex:1;overflow:hidden;padding:2px 14px 0;transition:opacity .28s ease,transform .28s var(--ease)}
+  .plist.swap{opacity:0;transform:translateY(8px)}
+  .pcard{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #f0eae2}
+  .pcard .th{width:64px;height:64px;border-radius:14px;flex:none;background:linear-gradient(150deg,var(--a),var(--b));position:relative;overflow:hidden}
+  .pcard .th .pl{position:absolute;top:6px;right:6px;width:0;height:0;border-left:10px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent;opacity:.9}
+  .pcard .info{flex:1;min-width:0}
+  .pcard .info b{font-size:15px;display:block}
+  .pcard .info .meta{font-size:11.5px;color:var(--sub);margin-top:2px}
+  .pcard .info .shared{display:flex;align-items:center;gap:7px;margin-top:7px}
+  .pcard .avs{display:flex}
+  .pcard .avs .av{width:19px;height:19px;border-radius:999px;border:1.5px solid #fff;background:linear-gradient(135deg,#e8cdb3,#a67542);margin-left:-7px}
+  .pcard .avs .av:first-child{margin-left:0}
+  .pcard .shared span{font-size:11px;color:var(--b600);font-weight:700}
+  .save{width:32px;height:32px;border-radius:10px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none;background:#fff}
+  .save svg{width:16px;height:16px;stroke:var(--ink);fill:none;stroke-width:2}
+  .save.on{background-image:var(--ig);border:0}.save.on svg{stroke:#fff;fill:#fff}
+
+  /* PLACE DETAIL */
+  .pd-head{position:relative;height:140px;flex:none;background:linear-gradient(150deg,#e8b98f,#c47a4a);overflow:hidden}
+  .pd-head .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.4))}
+  .pd-head .nav{position:absolute;top:8px;left:12px;right:12px;display:flex;align-items:center;justify-content:space-between;color:#fff;font-weight:800;z-index:2}
+  .pd-head h2{position:absolute;left:16px;bottom:10px;color:#fff;font-family:"Fraunces",serif;font-weight:600;font-size:24px;margin:0;text-shadow:0 2px 12px rgba(0,0,0,.45);z-index:2}
+  .pd-head .cat-pill{position:absolute;left:16px;bottom:40px;z-index:2;background:rgba(255,255,255,.92);color:var(--b800);font-weight:800;font-size:10px;padding:3px 9px;border-radius:999px}
+  .pd-friends{display:flex;align-items:center;gap:10px;padding:11px 16px 2px;flex:none}
+  .pd-friends .avs{display:flex}
+  .pd-friends .avs .av{width:28px;height:28px;border-radius:999px;border:2px solid #fff;background:linear-gradient(135deg,#e8cdb3,#a67542);margin-left:-9px}
+  .pd-friends .avs .av:first-child{margin-left:0}
+  .pd-friends .t b{font-size:13px;display:block}.pd-friends .t span{font-size:11px;color:var(--sub)}
+  .pd-sec{font-weight:800;font-size:10px;letter-spacing:.05em;color:var(--sub);padding:11px 16px 8px;display:flex;justify-content:space-between}
+  .pd-grid{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;padding:0 14px;overflow:hidden;align-content:start}
+  .pd-grid .g{aspect-ratio:1;border-radius:9px;background:linear-gradient(150deg,var(--a),var(--b));position:relative;overflow:hidden}
+  .pd-grid .g .who{position:absolute;left:4px;bottom:3px;color:#fff;font-size:8px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .pd-grid .g .pl{position:absolute;top:5px;right:5px;width:0;height:0;border-left:8px solid #fff;border-top:5px solid transparent;border-bottom:5px solid transparent;opacity:.9}
+  .pd-cta{flex:none;padding:11px 14px 18px;display:flex;gap:10px}
+  .pd-cta .b{flex:1;text-align:center;font-weight:800;font-size:15px;padding:13px;border-radius:13px}
+  .pd-cta .b.save{background-image:var(--ig);color:#fff}
+  .pd-cta .b.ghost{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+
+  /* TRIP */
+  .trip-head{padding:6px 16px 2px;flex:none}
+  .trip-head .nav{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px}
+  .trip-head h2{font-family:"Fraunces",serif;font-weight:600;font-size:23px;margin:5px 0 2px}
+  .map{position:relative;height:128px;flex:none;background:linear-gradient(180deg,#cfeaf0,#bfe0e6);overflow:hidden;border-radius:14px;margin:6px 14px 0}
+  .map .land{position:absolute;background:#efe7d6}
+  .map .l1{width:200px;height:130px;left:-30px;top:50px;border-radius:46% 54% 60% 40%/50% 60% 40% 50%}
+  .map .l2{width:130px;height:100px;right:-20px;top:24px;border-radius:60% 40% 50% 50%/40% 50% 50% 60%}
+  .pin{position:absolute;transform:translate(-50%,-100%)}
+  .pin .dot{width:16px;height:16px;border-radius:999px 999px 999px 2px;background-image:var(--ig);transform:rotate(45deg);box-shadow:0 3px 8px rgba(0,0,0,.3);border:2px solid #fff}
+  .trip-ai{display:flex;align-items:center;gap:9px;margin:10px 16px 0;background:#faf3ea;border:1px solid var(--b100);border-radius:13px;padding:10px 12px;flex:none}
+  .trip-ai .g{width:24px;height:24px;border-radius:7px;background-image:var(--ig);flex:none;display:flex;align-items:center;justify-content:center}
+  .trip-ai span{font-size:12px;color:var(--b700);font-weight:600;line-height:1.4}
+  .trip-saved{flex:1;overflow:hidden;padding:8px 14px 0}
+  .ts{display:flex;gap:11px;align-items:center;padding:8px 0;border-bottom:1px solid #f0eae2}
+  .ts .n{width:22px;height:22px;border-radius:7px;background-image:var(--ig);color:#fff;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none}
+  .ts .th{width:46px;height:46px;border-radius:11px;background:linear-gradient(150deg,var(--a),var(--b));flex:none}
+  .ts .info b{font-size:14px;display:block}.ts .info span{font-size:11px;color:var(--sub)}
+
+  .toast{position:absolute;left:14px;right:14px;bottom:18px;z-index:40;background:#1f1f1f;color:#fff;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:11px;transform:translateY(150%);transition:transform .5s var(--ease);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+  .toast.show{transform:translateY(0)}
+  .toast .ic{width:26px;height:26px;border-radius:999px;background-image:var(--ig);flex:none;display:flex;align-items:center;justify-content:center}
+  .toast b{font-size:13px}.toast span{font-size:11px;opacity:.8;display:block}
+  .toast .go{margin-left:auto;font-weight:800;font-size:12px;border:1px solid rgba(255,255,255,.4);padding:6px 11px;border-radius:999px}
+
+  .tap{position:absolute;width:46px;height:46px;border-radius:999px;border:2px solid rgba(255,255,255,.95);background:rgba(255,255,255,.28);left:0;top:0;transform:translate(-50%,-50%) scale(.001);opacity:0;z-index:60;pointer-events:none;box-shadow:0 2px 10px rgba(0,0,0,.3);transition:left .55s var(--ease),top .55s var(--ease),opacity .2s,transform .2s}
+  .tap.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .tap.press{transform:translate(-50%,-50%) scale(.7)}
+
+  .controls{display:flex;gap:10px}
+  .controls button{font:inherit;font-weight:700;font-size:.85rem;border-radius:999px;padding:.55rem 1.1rem;cursor:pointer;border:1.5px solid var(--b200);background:#fff;color:var(--b700)}
+  .controls button.primary{background:var(--b600);color:#fff;border-color:var(--b600)}
+  .hint{color:var(--b500);font-size:.78rem;font-weight:600;text-align:center;max-width:90vw}
+
+  /* embed mode (?embed=1) — just the phone, for the portfolio card */
+  html.embed,body.embed{height:100%;background:transparent}
+  body.embed{padding:0;gap:0;min-height:0;overflow:hidden;justify-content:center}
+  body.embed .head,body.embed .controls,body.embed .hint,body.embed .caption{display:none!important}
+  body.embed .phone{transform:scale(.66);transform-origin:center;box-shadow:0 18px 40px -22px rgba(74,47,23,.45)}
+  body.embed.modal .phone{transform:scale(.9)}
+</style>
+</head>
+<body>
+  <div class="head">
+    <p class="eyebrow">A feature I wish existed · Instagram</p>
+    <h1>Area Guide — explore a place by what you want</h1>
+    <p>It starts in the search you already use: type a destination, and Instagram turns it into a guide of <b>Eat · See · Stay · Do</b> — built from what everyone shared.</p>
+  </div>
+  <div class="caption"><span class="phase" id="phase">Flow</span><span class="step" id="step">Loading…</span></div>
+
+  <div class="phone"><div class="viewport" id="vp">
+
+    <!-- 0 · SEARCH HOME (the entry) -->
+    <div class="screen push z1" id="home">
+      <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+      <div class="topsearch"><div class="field" id="homeField"><span class="mag"></span><span id="homeQuery" class="ph">Search</span><span class="caret"></span></div></div>
+      <div class="home-body" id="homeBody">
+        <div class="home-default">
+          <div class="reclbl">RECENT</div>
+          <div class="recents"><span class="rc">that pasta reel</span><span class="rc">hila wedding</span><span class="rc">trail shoes</span></div>
+          <div class="exhead">Explore</div>
+          <div class="exgrid" id="exGrid"></div>
+        </div>
+        <div class="suggest" id="suggest">
+          <div class="sg-area" id="sgArea"><div class="sg-ico">📍</div>
+            <div class="sg-t"><b>Amalfi Coast, Italy</b><span>Explore the area · 1,240 places shared</span></div>
+            <div class="sg-badge">Area guide</div></div>
+          <div class="sg-divide">OR THE USUAL RESULTS</div>
+          <div class="sg-row"><div class="sg-av" style="background-image:none;background:#e8cdb3"></div><div><b>#amalficoast</b><span>1.2M posts</span></div></div>
+          <div class="sg-row"><div class="sg-av"></div><div><b>amalfi.coast.italy</b><span>Travel page · 412k</span></div></div>
+          <div class="sg-row"><div class="sg-av" style="background-image:none;background:#bcd0e0"></div><div><b>amalfi_food</b><span>Account</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1 · AREA GUIDE -->
+    <div class="screen push z2 right" id="guide">
+      <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+      <div class="topsearch"><div class="field"><span class="mag"></span><span>Amalfi Coast</span></div></div>
+      <div class="areabar"><span class="ico"><span class="spark"></span></span><div><b>Amalfi Coast, Italy</b><br><span>1,240 places shared by people on Instagram</span></div></div>
+      <div class="cats" id="cats">
+        <div class="cat on" data-cat="eat"><span class="e">🍝</span><span class="l">Eat</span></div>
+        <div class="cat" data-cat="see"><span class="e">🏖️</span><span class="l">See</span></div>
+        <div class="cat" data-cat="stay"><span class="e">🛏️</span><span class="l">Stay</span></div>
+        <div class="cat" data-cat="do"><span class="e">✨</span><span class="l">Do</span></div>
+      </div>
+      <div class="plist" id="plist"></div>
+    </div>
+
+    <!-- 2 · PLACE DETAIL -->
+    <div class="screen push z3 right" id="place">
+      <div class="sbar" style="color:#fff"><span>9:41</span><span class="bat" style="background:#fff"></span></div>
+      <div class="pd-head"><div class="scrim"></div>
+        <div class="nav"><span style="font-size:20px">‹</span><span class="save" id="pdSaveTop" style="background:rgba(255,255,255,.25);border:0"><svg viewBox="0 0 24 24" style="stroke:#fff"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span></div>
+        <span class="cat-pill">🍝 EAT · BEACH RESTAURANT</span>
+        <h2 id="pdName">Da Adolfo</h2>
+      </div>
+      <div class="pd-friends"><div class="avs"><span class="av"></span><span class="av"></span><span class="av"></span></div>
+        <div class="t"><b>noa, dan &amp; 1 more friend went</b><span>+ 41 people shared from here</span></div></div>
+      <div class="pd-sec"><span>EVERY SHARE · FROM EVERYONE</span><span style="color:var(--b400)">Sort: people you follow</span></div>
+      <div class="pd-grid" id="pdGrid"></div>
+      <div class="pd-cta"><span class="b ghost">Directions</span><span class="b save" id="pdSaveBtn">＋ Save to trip</span></div>
+    </div>
+
+    <!-- 3 · TRIP -->
+    <div class="screen push z4 right" id="trip">
+      <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+      <div class="trip-head"><div class="nav"><span style="font-size:20px">‹</span>Trips</div><h2>Italy 2026</h2></div>
+      <div class="map"><div class="land l1"></div><div class="land l2"></div>
+        <div class="pin" style="left:40%;top:66%"><span class="dot"></span></div>
+        <div class="pin" style="left:64%;top:48%"><span class="dot"></span></div>
+        <div class="pin" style="left:26%;top:44%"><span class="dot"></span></div></div>
+      <div class="trip-ai"><span class="g"><span class="spark"></span></span><span><b>AI plan:</b> 3 saved · best in May–June · all within 40 min — draft a 5-day route?</span></div>
+      <div class="trip-saved">
+        <div class="ts"><span class="n">🍝</span><span class="th" style="--a:#e7cf9a;--b:#cf9a5a"></span><div class="info"><b>Da Adolfo</b><span>Eat · beach restaurant · 3 friends went</span></div></div>
+        <div class="ts"><span class="n">🏖️</span><span class="th" style="--a:#9cc7d6;--b:#5f93a6"></span><div class="info"><b>Path of the Gods</b><span>See · clifftop hike</span></div></div>
+        <div class="ts"><span class="n">🛏️</span><span class="th" style="--a:#d7c2ef;--b:#b39ae0"></span><div class="info"><b>Le Sirenuse</b><span>Stay · sea-view hotel</span></div></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"><span class="ic"><span class="spark"></span></span>
+      <div><b>Saved to Italy 2026</b><span>3 places · open your trip</span></div><span class="go" id="toastGo">View</span></div>
+    <div class="tap" id="tap"></div>
+  </div></div>
+
+  <div class="controls"><button class="primary" id="replay">▶ Replay</button><button id="interact">✋ Interact</button></div>
+  <div class="hint" id="hintTxt">It plays on its own — tap Interact to drive it.</div>
+
+<script>
+(function(){
+  // embed mode: explicit ?embed, OR whenever we're rendered inside an iframe
+  // (the portfolio card embeds it; some static servers strip the query string).
+  if(/embed/.test(location.search)||/embed|modal/.test(location.hash)||window.self!==window.top){document.documentElement.classList.add('embed');document.body.classList.add('embed');}
+  if(/modal/.test(location.hash)){document.documentElement.classList.add('modal');document.body.classList.add('modal');}
+  var vp=document.getElementById('vp'), plist=document.getElementById('plist');
+  var home=document.getElementById('home'), guide=document.getElementById('guide'), place=document.getElementById('place'), trip=document.getElementById('trip');
+  var homeBody=document.getElementById('homeBody'), homeField=document.getElementById('homeField'), homeQuery=document.getElementById('homeQuery'), sgArea=document.getElementById('sgArea');
+  var toast=document.getElementById('toast'), tap=document.getElementById('tap');
+  var phase=document.getElementById('phase'), step=document.getElementById('step'), hintTxt=document.getElementById('hintTxt');
+  var pdSaveBtn=document.getElementById('pdSaveBtn'), pdSaveTop=document.getElementById('pdSaveTop');
+
+  // explore grid (home)
+  var ex=[['#f6c1a8','#e89b7a'],['#c9dcef','#9bb8e0'],['#e7cdf0','#c79bd6'],['#cfe9d4','#9fd0ad'],['#f3d0c2','#e0a48f'],['#d7cdef','#b3a4e0'],['#f6e2a8','#e8c87a'],['#bfe0e6','#8ec6d0'],['#efc6d2','#dc9bb0']];
+  var exGrid=document.getElementById('exGrid');
+  ex.forEach(function(p){var c=document.createElement('div');c.className='c';c.style.setProperty('--a',p[0]);c.style.setProperty('--b',p[1]);exGrid.appendChild(c);});
+
+  // area-guide data per category
+  var DATA={
+    eat:[{n:'Da Adolfo',m:'beach restaurant · boat-only',s:41,f:3,a:'#e7cf9a',b:'#cf9a5a'},{n:'Lo Scoglio',m:'seafood · Nerano',s:88,f:1,a:'#f3c19a',b:'#dd9a6a'},{n:'La Tagliata',m:'family trattoria · view',s:62,f:2,a:'#e9b08a',b:'#c8804f'}],
+    see:[{n:'Path of the Gods',m:'clifftop hike · sunset',s:210,f:4,a:'#9cc7d6',b:'#5f93a6'},{n:'Fiordo di Furore',m:'hidden fjord beach',s:74,f:1,a:'#bcd0e0',b:'#7fa6c4'},{n:'Positano steps',m:'the postcard view',s:340,f:5,a:'#a9c7cf',b:'#6f9aa6'}],
+    stay:[{n:'Le Sirenuse',m:'sea-view hotel · pool',s:120,f:2,a:'#d7c2ef',b:'#b39ae0'},{n:'Casa Angelina',m:'all-white design stay',s:56,f:0,a:'#cdbfe6',b:'#a48fd0'},{n:'Villa Rosa B&B',m:'budget · terrace',s:33,f:1,a:'#e0c2d6',b:'#c08aa6'}],
+    do:[{n:'Sunset boat tour',m:'grottoes & swim stops',s:97,f:3,a:'#f0c19f',b:'#d98a5a'},{n:'Lemon grove walk',m:'tasting · Amalfi',s:45,f:0,a:'#e6dca0',b:'#c8b85a'},{n:'Capri day trip',m:'Blue Grotto & town',s:160,f:2,a:'#9cc7d6',b:'#5f93a6'}]
+  };
+  function render(cat){
+    plist.innerHTML=DATA[cat].map(function(p){
+      var avs='';for(var k=0;k<Math.min(p.f||1,3);k++)avs+='<span class="av"></span>';
+      var ft=p.f>0?p.f+' you follow':'shared recently';
+      return '<div class="pcard" data-place="'+p.n+'"><div class="th" style="--a:'+p.a+';--b:'+p.b+'"><span class="pl"></span></div>'+
+        '<div class="info"><b>'+p.n+'</b><div class="meta">'+p.m+'</div><div class="shared"><span class="avs">'+avs+'</span><span>'+p.s+' shared · '+ft+'</span></div></div>'+
+        '<div class="save"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></div></div>';
+    }).join('');
+  }
+  function setCat(cat){ document.querySelectorAll('.cat').forEach(function(c){c.classList.toggle('on',c.getAttribute('data-cat')===cat);});
+    plist.classList.add('swap'); setTimeout(function(){render(cat);plist.classList.remove('swap');},240); }
+  render('eat');
+
+  // place-detail grid: every share, many creators
+  var g=[['#e7cf9a','#cf9a5a','@noa'],['#f3c19a','#dd9a6a','@dan_eats'],['#e9b08a','#c8804f','@yael'],['#e0a890','#c97a5a','@food.amalfi'],['#efc6a8','#d99a6a','@lonely.it'],['#d9b58a','#bf8a4a','@coastlife'],['#e7cf9a','#cf9a5a','@sun.sea'],['#f0c19f','#d98a5a','@wander'],['#e3b48a','#c98a52','@bites']];
+  var grid=document.getElementById('pdGrid');
+  g.forEach(function(x){var d=document.createElement('div');d.className='g';d.style.setProperty('--a',x[0]);d.style.setProperty('--b',x[1]);d.innerHTML='<span class="pl"></span><span class="who">'+x[2]+'</span>';grid.appendChild(d);});
+
+  // typing
+  var typeTimer=null;
+  function typeQuery(text,cb){ homeField.classList.add('active'); homeQuery.classList.remove('ph'); homeQuery.textContent='';
+    var i=0; clearInterval(typeTimer);
+    typeTimer=setInterval(function(){ i++; homeQuery.textContent=text.slice(0,i); if(i>=text.length){clearInterval(typeTimer); if(cb)setTimeout(cb,260);} },55);
+  }
+
+  function reset(){
+    home.className='screen push z1'; guide.className='screen push z2 right'; place.className='screen push z3 right'; trip.className='screen push z4 right';
+    toast.className='toast'; tap.className='tap';
+    homeBody.classList.remove('typing'); homeField.classList.remove('active'); homeQuery.className='ph'; homeQuery.textContent='Search';
+    pdSaveBtn.classList.remove('on'); pdSaveBtn.textContent='＋ Save to trip'; pdSaveTop.classList.remove('on');
+    render('eat'); document.querySelectorAll('.cat').forEach(function(c){c.classList.toggle('on',c.getAttribute('data-cat')==='eat');});
+    clearInterval(typeTimer);
+  }
+  function tapAt(el,cb){ if(!el){if(cb)cb();return;} var vr=vp.getBoundingClientRect(),er=el.getBoundingClientRect();
+    tap.style.left=(er.left-vr.left+er.width/2)+'px'; tap.style.top=(er.top-vr.top+er.height/2)+'px'; tap.classList.add('show');
+    setTimeout(function(){tap.classList.add('press');setTimeout(function(){tap.classList.remove('press');if(cb)cb();},170);},540);}
+  function say(p,t){phase.textContent=p;step.textContent=t;}
+  function catEl(c){return document.querySelector('.cat[data-cat='+c+']');}
+
+  var timers=[],auto=true;
+  function at(t,fn){timers.push(setTimeout(fn,t));}
+  function clearAll(){timers.forEach(clearTimeout);timers=[];}
+
+  function play(){
+    clearAll(); reset();
+    say('1 · Search','You start in the search you already use.');
+    at(1200,function(){ say('1 · Search','Tap search and type where you’re going.');
+      tapAt(homeField,function(){ tap.classList.remove('show'); typeQuery('Amalfi Coast',function(){ homeBody.classList.add('typing'); }); }); });
+    at(4200,function(){ say('2 · Destination','Instagram sees a place — and offers the whole area, not a feed.'); });
+    at(5600,function(){ say('3 · Open guide','Tap “Area guide” to explore it.');
+      tapAt(sgArea,function(){ tap.classList.remove('show'); guide.classList.remove('right'); home.classList.add('left'); }); });
+    at(7300,function(){ say('4 · Eat','Browse by what you want — restaurants people actually shared.'); });
+    at(8700,function(){ say('5 · See','Switch to See — viewpoints, beaches, hikes.'); tapAt(catEl('see'),function(){setCat('see');tap.classList.remove('show');}); });
+    at(10300,function(){ say('6 · Stay','And Stay — hotels & B&Bs, ranked by real shares.'); tapAt(catEl('stay'),function(){setCat('stay');tap.classList.remove('show');}); });
+    at(12000,function(){ say('7 · One place','Open a place — every share, from everyone, in one view.'); tapAt(catEl('eat'),function(){setCat('eat');});
+      at(700,function(){ tapAt(plist.querySelector('.pcard'),function(){ tap.classList.remove('show'); place.classList.remove('right'); guide.classList.add('left'); }); }); });
+    at(14400,function(){ say('8 · Save','Save it straight into a trip.');
+      tapAt(pdSaveBtn,function(){ tap.classList.remove('show'); pdSaveBtn.classList.add('on'); pdSaveBtn.textContent='✓ Saved'; pdSaveTop.classList.add('on'); toast.classList.add('show'); }); });
+    at(16200,function(){ say('9 · Trip','Your trip = a map of saved places, by category, with AI.');
+      tapAt(document.getElementById('toastGo'),function(){ tap.classList.remove('show'); toast.classList.remove('show'); trip.classList.remove('right'); place.classList.add('left'); }); });
+    at(19800,function(){ if(auto) play(); });
+  }
+
+  document.getElementById('replay').onclick=function(){auto=true;hintTxt.textContent='It plays on its own — tap Interact to drive it.';this.classList.add('primary');document.getElementById('interact').classList.remove('primary');play();};
+  document.getElementById('interact').onclick=function(){auto=false;clearAll();reset();say('You','Tap search → it types for you → open the Area guide.');tap.classList.remove('show');hintTxt.textContent='Manual mode — tap search, then “Area guide”, then explore.';this.classList.add('primary');document.getElementById('replay').classList.remove('primary');};
+
+  // manual interactions
+  homeField.onclick=function(){ if(!auto){ typeQuery('Amalfi Coast',function(){homeBody.classList.add('typing');}); } };
+  sgArea.onclick=function(){ if(!auto){ guide.classList.remove('right'); home.classList.add('left'); } };
+  document.getElementById('cats').addEventListener('click',function(e){var c=e.target.closest('.cat');if(c&&!auto)setCat(c.getAttribute('data-cat'));});
+  plist.addEventListener('click',function(e){if(auto)return;if(e.target.closest('.save')){e.target.closest('.save').classList.toggle('on');return;}if(e.target.closest('.pcard')){place.classList.remove('right');guide.classList.add('left');}});
+  pdSaveBtn.onclick=function(){if(!auto){this.classList.add('on');this.textContent='✓ Saved';pdSaveTop.classList.add('on');toast.classList.add('show');}};
+  document.getElementById('toastGo').onclick=function(){if(!auto){toast.classList.remove('show');trip.classList.remove('right');place.classList.add('left');}};
+
+  play();
+})();
+</script>
+</body>
+</html>

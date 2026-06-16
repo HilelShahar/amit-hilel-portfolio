@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Navigating Municipal Services — Amit Hilel</title>
+<meta name="description" content="Case study: mixed-methods usability research and redesign of a city's digital resident portal." />
+<link rel="icon" href="LOGO%20AMIT.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Nunito:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="case-study.css" />
+</head>
+<body>
+<header class="site-header pill-header">
+  <nav class="nav-pill">
+    <a class="brand" href="index.html"><img class="avatar" src="LOGO%20AMIT.png" alt="Amit Hilel" /><span>Amit Hilel</span></a>
+    <div class="nav-center-wrap">
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="index.html#work" class="active">Design</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Writing</a>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a class="btn-dark" href="mailto:amithilel0211@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg><span>Say Hello</span></a>
+      <a class="btn-dark-sq" href="https://www.linkedin.com/in/amithilel" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21H17v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg></a>
+      <button class="nav-toggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    </div>
+  </nav>
+</header>
+
+<main>
+<section class="cs-hero2">
+  <div class="container">
+    <p class="eyebrow reveal in">Public Sector · Usability Research</p>
+    <h1 class="cs-title gradient-text reveal in">Navigating Municipal Services:<span class="cs-subtitle">a resident portal people could actually use</span></h1>
+  </div>
+
+  <div class="container reveal">
+    <div class="cs-overview panel">
+      <div class="cs-ov-item"><h3>Overview</h3><p>Mixed-methods usability research and redesign of a city's "My Digital" resident portal — streamlining payments, parking, services, and support across mobile and desktop.</p></div>
+      <div class="cs-ov-item"><h3>My role</h3><p>UX Researcher &amp; Product Designer — research, testing, UX &amp; UI.</p></div>
+      <div class="cs-ov-item"><h3>Methods</h3><div class="cs-team"><span class="tm me">Moderated</span><span class="tm">Unmoderated</span></div></div>
+      <div class="cs-ov-item"><h3>Client</h3><p>City municipality</p></div>
+    </div>
+  </div>
+
+  <div class="container reveal cs-hero-shot">
+    <div class="shot-frame"><div class="shot-chrome"><i></i><i></i><i></i><span>My Digital — resident portal</span></div><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/Frame%20427319095%20(1).png" alt="My Digital resident portal" /></div>
+    <p class="cs-caption">“My Digital” — the redesigned municipal resident portal.</p>
+  </div>
+</section>
+
+<div class="container">
+  <nav class="cs-toc" id="csToc" aria-label="Sections">
+    <a href="#problem" class="active">Problem</a>
+    <a href="#research">Research</a>
+    <a href="#solutions">Solutions</a>
+    <a href="#prototype">Prototype</a>
+    <a href="#design">Design</a>
+    <a href="#results">Results</a>
+  </nav>
+
+  <!-- PROBLEM -->
+  <section class="cs-section reveal" id="problem">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The problem</p></div>
+    <p class="cs-bigstatement">A new digital portal — yet residents still picked up the phone.</p>
+    <p class="cs-statement-sub">“My Digital” was supposed to take load off the call center. It didn't. Residents would open it, hit a wall, and call anyway — so the real problem was never access to services. It was that the interface fought people at the exact moments they needed it.</p>
+    <div class="grid-3" style="margin-top:40px">
+      <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h4>Hard to navigate</h4><p>Vague labels — a generic “Profile,” unclear sections — sent people hunting. Any task that spanned two screens lost them.</p></div>
+      <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><h4>Impersonal &amp; rigid</h4><p>One identical home for every resident — nothing that reflected the handful of services a given person actually uses.</p></div>
+      <div class="insight-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><h4>Disruptive integrations</h4><p>Paying a fine bounced you to a separate site that re-asked for details you'd just entered — so people gave up.</p></div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="cs-section reveal" id="research">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The approach</p><h2 class="gradient-text" style="text-align:center">How I tackled it</h2><p style="text-align:center;margin-inline:auto">Mixed-methods research to learn where residents got stuck — and why they still reached for the phone.</p></div>
+    <div class="rsteps">
+      <div class="rstep-card reveal"><div class="num">01</div><h4>Recruiting, personas &amp; SWOT</h4><p>Recruited representative residents, built personas, and ran a SWOT to frame the portal's real strengths and gaps.</p><div class="tags"><span class="tag">Personas</span><span class="tag">SWOT</span></div></div>
+      <div class="rstep-card reveal d1"><div class="num">02</div><h4>Usability testing</h4><p>Moderated and unmoderated task-based testing on the prototype to watch where orientation and flow actually broke.</p><div class="tags"><span class="tag">Moderated</span><span class="tag">Unmoderated</span></div></div>
+      <div class="rstep-card reveal d2"><div class="num">03</div><h4>Journey mapping &amp; workshops</h4><p>Design-Thinking workshops plus a full customer-journey map (below) to turn findings into prioritized design directions.</p><div class="tags"><span class="tag">Journey maps</span><span class="tag">Workshops</span></div></div>
+    </div>
+
+    <div class="reveal" style="margin-top:40px">
+      <p class="cs-statement-sub" style="margin-bottom:20px">I mapped the full resident journey across the portal's key areas — general impression, exiting to external sites, profile, and traffic &amp; parking — to pinpoint exactly where a positive first impression turned into friction.</p>
+      <div class="shot-frame"><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/Container%20(12).png" alt="Customer journey map — positives and pain points across the portal" /></div>
+      <p class="cs-caption">Customer journey map — positives, pain points, and resident quotes across each area of “My Digital.”</p>
+    </div>
+
+    <div class="panel panel-brown reveal" style="margin-top:34px">
+      <h3 style="text-align:center;margin-bottom:1.1rem">What residents told us</h3>
+      <div class="grid-2">
+        <div class="quote">“Instead of calling it ‘Profile,’ I'd name it something more personal, like ‘Your Account.’”</div>
+        <div class="quote">“Switching between ‘My Digital’ and other sites is a hassle.”</div>
+        <div class="quote">“‘Profile’ feels too generic — less personal to me.”</div>
+        <div class="quote">“I expected more customization options.”</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:40px">
+      <div class="section-head"><h3 style="text-align:center;font-size:clamp(1.4rem,3vw,1.9rem)">From quotes to patterns</h3><p style="text-align:center;margin-inline:auto">I clustered the findings into three themes — and each theme became one of the three design directions.</p></div>
+      <div class="grid-3 synth">
+        <div class="theme-card"><span class="theme-tag">Theme 01 · Identity</span><h4>“It should feel like mine.”</h4><p>Residents read the portal as the city's, not theirs — a generic “Profile,” no room to make it personal.</p><div class="ev">“‘Profile’ feels too generic.” · “I expected more customization.”</div><div class="leads">→ became <b>Personalization</b></div></div>
+        <div class="theme-card"><span class="theme-tag">Theme 02 · Orientation</span><h4>“Don't make me re-orient.”</h4><p>Every screen change cost people their place, and labels named departments instead of tasks.</p><div class="ev">Observed across moderated sessions — repeated “wait, where am I?” moments.</div><div class="leads">→ became <b>Navigation</b></div></div>
+        <div class="theme-card"><span class="theme-tag">Theme 03 · Continuity</span><h4>“One place, not a relay.”</h4><p>Hand-offs to outside sites broke flow and trust, and re-asked for details people had just given.</p><div class="ev">“Switching between ‘My Digital’ and other sites is a hassle.”</div><div class="leads">→ became <b>Integration</b></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTIONS -->
+  <section class="cs-section reveal" id="solutions">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The solution</p><h2 class="gradient-text" style="text-align:center;font-size:clamp(2rem,4vw,2.8rem)">Three fixes, where residents felt the friction</h2></div>
+
+    <div class="solution-row reveal" style="margin-bottom:56px">
+      <div class="sol-text">
+        <span class="from-research">From the research → <b>Identity</b></span>
+        <p class="sol-num gradient-text">01</p>
+        <h3 style="margin:.3rem 0 .6rem">Personal, not one-size-fits-all</h3>
+        <p class="muted">Residents kept telling me “Profile” felt cold and that they “expected more customization.” That reframed personalization from a nice-to-have into the trust fix. So the home became a dashboard people build themselves — pin the services you use, drop the rest, and choose how you're alerted (SMS, email, in-app).</p>
+        <div class="sol-metrics"><div class="sol-metric"><b>Custom dashboard</b><span>widgets arranged around what you use</span></div><div class="sol-metric"><b>Configurable alerts</b><span>by type and channel</span></div></div>
+      </div>
+      <div class="sol-media"><div class="phone-shot"><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/home-1.png" alt="Personalized dashboard" /><div class="shot-note"><span class="k">The call</span>Killed the generic “Profile.” The home became a dashboard residents build themselves.</div></div></div>
+    </div>
+
+    <div class="solution-row reverse reveal" style="margin-bottom:56px">
+      <div class="sol-text">
+        <span class="from-research">From the research → <b>Orientation</b></span>
+        <p class="sol-num gradient-text">02</p>
+        <h3 style="margin:.3rem 0 .6rem">Navigation you can't get lost in</h3>
+        <p class="muted">In testing, people lost their place the moment a task crossed two screens. So I anchored one navigation bar on every page, added links inside each section, and renamed features to the words residents used — not internal department names. “Where am I?” stopped coming up.</p>
+        <div class="sol-metrics"><div class="sol-metric"><b>Persistent nav</b><span>visible on every page</span></div><div class="sol-metric"><b>Plain labels</b><span>language residents actually use</span></div></div>
+      </div>
+      <div class="sol-media"><div class="phone-shot"><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/services.png" alt="Services screen" /><div class="shot-note"><span class="k">The call</span>One nav on every page, and labels in residents' own words — not department names.</div></div></div>
+    </div>
+
+    <div class="solution-row reveal">
+      <div class="sol-text">
+        <span class="from-research">From the research → <b>Continuity</b></span>
+        <p class="sol-num gradient-text">03</p>
+        <h3 style="margin:.3rem 0 .6rem">One environment, start to finish</h3>
+        <p class="muted">The sharpest drop-off was the hand-off to outside payment sites — new look, details re-typed, trust gone. So I kept those flows inside the app: same design, details carried over, a pop-up that never feels like leaving. Paying a citation is one task now, not three.</p>
+        <div class="sol-metrics"><div class="sol-metric"><b>In-app pop-ups</b><span>you never feel you left</span></div><div class="sol-metric"><b>No re-entry</b><span>details carry across</span></div></div>
+      </div>
+      <div class="sol-media"><div class="phone-shot"><img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/Payment.png" alt="Payment screen" /><div class="shot-note"><span class="k">The call</span>Payment stays inside the app — no bounce to an outside site, no re-typing details.</div></div></div>
+    </div>
+  </section>
+
+  <!-- PROTOTYPE -->
+  <section class="cs-section reveal" id="prototype">
+    <div class="section-head">
+      <p class="eyebrow" style="text-align:center">Interactive prototype</p>
+      <h2 class="gradient-text" style="text-align:center">The redesign, in motion</h2>
+      <p style="text-align:center;margin-inline:auto">A live walkthrough of the rebuilt portal — watch a resident skip the call center, pay a citation <em>inside</em> the app, and personalize their dashboard. It plays on its own; tap <strong>Interact</strong> to drive it yourself.</p>
+    </div>
+    <div class="proto-embed reveal">
+      <div class="proto-device">
+        <iframe src="mydigitel-promo.html?embed=1" title="My Digitel — interactive prototype" loading="lazy"></iframe>
+      </div>
+      <div class="proto-side">
+        <h4>What the walkthrough shows</h4>
+        <ul class="proto-list">
+          <li><b>Personalization</b> — a dashboard residents arrange themselves, plus an Edit-Favorites flow.</li>
+          <li><b>Navigation</b> — a persistent nav and plain labels, so you never get lost.</li>
+          <li><b>Seamless integrations</b> — paying a citation happens in-app, with no re-entry.</li>
+        </ul>
+        <p class="proto-hint">Plays on its own. Hover the device and tap <b>Interact</b> to drive it yourself.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN gallery -->
+  <section class="cs-section reveal" id="design">
+    <div class="section-head"><h2 class="gradient-text" style="text-align:center">Visual design</h2><p style="text-align:center;margin-inline:auto">Approachable but still official — <strong>Manrope</strong> for clear hierarchy, one warm orange to carry the brand, and greens and reds that only ever mean one thing: done, or needs your attention.</p></div>
+    <div class="screen-grid">
+      <img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/sgin%20in.png" alt="Sign in" />
+      <img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/home.png" alt="Home" />
+      <img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/parking.png" alt="Parking" />
+      <img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/106%20plus.png" alt="106 Plus support" />
+      <img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/home-1.png" alt="Personalized home" />
+      <img src="NAVIGATIONG%20MUNICIPAL%20SERVICES/Payment.png" alt="Payment" />
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="cs-section reveal" id="results">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">The impact</p><h2 class="gradient-text" style="text-align:center">What changed</h2></div>
+    <div class="cs-impact" style="margin-bottom:40px">
+      <div class="metric"><div class="mnum">Phone → self-serve</div><div class="mlabel">The core shift</div><p>Residents now have a reason to finish a task in the portal instead of reaching for the phone.</p></div>
+      <div class="metric"><div class="mnum">4 key flows</div><div class="mlabel">Redesigned</div><p>Payments, parking, services, and support — rebuilt around clarity and orientation.</p></div>
+      <div class="metric"><div class="mnum">Mobile + desktop</div><div class="mlabel">One consistent system</div><p>One language that holds together whether you're on the bus or at a desk.</p></div>
+    </div>
+    <p class="impact-note" style="margin-bottom:34px">Directional results from moderated and unmoderated usability sessions across mobile and desktop, segmented by age and device — a concept validated with residents, not production analytics.</p>
+    <div class="cs-testimonial reveal">
+      <blockquote>“Now it actually feels like mine — I can find what I need without calling anyone.”</blockquote>
+      <p class="who">— Resident, usability session</p>
+    </div>
+  </section>
+
+  <!-- More case studies -->
+  <section class="cs-section reveal">
+    <div class="section-head"><p class="eyebrow" style="text-align:center">Keep exploring</p><h2 class="gradient-text" style="text-align:center">More case studies</h2></div>
+    <div class="more-cases">
+      <a class="mc-card" href="revolutionizing-cx.html"><div class="mc-thumb"><img src="REVOLUTIOZINING%20CX/nr-insights.png" alt="Revolutionizing CX" /></div><div class="mc-body"><span class="tag">Product · AI</span><h4>Revolutionizing CX</h4><p>A clearer research platform and an AI companion that turns weeks of synthesis into hours.</p><span class="read">Read case study →</span></div></a>
+      <a class="mc-card" href="routine-builder.html"><div class="mc-thumb"><img src="ROUTINE%20BUILDER/v2/4.png?v=clean1" alt="Routine Builder" /></div><div class="mc-body"><span class="tag">Accessibility</span><h4>Routine Builder</h4><p>An accessible app helping autistic individuals build and keep daily routines.</p><span class="read">Read case study →</span></div></a>
+      <a class="mc-card" href="mycookbook.html"><div class="mc-thumb"><img src="MY%20COOKBOOK/cover.png" alt="MyCookBook" /></div><div class="mc-body"><span class="tag">Product design</span><h4>MyCookBook</h4><p>A personal recipe collection that centralizes, organizes, and shares dishes.</p><span class="read">Read case study →</span></div></a>
+    </div>
+    <div style="text-align:center;margin-top:40px"><a class="back-link" href="index.html#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to all projects</a></div>
+  </section>
+</div>
+</main>
+
+<footer class="site-footer"><div class="container">© <span data-year>2026</span> Amit Hilel. Designed &amp; built with care.</div></footer>
+<div class="lightbox"><button class="lightbox-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button><img src="" alt="" /></div>
+<script>
+(function(){var toc=document.getElementById('csToc');if(!toc||!('IntersectionObserver'in window))return;var links=[].slice.call(toc.querySelectorAll('a')),map={};links.forEach(function(a){var el=document.getElementById(a.getAttribute('href').slice(1));if(el)map[el.id]=a;});var spy=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});if(map[e.target.id])map[e.target.id].classList.add('active');}});},{rootMargin:'-45% 0px -50% 0px'});Object.keys(map).forEach(function(id){spy.observe(document.getElementById(id));});})();
+</script>
+<script src="main.js"></script>
+</body>
+</html>
