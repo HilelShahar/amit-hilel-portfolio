@@ -489,6 +489,7 @@ h1,h2{font-weight:800}
 @media(max-width:560px){.tl-media--screens .screens-row img:nth-child(3){display:none}.tl-media--screens .screens-row img{max-width:46%}}
 .tl-year{position:relative}
 .tl-year::after{content:"";display:block;width:34px;height:3px;border-radius:3px;background:var(--brown-200);margin-top:8px}
+.tl-year--cont::after{display:none}
 
 /* =========================================================
    BEN POLISH v8: bigger teaser media + corner "Video" labels
