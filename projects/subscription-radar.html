@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subscription Radar — concept prototype</title>
+<style>
+  :root{
+    --cream:#fefcf7;--cream2:#fdeee0;--b100:#f4e6d9;--b200:#e8cdb3;--b400:#c08552;--b500:#a67542;--b600:#8b5a2b;--b700:#6f4423;--b900:#4a2f17;
+    --bg:#0d1015;--card:#191f29;--card2:#222a36;--line:#2b3340;--tx:#fff;--sub:#8b95a3;
+    --accent:#7c5cff;--accent2:#5b8cff;--green:#2ecc71;--red:#ff5d63;--amber:#ffb020;
+    --ease:cubic-bezier(.32,.72,0,1);
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(900px 500px at 80% -5%,var(--cream2),transparent 60%),var(--cream);
+    font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--b900);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px 16px}
+  .head{text-align:center;max-width:580px}
+  .head .eyebrow{font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:.68rem;color:var(--b500);margin:0 0 6px}
+  .head h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.6rem;margin:0 0 6px}
+  .head p{margin:0;color:var(--b600);font-size:.92rem;line-height:1.5}
+  .caption{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--b100);border-radius:999px;padding:8px 16px 8px 8px;box-shadow:0 10px 24px -14px rgba(90,57,29,.3);min-height:44px;max-width:90vw}
+  .phase{font-weight:800;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--accent);padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .caption .step{font-weight:600;font-size:.88rem;color:var(--b800,#5c391d)}
+
+  .phone{position:relative;width:332px;height:720px;border-radius:46px;background:#000;padding:10px;box-shadow:0 50px 90px -40px rgba(74,47,23,.55),0 10px 30px -14px rgba(74,47,23,.3)}
+  .viewport{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:var(--bg)}
+  .screen{position:absolute;inset:0;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden;will-change:transform}
+  .sbar{display:flex;justify-content:space-between;align-items:center;padding:13px 20px 6px;font-weight:700;font-size:13px;color:#fff;flex:none}
+  .bat{width:20px;height:11px;border-radius:3px;background:#fff}
+  .screen.push{transition:transform .44s var(--ease)}
+  .screen.right{transform:translateX(100%)}
+
+  .hd{display:flex;align-items:center;justify-content:space-between;padding:6px 16px 10px;flex:none}
+  .hd .av{width:34px;height:34px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+  .hd h2{font-size:15px;margin:0;font-weight:800}
+  .hd .ic{width:22px;height:22px;border:2px solid var(--sub);border-radius:7px}
+  .body{flex:1;overflow:hidden;padding:0 16px}
+  .balance{border-radius:18px;padding:18px;background:linear-gradient(150deg,#2a2150,#141a2e);border:1px solid #2c2a55}
+  .balance .l{font-size:12px;color:#b9b3e6;font-weight:700}
+  .balance .amt{font-family:"Fraunces",serif;font-size:32px;font-weight:600;margin-top:4px}
+  .balance .row{display:flex;gap:8px;margin-top:12px}
+  .balance .row .b{flex:1;text-align:center;background:rgba(255,255,255,.08);border-radius:10px;padding:8px;font-size:12px;font-weight:700}
+
+  .insight{margin-top:14px;border-radius:16px;padding:15px;background:var(--card);border:1px solid var(--line);position:relative;overflow:hidden}
+  .insight .top{display:flex;align-items:center;gap:11px}
+  .insight .ic{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+  .insight .t b{font-size:14.5px;display:block} .insight .t span{font-size:11.5px;color:var(--sub)}
+  .insight .flag{margin-left:auto;background:rgba(255,93,99,.16);color:var(--red);font-weight:800;font-size:11px;padding:5px 9px;border-radius:999px}
+  .insight .cta{display:flex;align-items:center;justify-content:space-between;margin-top:13px;padding-top:12px;border-top:1px solid var(--line);font-weight:800;font-size:13px;color:#cdb7ff}
+
+  .seclbl{font-size:12px;font-weight:800;color:var(--sub);margin:18px 0 8px}
+  .tx{display:flex;align-items:center;gap:11px;padding:8px 0}
+  .tx .ic{width:34px;height:34px;border-radius:10px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .tx .t{flex:1} .tx .t b{font-size:13.5px;display:block} .tx .t span{font-size:11px;color:var(--sub)}
+  .tx .amt{font-weight:800;font-size:13.5px}
+  .nav{flex:none;display:flex;justify-content:space-around;align-items:center;padding:11px 24px 22px;background:#0a0d12}
+  .nav i{width:22px;height:22px;border:2px solid var(--sub);border-radius:6px}.nav i.act{border-color:#fff}.nav i.r{border-radius:999px}
+
+  /* subs screen */
+  .subhd{padding:2px 16px 4px;flex:none}
+  .subhd .nav2{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px}
+  .subhd .total{font-family:"Fraunces",serif;font-size:30px;font-weight:600;margin-top:8px}
+  .subhd .total small{font-size:13px;color:var(--sub);font-family:var(--sans);font-weight:700}
+  .subbody{flex:1;overflow:hidden;padding:8px 16px 0}
+  .gl{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--sub);margin:12px 0 8px;display:flex;align-items:center;gap:7px}
+  .gl.warn{color:var(--amber)}
+  .sub{display:flex;align-items:center;gap:11px;padding:11px;border-radius:13px;background:var(--card);border:1px solid var(--line);margin-bottom:8px;transition:opacity .35s,transform .35s}
+  .sub.gone{opacity:0;transform:translateX(-12px)}
+  .sub .lg{width:38px;height:38px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--a),var(--b))}
+  .sub .t{flex:1;min-width:0} .sub .t b{font-size:14px;display:block} .sub .t .badge{font-size:11px;font-weight:700;margin-top:3px;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px}
+  .badge.red{background:rgba(255,93,99,.15);color:var(--red)} .badge.amber{background:rgba(255,176,32,.15);color:var(--amber)} .badge.ok{color:var(--sub)}
+  .sub .pr{text-align:right;flex:none} .sub .pr b{font-size:14px} .sub .pr span{font-size:10.5px;color:var(--sub);display:block}
+
+  /* detail */
+  .dt-hd{position:relative;padding:6px 16px 0;flex:none}
+  .dt-hd .nav2{display:flex;align-items:center;gap:10px;font-weight:700}
+  .dt-top{display:flex;align-items:center;gap:13px;padding:14px 16px 0;flex:none}
+  .dt-top .lg{width:54px;height:54px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;background:linear-gradient(135deg,#ff7a5d,#c0392b)}
+  .dt-top h3{font-size:20px;margin:0;font-weight:800} .dt-top .sub2{font-size:12.5px;color:var(--sub)}
+  .dt-stat{margin:18px 16px 0;border-radius:16px;padding:16px;background:rgba(255,93,99,.1);border:1px solid rgba(255,93,99,.25);flex:none}
+  .dt-stat b{font-family:"Fraunces",serif;font-size:24px;color:#ff8e92;display:block;line-height:1.1}
+  .dt-stat span{font-size:12.5px;color:#e7b9bb;display:block;margin-top:6px}
+  .usage{display:flex;gap:5px;margin:16px 16px 0;flex:none}
+  .usage .m{flex:1;text-align:center}
+  .usage .m .bar{height:34px;border-radius:6px;background:var(--card2);display:flex;align-items:flex-end}
+  .usage .m.used .bar{background:rgba(46,204,113,.25)} .usage .m.used .bar::after{content:"";display:block;width:100%;height:60%;background:var(--green);border-radius:6px}
+  .usage .m span{font-size:9px;color:var(--sub);display:block;margin-top:4px}
+  .dt-actions{flex:none;margin-top:auto;padding:16px;display:flex;gap:10px}
+  .dt-actions .b{flex:1;text-align:center;font-weight:800;font-size:14px;padding:14px;border-radius:13px}
+  .dt-actions .keep{background:var(--card2);color:#fff} .dt-actions .pause{background:var(--card2);color:#fff}
+  .dt-actions .cancel{background:var(--red);color:#fff;flex:1.3}
+
+  .toast{position:absolute;left:14px;right:14px;bottom:18px;z-index:40;background:#13351f;border:1px solid #1f5e34;color:#fff;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:11px;transform:translateY(160%);transition:transform .5s var(--ease)}
+  .toast.show{transform:translateY(0)}
+  .toast .ic{width:30px;height:30px;border-radius:999px;background:var(--green);color:#06210f;flex:none;display:flex;align-items:center;justify-content:center;font-weight:900}
+  .toast b{font-size:13px;display:block} .toast span{font-size:11px;color:#aee6c2}
+
+  .impact{position:absolute;inset:0;z-index:50;background:linear-gradient(160deg,#141a2e,#0d1015);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:30px 26px;opacity:0;pointer-events:none;transition:opacity .5s}
+  .impact.show{opacity:1}
+  .impact .k{font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#a99bff}
+  .impact h2{font-family:"Fraunces",serif;font-weight:600;font-size:30px;margin:10px 0 0;line-height:1.12}
+  .impact h2 em{font-style:normal;color:var(--green)}
+  .impact p{font-size:13.5px;color:#c4c9d6;line-height:1.6;margin:14px 0 0}
+  .impact .stats{display:flex;gap:10px;margin-top:22px}
+  .impact .stat{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:13px}
+  .impact .stat b{font-family:"Fraunces",serif;font-size:19px;display:block} .impact .stat span{font-size:10px;color:#aeb4c4;display:block;margin-top:3px}
+
+  .tap{position:absolute;width:46px;height:46px;border-radius:999px;border:2px solid rgba(255,255,255,.95);background:rgba(255,255,255,.28);left:0;top:0;transform:translate(-50%,-50%) scale(.001);opacity:0;z-index:60;pointer-events:none;box-shadow:0 2px 10px rgba(0,0,0,.3);transition:left .55s var(--ease),top .55s var(--ease),opacity .2s,transform .2s}
+  .tap.show{opacity:1;transform:translate(-50%,-50%) scale(1)} .tap.press{transform:translate(-50%,-50%) scale(.7)}
+
+  .controls{display:flex;gap:10px}
+  .controls button{font:inherit;font-weight:700;font-size:.85rem;border-radius:999px;padding:.55rem 1.1rem;cursor:pointer;border:1.5px solid var(--b200);background:#fff;color:var(--b700)}
+  .controls button.primary{background:var(--b600);color:#fff;border-color:var(--b600)}
+  .hint{color:var(--b500);font-size:.78rem;font-weight:600;text-align:center;max-width:90vw}
+
+  html.embed,body.embed{height:100%;background:transparent}
+  body.embed{padding:0;gap:0;min-height:0;overflow:hidden;justify-content:center}
+  body.embed .head,body.embed .controls,body.embed .hint,body.embed .caption{display:none!important}
+  body.embed .phone{transform:scale(.6);transform-origin:center;box-shadow:0 18px 40px -22px rgba(74,47,23,.45)}
+</style>
+</head>
+<body>
+  <div class="head">
+    <p class="eyebrow">A feature for a real app · Revolut / neobank</p>
+    <h1>Subscription Radar</h1>
+    <p>Your bank sees every recurring charge — yet you still bleed money on subscriptions you forgot, don’t use, pay twice for, or that quietly raised their price. The bank is the one place that can catch them all and cancel in a tap.</p>
+  </div>
+  <div class="caption"><span class="phase" id="phase">Flow</span><span class="step" id="step">Loading…</span></div>
+
+  <div class="phone"><div class="viewport" id="vp">
+
+    <!-- HOME -->
+    <div class="screen push" id="home">
+      <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+      <div class="hd"><div style="display:flex;align-items:center;gap:10px"><span class="av"></span><h2>Accounts</h2></div><span class="ic"></span></div>
+      <div class="body">
+        <div class="balance"><div class="l">Main · ILS</div><div class="amt">₪4,820.50</div>
+          <div class="row"><div class="b">Add money</div><div class="b">Transfer</div><div class="b">More</div></div></div>
+        <div class="insight" id="insightCard">
+          <div class="top"><span class="ic">🔁</span><div class="t"><b>Subscription Radar</b><span>₪247 / mo · 11 active subscriptions</span></div><span class="flag">3 to review</span></div>
+          <div class="cta"><span>You could be leaking ₪2,200 a year</span><span>Review →</span></div>
+        </div>
+        <div class="seclbl">This week</div>
+        <div class="tx"><span class="ic">☕</span><div class="t"><b>Cafe Nono</b><span>Today · Eating out</span></div><span class="amt">-₪18.00</span></div>
+        <div class="tx"><span class="ic">🛒</span><div class="t"><b>Shufersal</b><span>Yesterday · Groceries</span></div><span class="amt">-₪212.40</span></div>
+        <div class="tx"><span class="ic">🎬</span><div class="t"><b>StreamMax</b><span>Mon · Subscription</span></div><span class="amt">-₪54.90</span></div>
+      </div>
+      <div class="nav"><i class="act"></i><i class="r"></i><i></i><i></i></div>
+    </div>
+
+    <!-- SUBSCRIPTIONS -->
+    <div class="screen push right" id="subs">
+      <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+      <div class="subhd"><div class="nav2"><span style="font-size:20px">‹</span>Subscriptions</div>
+        <div class="total">₪247 <small>/ month · ₪2,964 a year · 11 active</small></div></div>
+      <div class="subbody">
+        <div class="gl warn">⚠️ Worth a look · 3</div>
+        <div class="sub" id="subGym" data-flag>
+          <span class="lg" style="--a:#ff7a5d;--b:#c0392b">FG</span>
+          <div class="t"><b>FitGym</b><span class="badge red">● Not used since January</span></div>
+          <div class="pr"><b>₪129</b><span>/mo</span></div></div>
+        <div class="sub">
+          <span class="lg" style="--a:#1ed760;--b:#0a5128">YT</span>
+          <div class="t"><b>YallaTunes</b><span class="badge amber">⧉ Duplicate — you also pay Spotify</span></div>
+          <div class="pr"><b>₪19.90</b><span>/mo</span></div></div>
+        <div class="sub">
+          <span class="lg" style="--a:#ff5d63;--b:#7a1e22">SM</span>
+          <div class="t"><b>StreamMax</b><span class="badge amber">↑ Up 20% this month</span></div>
+          <div class="pr"><b>₪54.90</b><span>/mo</span></div></div>
+        <div class="gl">✓ All good · 8</div>
+        <div class="sub">
+          <span class="lg" style="--a:#1ed760;--b:#0a5128">S</span>
+          <div class="t"><b>Spotify</b><span class="badge ok">Used daily</span></div>
+          <div class="pr"><b>₪19.90</b><span>/mo</span></div></div>
+        <div class="sub">
+          <span class="lg" style="--a:#7c5cff;--b:#3b2a8e">iC</span>
+          <div class="t"><b>iCloud+</b><span class="badge ok">Storage · in use</span></div>
+          <div class="pr"><b>₪11.90</b><span>/mo</span></div></div>
+      </div>
+    </div>
+
+    <!-- DETAIL -->
+    <div class="screen push right" id="detail">
+      <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+      <div class="dt-hd"><div class="nav2"><span style="font-size:20px">‹</span> FitGym</div></div>
+      <div class="dt-top"><span class="lg">FG</span><div><h3>FitGym</h3><div class="sub2">₪129 / month · next charge in 6 days</div></div></div>
+      <div class="dt-stat"><b>₪516 paid since your last visit</b><span>You checked in 4 times in January, then stopped — but kept paying every month.</span></div>
+      <div class="usage">
+        <div class="m used"><div class="bar"></div><span>Jan</span></div>
+        <div class="m"><div class="bar"></div><span>Feb</span></div>
+        <div class="m"><div class="bar"></div><span>Mar</span></div>
+        <div class="m"><div class="bar"></div><span>Apr</span></div>
+        <div class="m"><div class="bar"></div><span>May</span></div>
+      </div>
+      <div class="dt-actions"><span class="b pause">Pause</span><span class="b keep">Keep</span><span class="b cancel" id="cancelBtn">Cancel · save ₪1,548/yr</span></div>
+    </div>
+
+    <div class="toast" id="toast"><span class="ic">✓</span><div><b>FitGym cancelled</b><span>You’ll save ₪1,548 a year. Money’s back in your account.</span></div></div>
+
+    <div class="impact" id="impact">
+      <div class="k">The impact</div>
+      <h2>Found <em>₪2,200 a year</em> you were leaking.</h2>
+      <p>The bank is the only app that sees every charge — so it’s the natural place to catch leaks and cancel in a tap. For the bank, that’s exactly the kind of feature that earns trust, daily opens, and keeps the account as your money HQ.</p>
+      <div class="stats">
+        <div class="stat"><b>₪2,200/yr</b><span>caught for the user</span></div>
+        <div class="stat"><b>1 tap</b><span>to cancel or pause</span></div>
+        <div class="stat"><b>+ trust</b><span>engagement &amp; retention</span></div>
+      </div>
+    </div>
+
+    <div class="tap" id="tap"></div>
+  </div></div>
+
+  <div class="controls"><button class="primary" id="replay">▶ Replay</button><button id="interact">✋ Interact</button></div>
+  <div class="hint" id="hintTxt">It plays on its own — tap Interact to drive it.</div>
+
+<script>
+(function(){
+  if(/embed/.test(location.search)||/embed|modal/.test(location.hash)||window.self!==window.top){document.documentElement.classList.add('embed');document.body.classList.add('embed');}
+  var vp=document.getElementById('vp'), home=document.getElementById('home'), subs=document.getElementById('subs'), detail=document.getElementById('detail');
+  var toast=document.getElementById('toast'), impact=document.getElementById('impact'), tap=document.getElementById('tap');
+  var phase=document.getElementById('phase'), step=document.getElementById('step'), hintTxt=document.getElementById('hintTxt');
+
+  function reset(){
+    home.className='screen push'; subs.className='screen push right'; detail.className='screen push right';
+    toast.className='toast'; impact.className='impact'; tap.className='tap';
+    document.getElementById('subGym').classList.remove('gone');
+  }
+  function tapAt(el,cb){ if(!el){if(cb)cb();return;} var vr=vp.getBoundingClientRect(),er=el.getBoundingClientRect();
+    tap.style.left=(er.left-vr.left+er.width/2)+'px'; tap.style.top=(er.top-vr.top+er.height/2)+'px'; tap.classList.add('show');
+    setTimeout(function(){tap.classList.add('press');setTimeout(function(){tap.classList.remove('press');if(cb)cb();},170);},520); }
+  function say(p,t){phase.textContent=p;step.textContent=t;}
+
+  var timers=[],auto=true;
+  function at(t,fn){timers.push(setTimeout(fn,t));}
+  function clearAll(){timers.forEach(clearTimeout);timers=[];}
+
+  function play(){
+    clearAll(); reset();
+    say('1 · The gap','Your bank sees every recurring charge — but never helps.');
+    at(1700,function(){ say('2 · Find','Subscription Radar finds them all — automatically.');
+      tapAt(document.getElementById('insightCard'),function(){ tap.classList.remove('show'); subs.classList.remove('right'); }); });
+    at(3500,function(){ say('3 · Flag','And flags what to question: unused, duplicate, price hikes.'); });
+    at(5000,function(){ say('4 · One leak','Open the gym you stopped using in January.');
+      tapAt(document.getElementById('subGym'),function(){ tap.classList.remove('show'); detail.classList.remove('right'); }); });
+    at(6800,function(){ say('4 · One leak','₪516 paid since your last visit — still charging.'); });
+    at(8200,function(){ say('5 · One tap','Cancel in one tap — real money back.');
+      tapAt(document.getElementById('cancelBtn'),function(){ tap.classList.remove('show');
+        document.getElementById('subGym').classList.add('gone'); toast.classList.add('show');
+        setTimeout(function(){ detail.classList.add('right'); },300); }); });
+    at(10200,function(){ say('Impact','The bank becomes your money HQ — trust & retention.'); impact.classList.add('show'); });
+    at(13800,function(){ if(auto) play(); });
+  }
+
+  document.getElementById('replay').onclick=function(){auto=true;hintTxt.textContent='It plays on its own — tap Interact to drive it.';this.classList.add('primary');document.getElementById('interact').classList.remove('primary');play();};
+  document.getElementById('interact').onclick=function(){auto=false;clearAll();reset();say('You','Open Radar → tap the unused gym → Cancel.');tap.classList.remove('show');hintTxt.textContent='Manual mode — tap the Subscription Radar card.';this.classList.add('primary');document.getElementById('replay').classList.remove('primary');};
+  document.getElementById('insightCard').onclick=function(){ if(!auto){ subs.classList.remove('right'); } };
+  document.getElementById('subGym').onclick=function(){ if(!auto){ detail.classList.remove('right'); } };
+  document.getElementById('cancelBtn').onclick=function(){ if(!auto){ document.getElementById('subGym').classList.add('gone'); toast.classList.add('show'); setTimeout(function(){ detail.classList.add('right'); impact.classList.add('show'); },400); } };
+  document.getElementById('impact').onclick=function(){ if(!auto){ impact.classList.remove('show'); } };
+
+  play();
+})();
+</script>
+</body>
+</html>
