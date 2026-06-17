@@ -489,7 +489,6 @@ h1,h2{font-weight:800}
 @media(max-width:560px){.tl-media--screens .screens-row img:nth-child(3){display:none}.tl-media--screens .screens-row img{max-width:46%}}
 .tl-year{position:relative}
 .tl-year::after{content:"";display:block;width:34px;height:3px;border-radius:3px;background:var(--brown-200);margin-top:8px}
-.tl-year--cont::after{display:none}
 
 /* =========================================================
    BEN POLISH v8: bigger teaser media + corner "Video" labels
@@ -691,6 +690,8 @@ h1,h2{font-weight:800}
 .timeline{overflow:visible}
 .tl-item{grid-template-columns:132px 1fr;align-items:start;padding:46px 0}
 .tl-year{position:sticky;top:104px;align-self:start;font-size:2.6rem;color:var(--brown-400);font-weight:700;line-height:1;z-index:1}
+/* group of cards sharing one sticky year (e.g. two 2026 projects) */
+.tl-cards{display:flex;flex-direction:column;gap:72px}
 .tl-year::after{margin-top:12px;width:40px;height:3px}
 /* every project is a big, clickable featured card */
 .tl-card.tl-card--featured{text-decoration:none;color:inherit;cursor:pointer}
