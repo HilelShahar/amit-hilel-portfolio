@@ -188,7 +188,8 @@
     <style>
       /* Ben-style feature carousel: one big card + arrows + dots + icon thumbnails */
       .fc{margin-top:6px}
-      .fc-stage{position:relative;border-radius:22px;overflow:hidden;background:#0e0c0a;height:clamp(320px,40vw,470px);box-shadow:0 34px 70px -34px rgba(74,47,23,.45);border:1px solid var(--brown-100)}
+      .fc-stage{position:relative;border-radius:22px;overflow:hidden;background:#0e0c0a;height:clamp(300px,40vw,470px);box-shadow:0 34px 70px -34px rgba(74,47,23,.45);border:1px solid var(--brown-100)}
+      .fc.is-phone .fc-stage{height:470px}
       .fc-cover{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity .4s ease;overflow:hidden}
       .fc.is-img .fc-cover{opacity:1}
       .fc-cover-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(30px) brightness(.62);transform:scale(1.2)}
@@ -214,7 +215,7 @@
       .sc-route{margin-top:4px;font-size:12px;font-weight:800;color:#2a7d4f}
       .fc-phone{position:absolute;inset:0;z-index:1;display:none;align-items:center;justify-content:center;background:radial-gradient(120% 120% at 50% -10%,#fef8f0,#f4e6d9)}
       .fc.is-phone .fc-phone{display:flex}
-      .fc-phone iframe{width:228px;height:450px;border:0;background:transparent}
+      .fc-phone iframe{width:210px;height:452px;border:0;background:transparent}
       .fc-glyph{position:absolute;inset:0;z-index:1;display:none;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:5rem;color:#fff;background:linear-gradient(135deg,var(--g1,#d4a574),var(--g2,#8b5a2b))}
       .fc.is-glyph .fc-glyph{display:flex}
       .fc-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.16),transparent 28%,transparent 60%,rgba(0,0,0,.5))}
@@ -239,7 +240,20 @@
       .fc-thumb{width:58px;height:58px;border-radius:17px;border:2px solid transparent;background:#fff;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;appearance:none;-webkit-appearance:none;transition:transform .2s,border-color .2s,box-shadow .2s}
       .fc-thumb .g{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:1.02rem;color:#fff;background:linear-gradient(135deg,var(--g1),var(--g2))}
       .fc-thumb.on{border-color:var(--brown-500);transform:translateY(-3px);box-shadow:0 12px 24px -12px rgba(111,68,35,.5)}
-      @media(max-width:760px){ .fc-cap{max-width:82%} .fc-cap h3{font-size:1.5rem} .fc-thumb{width:50px;height:50px} .fc-thumb .g{width:34px;height:34px} }
+      .fc-capb{display:none}
+      @media(max-width:760px){
+        .fc-stage{border-radius:18px}
+        .fc-over{display:none}
+        .fc-capb{display:block;padding:14px 4px 0;color:var(--brown-900)}
+        .fc-capb .e{font-family:var(--sans);font-weight:800;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brown-500);margin:0}
+        .fc-capb h3{font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--brown-900);margin:.2rem 0 0;line-height:1.12}
+        .fc-capb .d{font-family:var(--sans);font-weight:600;font-size:.92rem;color:var(--brown-600);margin:.5rem 0 0;line-height:1.5}
+        .fc-explore{top:14px;bottom:auto;right:14px}
+        .fc-arrow{width:36px;height:36px;font-size:19px}
+        .fc-arrow.prev{left:8px}.fc-arrow.next{right:8px}
+        .fc-thumb{width:50px;height:50px} .fc-thumb .g{width:34px;height:34px}
+        .fc-thumbs{gap:9px;margin-top:18px}
+      }
     </style>
 
     <div class="fc reveal" id="fc">
@@ -250,10 +264,11 @@
         <div class="fc-scrim"></div>
         <button class="fc-arrow prev" id="fcPrev" type="button" aria-label="Previous">‹</button>
         <button class="fc-arrow next" id="fcNext" type="button" aria-label="Next">›</button>
-        <div class="fc-cap"><p class="e" id="fcEyebrow"></p><h3 id="fcTitle"></h3><p class="d" id="fcDesc"></p></div>
+        <div class="fc-cap fc-over"><p class="e" id="fcEyebrow"></p><h3 id="fcTitle"></h3><p class="d" id="fcDesc"></p></div>
         <a class="fc-explore" id="fcExplore">Tap to explore <span aria-hidden="true">↗</span></a>
         <div class="fc-dots" id="fcDots"></div>
       </div>
+      <div class="fc-capb"><p class="e" id="fcEyebrow2"></p><h3 id="fcTitle2"></h3><p class="d" id="fcDesc2"></p></div>
       <div class="fc-thumbs" id="fcThumbs"></div>
     </div>
 
@@ -280,6 +295,7 @@
         fc.classList.add(it.media==='phone'?'is-phone':it.media==='glyph'?'is-glyph':it.media==='scene'?'is-scene':'is-img');
         if(it.link) fc.classList.add('has-link');
         eb.textContent=it.eyebrow; ti.textContent=it.title; de.textContent=it.desc||'';
+        document.getElementById('fcEyebrow2').textContent=it.eyebrow; document.getElementById('fcTitle2').textContent=it.title; document.getElementById('fcDesc2').textContent=it.desc||'';
         stage.style.setProperty('--g1',it.grad[0]); stage.style.setProperty('--g2',it.grad[1]);
         if(it.media==='phone'){ if(frame.getAttribute('src')!==it.proto) frame.src=it.proto; }
         else if(it.media==='glyph'){ glyph.textContent=it.glyph; }
