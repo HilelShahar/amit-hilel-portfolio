@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spotify · Moment Mixes — concept prototype</title>
+<style>
+  :root{
+    --cream:#fefcf7;--cream2:#fdeee0;--b100:#f4e6d9;--b200:#e8cdb3;--b400:#c08552;--b500:#a67542;--b600:#8b5a2b;--b700:#6f4423;--b900:#4a2f17;
+    --bg:#121212;--card:#1c1c1c;--card2:#242424;--tx:#fff;--sub:#b3b3b3;--green:#1ed760;--greenD:#1aa34a;
+    --ease:cubic-bezier(.32,.72,0,1);
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(900px 500px at 80% -5%,var(--cream2),transparent 60%),var(--cream);
+    font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--b900);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px 16px}
+  .head{text-align:center;max-width:560px}
+  .head .eyebrow{font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:.68rem;color:var(--b500);margin:0 0 6px}
+  .head h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.6rem;margin:0 0 6px}
+  .head p{margin:0;color:var(--b600);font-size:.92rem;line-height:1.5}
+  .caption{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--b100);border-radius:999px;padding:8px 16px 8px 8px;box-shadow:0 10px 24px -14px rgba(90,57,29,.3);min-height:44px;max-width:90vw}
+  .phase{font-weight:800;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:#062;background:var(--green);padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .caption .step{font-weight:600;font-size:.88rem;color:var(--b800,#5c391d)}
+
+  .phone{position:relative;width:332px;height:720px;border-radius:46px;background:#000;padding:10px;box-shadow:0 50px 90px -40px rgba(74,47,23,.55),0 10px 30px -14px rgba(74,47,23,.3)}
+  .viewport{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:var(--bg)}
+  .screen{position:absolute;inset:0;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden;will-change:transform}
+  .sbar{display:flex;justify-content:space-between;align-items:center;padding:13px 20px 6px;font-weight:700;font-size:13px;color:#fff;flex:none}
+  .bat{width:20px;height:11px;border-radius:3px;background:#fff}
+  .screen.push{transition:transform .44s var(--ease)}
+  .screen.right{transform:translateX(100%)}
+
+  /* HOME */
+  .hd{display:flex;align-items:center;justify-content:space-between;padding:6px 16px 10px;flex:none}
+  .hd h2{font-size:22px;margin:0;font-weight:800}
+  .hd .gear{width:24px;height:24px;border:2px solid var(--sub);border-radius:999px}
+  .body{flex:1;overflow:hidden;padding:0 16px}
+  .moment{border-radius:16px;padding:16px;background:linear-gradient(150deg,#1ed760,#0a5128 70%,#0c3320);position:relative;overflow:hidden}
+  .moment .lab{font-weight:800;font-size:10px;letter-spacing:.12em;color:#eafff0;opacity:.9;display:flex;align-items:center;gap:6px}
+  .moment h3{font-size:21px;margin:7px 0 2px;color:#fff;font-weight:800}
+  .moment .sub{font-size:12.5px;color:#dffbe8;margin-bottom:12px}
+  .moment .build{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0a5128;font-weight:800;font-size:13px;padding:9px 15px;border-radius:999px}
+  .moment .wave{position:absolute;right:-10px;bottom:-6px;display:flex;gap:3px;align-items:flex-end;opacity:.45}
+  .moment .wave i{width:4px;background:#eafff0;border-radius:2px}
+  .seclbl{font-weight:800;font-size:15px;margin:18px 0 10px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .alb{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:8px;overflow:hidden;padding-right:8px}
+  .alb .art{width:46px;height:46px;flex:none;background:linear-gradient(135deg,var(--a),var(--b))}
+  .alb span{font-size:12px;font-weight:700;color:#eee}
+  .nav{flex:none;display:flex;justify-content:space-around;align-items:center;padding:11px 24px 22px;background:#0c0c0c}
+  .nav i{width:22px;height:22px;border:2px solid var(--sub);border-radius:5px;display:block}
+  .nav i.r{border-radius:999px}.nav i.act{border-color:#fff}
+
+  .scrim{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .4s;z-index:20}
+  .scrim.show{opacity:1}
+  .sheet{position:absolute;left:0;right:0;bottom:0;z-index:21;background:#181818;border-radius:22px 22px 0 0;transform:translateY(100%);transition:transform .5s var(--ease);padding:10px 0 24px;box-shadow:0 -12px 40px rgba(0,0,0,.5)}
+  .sheet.up{transform:translateY(0)}
+  .grab{width:40px;height:5px;border-radius:9px;background:#444;margin:0 auto 12px}
+  .sheet h4{margin:0 16px 4px;font-size:17px;font-weight:800;color:#fff}
+  .sheet .hint{margin:0 16px 10px;font-size:12px;color:var(--sub)}
+  .signals{padding:6px 16px 0}
+  .sig{display:flex;align-items:center;gap:11px;padding:9px 0;opacity:.28;transform:translateX(-6px);transition:opacity .35s,transform .35s var(--ease)}
+  .sig.on{opacity:1;transform:none}
+  .sig .ic{width:30px;height:30px;border-radius:999px;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .sig.on .ic{background:rgba(30,215,96,.18)}
+  .sig b{font-size:13.5px;color:#fff;display:block;font-weight:700} .sig span{font-size:11px;color:var(--sub)}
+  .sig .tick{margin-left:auto;color:var(--green);font-weight:800;opacity:0;transition:opacity .3s}
+  .sig.on .tick{opacity:1}
+  .building{margin:14px 16px 0;opacity:0;transition:opacity .4s}
+  .building.on{opacity:1}
+  .building .pl{height:6px;border-radius:999px;background:#2a2a2a;overflow:hidden}
+  .building .pl i{display:block;height:100%;width:0;background:var(--green);transition:width 1.1s ease}
+  .building.on .pl i{width:100%}
+  .building .txt{font-size:12px;color:var(--sub);margin-top:8px;display:flex;align-items:center;gap:7px}
+
+  #playing{background:linear-gradient(180deg,var(--np1,#236b3a),#121212 62%)}
+  .np-top{display:flex;align-items:center;justify-content:space-between;padding:4px 16px;font-weight:700;flex:none}
+  .np-art{margin:14px 22px 0;border-radius:10px;aspect-ratio:1;background:linear-gradient(135deg,var(--np1,#1ed760),var(--np2,#0a5128));box-shadow:0 24px 50px -20px rgba(0,0,0,.6);position:relative;overflow:hidden;flex:none}
+  .np-art .em{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:.85}
+  .np-meta{padding:18px 22px 0;flex:none}
+  .np-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(30,215,96,.16);color:var(--green);font-weight:800;font-size:11px;padding:5px 10px;border-radius:999px;margin-bottom:10px}
+  .np-meta h3{font-size:23px;margin:0;font-weight:800}
+  .np-meta .by{font-size:13px;color:var(--sub);margin-top:3px}
+  .np-bar{margin:16px 22px 0;height:4px;border-radius:999px;background:#ffffff30;flex:none}
+  .np-bar i{display:block;height:100%;width:34%;background:#fff;border-radius:999px}
+  .np-ctrl{display:flex;align-items:center;justify-content:center;gap:26px;margin-top:16px;flex:none}
+  .np-ctrl .b{width:18px;height:18px;border:2px solid #fff;border-radius:4px}
+  .np-ctrl .play{width:58px;height:58px;border-radius:999px;background:#fff;display:flex;align-items:center;justify-content:center}
+  .np-ctrl .play::after{content:"";border-left:16px solid #000;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
+  .np-note{margin:18px 22px 0;font-size:12px;color:var(--sub);display:flex;align-items:center;gap:8px}
+
+  .toast{position:absolute;left:14px;right:14px;bottom:18px;z-index:40;background:#fff;color:#111;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:11px;transform:translateY(160%);transition:transform .5s var(--ease);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+  .toast.show{transform:translateY(0)}
+  .toast .ic{width:30px;height:30px;border-radius:999px;background:linear-gradient(135deg,#1ed760,#0a5128);flex:none;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .toast b{font-size:13px;display:block} .toast span{font-size:11px;color:#666}
+  .toast .go{margin-left:auto;font-weight:800;font-size:12px;background:#111;color:#fff;padding:7px 13px;border-radius:999px}
+
+  .tap{position:absolute;width:46px;height:46px;border-radius:999px;border:2px solid rgba(255,255,255,.95);background:rgba(255,255,255,.28);left:0;top:0;transform:translate(-50%,-50%) scale(.001);opacity:0;z-index:60;pointer-events:none;box-shadow:0 2px 10px rgba(0,0,0,.3);transition:left .55s var(--ease),top .55s var(--ease),opacity .2s,transform .2s}
+  .tap.show{opacity:1;transform:translate(-50%,-50%) scale(1)} .tap.press{transform:translate(-50%,-50%) scale(.7)}
+
+  .controls{display:flex;gap:10px}
+  .controls button{font:inherit;font-weight:700;font-size:.85rem;border-radius:999px;padding:.55rem 1.1rem;cursor:pointer;border:1.5px solid var(--b200);background:#fff;color:var(--b700)}
+  .controls button.primary{background:var(--b600);color:#fff;border-color:var(--b600)}
+  .hint{color:var(--b500);font-size:.78rem;font-weight:600;text-align:center;max-width:90vw}
+
+  html.embed,body.embed{height:100%;background:transparent}
+  body.embed{padding:0;gap:0;min-height:0;overflow:hidden;justify-content:center}
+  body.embed .head,body.embed .controls,body.embed .hint,body.embed .caption{display:none!important}
+  body.embed .phone{transform:scale(.66);transform-origin:center;box-shadow:0 18px 40px -22px rgba(74,47,23,.45)}
+</style>
+</head>
+<body>
+  <div class="head">
+    <p class="eyebrow">A feature I wish existed · Spotify</p>
+    <h1>Moment Mixes</h1>
+    <p>Stop asking “what do you want to play?”. Spotify reads the moment — time, calendar, where you are — and builds the right mix before you search. And it adapts as your day changes.</p>
+  </div>
+  <div class="caption"><span class="phase" id="phase">Flow</span><span class="step" id="step">Loading…</span></div>
+
+  <div class="phone"><div class="viewport" id="vp">
+
+    <div class="screen push" id="home">
+      <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+      <div class="hd"><h2>Good afternoon</h2><span class="gear"></span></div>
+      <div class="body">
+        <div class="moment" id="momentCard">
+          <div class="lab">✦ RIGHT NOW</div>
+          <h3 id="momentTitle">It’s a deep-work block</h3>
+          <div class="sub" id="momentSub">2:00 PM · from your calendar</div>
+          <span class="build">Build your Focus mix ▸</span>
+          <div class="wave"><i style="height:14px"></i><i style="height:26px"></i><i style="height:38px"></i><i style="height:20px"></i><i style="height:30px"></i><i style="height:12px"></i></div>
+        </div>
+        <div class="seclbl">Recently played</div>
+        <div class="grid2">
+          <div class="alb"><span class="art" style="--a:#caa07a;--b:#7a4a2e"></span><span>Lo-fi beats</span></div>
+          <div class="alb"><span class="art" style="--a:#7a9ccf;--b:#3f5a8e"></span><span>Deep focus</span></div>
+          <div class="alb"><span class="art" style="--a:#cf7a8e;--b:#7a2e44"></span><span>Daily Mix 1</span></div>
+          <div class="alb"><span class="art" style="--a:#9ccf8e;--b:#3f7a4a"></span><span>Morning</span></div>
+        </div>
+      </div>
+      <div class="nav"><i class="act"></i><i class="r"></i><i></i></div>
+    </div>
+
+    <div class="screen push right" id="playing" style="--np1:#236b3a;--np2:#0a3320">
+      <div class="sbar"><span>9:41</span><span class="bat"></span></div>
+      <div class="np-top"><span>‹</span><span style="font-size:11px;letter-spacing:.1em;opacity:.8" id="npCtx">MOMENT MIX · DEEP WORK</span><span>⋯</span></div>
+      <div class="np-art" id="npArt"><span class="em" id="npEm">🎧</span></div>
+      <div class="np-meta">
+        <span class="np-pill">✦ <span id="npPill">Auto-built for your 2 pm block</span></span>
+        <h3 id="npTitle">Focus Flow</h3>
+        <div class="by" id="npBy">low-key, no lyrics · 90 min · from your taste</div>
+      </div>
+      <div class="np-bar"><i></i></div>
+      <div class="np-ctrl"><span class="b"></span><span class="b"></span><span class="play"></span><span class="b"></span><span class="b"></span></div>
+      <div class="np-note">✦ <span>Adapts on its own as your day changes</span></div>
+    </div>
+
+    <div class="scrim" id="scrim"></div>
+    <div class="sheet" id="sheet">
+      <div class="grab"></div>
+      <h4>Reading your moment</h4>
+      <p class="hint">No search. Spotify looks at a few quiet signals:</p>
+      <div class="signals" id="signals">
+        <div class="sig"><span class="ic">🕑</span><div><b>2:00 PM</b><span>your usual focus hour</span></div><span class="tick">✓</span></div>
+        <div class="sig"><span class="ic">📅</span><div><b>Deep work block</b><span>from your calendar</span></div><span class="tick">✓</span></div>
+        <div class="sig"><span class="ic">💻</span><div><b>At your desk</b><span>still, on Wi-Fi</span></div><span class="tick">✓</span></div>
+        <div class="sig"><span class="ic">🎧</span><div><b>You reach for lo-fi now</b><span>from your history</span></div><span class="tick">✓</span></div>
+      </div>
+      <div class="building" id="building"><div class="pl"><i></i></div><div class="txt">⚡ Building <b style="color:#fff;margin:0 3px">Focus Flow</b> from your taste…</div></div>
+    </div>
+
+    <div class="toast" id="toast"><span class="ic">🚶</span><div><b>Heading home — 6:15 PM</b><span>Switch to an Evening Commute mix?</span></div><span class="go" id="toastGo">Switch</span></div>
+    <div class="tap" id="tap"></div>
+  </div></div>
+
+  <div class="controls"><button class="primary" id="replay">▶ Replay</button><button id="interact">✋ Interact</button></div>
+  <div class="hint" id="hintTxt">It plays on its own — tap Interact to drive it.</div>
+
+<script>
+(function(){
+  if(/embed/.test(location.search)||/embed|modal/.test(location.hash)||window.self!==window.top){document.documentElement.classList.add('embed');document.body.classList.add('embed');}
+  var vp=document.getElementById('vp'), home=document.getElementById('home'), playing=document.getElementById('playing');
+  var scrim=document.getElementById('scrim'), sheet=document.getElementById('sheet'), building=document.getElementById('building');
+  var toast=document.getElementById('toast'), tap=document.getElementById('tap');
+  var phase=document.getElementById('phase'), step=document.getElementById('step'), hintTxt=document.getElementById('hintTxt');
+  var sigs=[].slice.call(document.getElementById('signals').children);
+
+  function reset(){
+    home.className='screen push'; home.style.filter=''; playing.className='screen push right';
+    scrim.className='scrim'; sheet.className='sheet'; building.className='building'; toast.className='toast'; tap.className='tap';
+    sigs.forEach(function(s){ s.classList.remove('on'); });
+    setMix('focus');
+  }
+  function setMix(which){
+    if(which==='commute'){
+      playing.style.setProperty('--np1','#7a4a8e'); playing.style.setProperty('--np2','#2e1840');
+      document.getElementById('npEm').textContent='🚆'; document.getElementById('npCtx').textContent='MOMENT MIX · EVENING COMMUTE';
+      document.getElementById('npPill').textContent='Auto-switched for your commute'; document.getElementById('npTitle').textContent='Evening Commute';
+      document.getElementById('npBy').textContent='upbeat, sing-along · 25 min · matched to your ride';
+    } else {
+      playing.style.setProperty('--np1','#236b3a'); playing.style.setProperty('--np2','#0a3320');
+      document.getElementById('npEm').textContent='🎧'; document.getElementById('npCtx').textContent='MOMENT MIX · DEEP WORK';
+      document.getElementById('npPill').textContent='Auto-built for your 2 pm block'; document.getElementById('npTitle').textContent='Focus Flow';
+      document.getElementById('npBy').textContent='low-key, no lyrics · 90 min · from your taste';
+    }
+  }
+  function tapAt(el,cb){ if(!el){if(cb)cb();return;} var vr=vp.getBoundingClientRect(),er=el.getBoundingClientRect();
+    tap.style.left=(er.left-vr.left+er.width/2)+'px'; tap.style.top=(er.top-vr.top+er.height/2)+'px'; tap.classList.add('show');
+    setTimeout(function(){tap.classList.add('press');setTimeout(function(){tap.classList.remove('press');if(cb)cb();},170);},520); }
+  function say(p,t){phase.textContent=p;step.textContent=t;}
+
+  var timers=[],auto=true;
+  function at(t,fn){timers.push(setTimeout(fn,t));}
+  function clearAll(){timers.forEach(clearTimeout);timers=[];}
+
+  function play(){
+    clearAll(); reset();
+    say('1 · Open','You open Spotify — and skip “what do you want to play?”');
+    at(1500,function(){ say('2 · Read the moment','Tap once — it reads your moment instead.');
+      tapAt(document.getElementById('momentCard'),function(){ tap.classList.remove('show'); scrim.classList.add('show'); sheet.classList.add('up'); }); });
+    at(2500,function(){ say('2 · Read the moment','Time, calendar, place, your habits — quiet signals.'); sigs[0].classList.add('on'); });
+    at(3050,function(){ sigs[1].classList.add('on'); });
+    at(3600,function(){ sigs[2].classList.add('on'); });
+    at(4150,function(){ sigs[3].classList.add('on'); });
+    at(4700,function(){ say('3 · Build','It builds the mix for you — from your taste.'); building.classList.add('on'); });
+    at(6200,function(){ say('3 · Build','Playing — no search, no choosing.');
+      sheet.classList.remove('up'); scrim.classList.remove('show');
+      setTimeout(function(){ playing.classList.remove('right'); home.style.filter='brightness(.85)'; },250); });
+    at(8000,function(){ say('4 · It adapts','Later, your moment changes — and so does the mix.'); toast.classList.add('show'); });
+    at(9400,function(){ tapAt(document.getElementById('toastGo'),function(){ tap.classList.remove('show'); toast.classList.remove('show'); setMix('commute'); }); });
+    at(11000,function(){ say('4 · It adapts','One feature: the right music for the moment, on its own.'); });
+    at(13800,function(){ if(auto){ play(); } });
+  }
+
+  document.getElementById('replay').onclick=function(){auto=true;hintTxt.textContent='It plays on its own — tap Interact to drive it.';this.classList.add('primary');document.getElementById('interact').classList.remove('primary');play();};
+  document.getElementById('interact').onclick=function(){auto=false;clearAll();reset();say('You','Tap the moment card → see it build → Switch when it adapts.');tap.classList.remove('show');hintTxt.textContent='Manual mode — tap the green moment card.';this.classList.add('primary');document.getElementById('replay').classList.remove('primary');};
+  document.getElementById('momentCard').onclick=function(){ if(!auto){ scrim.classList.add('show'); sheet.classList.add('up'); sigs.forEach(function(s){s.classList.add('on');}); building.classList.add('on'); setTimeout(function(){ sheet.classList.remove('up'); scrim.classList.remove('show'); playing.classList.remove('right'); },1400); } };
+  document.getElementById('toastGo').onclick=function(){ if(!auto){ toast.classList.remove('show'); setMix('commute'); } };
+  document.getElementById('scrim').onclick=function(){ if(!auto){ sheet.classList.remove('up'); scrim.classList.remove('show'); } };
+
+  play();
+})();
+</script>
+</body>
+</html>

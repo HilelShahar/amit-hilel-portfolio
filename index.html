@@ -222,7 +222,8 @@
       .fc-cap{position:absolute;left:24px;bottom:22px;z-index:3;color:#fff;max-width:64%}
       .fc-cap .e{font-family:var(--sans);font-weight:800;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;opacity:.92;margin:0}
       .fc-cap h3{font-family:var(--serif);font-weight:600;font-size:1.9rem;margin:.25rem 0 0;color:#fff;line-height:1.06}
-      .fc.is-phone .fc-cap,.fc.is-phone .fc-cap h3{color:var(--brown-900)} .fc.is-phone .fc-cap .e{color:var(--brown-500)}
+      .fc-cap .d{margin:.5rem 0 0;font-family:var(--sans);font-weight:600;font-size:.92rem;color:rgba(255,255,255,.92);max-width:46ch;line-height:1.45}
+      .fc.is-phone .fc-cap,.fc.is-phone .fc-cap h3{color:var(--brown-900)} .fc.is-phone .fc-cap .e{color:var(--brown-500)} .fc.is-phone .fc-cap .d{color:var(--brown-700)}
       .fc-explore{position:absolute;right:18px;bottom:18px;z-index:3;display:none;align-items:center;gap:.45rem;background:rgba(20,12,7,.72);color:#fff;font-family:var(--sans);font-weight:700;font-size:.82rem;padding:.62rem 1.05rem;border-radius:12px;text-decoration:none;backdrop-filter:blur(4px)}
       .fc.has-link .fc-explore{display:inline-flex}
       .fc.is-phone.has-link .fc-explore{background:rgba(74,47,23,.82)}
@@ -246,13 +247,10 @@
         <div class="fc-cover" id="fcCover"><div class="fc-cover-bg" id="fcCoverBg"></div><img class="fc-cover-img" id="fcCoverImg" alt="" /></div>
         <div class="fc-phone"><iframe id="fcFrame" title="Instagram Area Guide — interactive prototype" scrolling="no"></iframe></div>
         <div class="fc-glyph" id="fcGlyph"></div>
-        <div class="fc-scene" id="scene-spotify" style="--g1:#1ed760;--g2:#0a5128"><div class="sc-card sc-dark"><div class="sc-chips"><span>🚆 Commute</span><span class="on">🎧 Deep focus</span><span>🏃 Run</span></div><div class="sc-now"><div class="sc-art"></div><div><b>Focus Flow</b><span>auto-built for your 2 pm block — no search</span></div><span class="sc-play">▶</span></div></div></div>
-        <div class="fc-scene" id="scene-netflix" style="--g1:#7a1a1a;--g2:#160808"><div class="sc-card sc-dark"><div class="sc-row"><span class="sc-q">How do you feel?</span><span class="sc-pill">Cozy</span></div><div class="sc-row"><span class="sc-q">How long have you got?</span><span class="sc-pill">45 min</span></div><div class="sc-pick"><div class="sc-poster"></div><div><b>One pick for you</b><span>no endless scrolling</span></div></div></div></div>
-        <div class="fc-scene" id="scene-maps" style="--g1:#bfe0c8;--g2:#8fc6a4"><div class="sc-card sc-light"><div class="sc-stop"><b>1</b> Pharmacy · open now</div><div class="sc-stop"><b>2</b> Dry cleaner · 0.4 mi</div><div class="sc-stop"><b>3</b> Coffee · on the way</div><div class="sc-route">Optimized · 22 min · all open now</div></div></div>
         <div class="fc-scrim"></div>
         <button class="fc-arrow prev" id="fcPrev" type="button" aria-label="Previous">‹</button>
         <button class="fc-arrow next" id="fcNext" type="button" aria-label="Next">›</button>
-        <div class="fc-cap"><p class="e" id="fcEyebrow"></p><h3 id="fcTitle"></h3></div>
+        <div class="fc-cap"><p class="e" id="fcEyebrow"></p><h3 id="fcTitle"></h3><p class="d" id="fcDesc"></p></div>
         <a class="fc-explore" id="fcExplore">Tap to explore <span aria-hidden="true">↗</span></a>
         <div class="fc-dots" id="fcDots"></div>
       </div>
@@ -262,19 +260,16 @@
     <script>
     (function(){
       var ITEMS=[
-        {key:'ig',glyph:'IG',media:'phone',eyebrow:'Feature concept · Instagram',title:'Area Guide',grad:['#fa7e1e','#962fbf']},
-        {key:'gogo',glyph:'G',media:'REVOLUTIOZINING%20CX/wr-3-findings.png',eyebrow:'Featured prototype',title:'Go-Go AI',link:'revolutionizing-cx.html#gogo',grad:['#d4a574','#8b5a2b']},
-        {key:'routy',glyph:'R',media:'ROUTINE%20BUILDER/Frame%20427319103.png',eyebrow:'App · Accessibility',title:'Routy',link:'routine-builder.html',grad:['#e8a06a','#c0652f']},
-        {key:'cx',glyph:'CX',media:'REVOLUTIOZINING%20CX/Celestial%20Laptop%20Mockup.png',eyebrow:'Research platform',title:'CX platform',link:'revolutionizing-cx.html',grad:['#c08552','#6f4423']},
-        {key:'mc',glyph:'MC',media:'MY%20COOKBOOK/cover.png',eyebrow:'App',title:'MyCookBook',link:'mycookbook.html',grad:['#e0b48a','#a67542']},
-        {key:'digitel',glyph:'μ',media:'NAVIGATIONG%20MUNICIPAL%20SERVICES/home-1.png',eyebrow:'Gov · App',title:'My DigiTel',link:'municipal-services.html',grad:['#6fb3c4','#3f7e8e']},
-        {key:'spotify',glyph:'S',media:'scene',scene:'spotify',eyebrow:'Feature concept · Spotify',title:'Moment Mixes',grad:['#1ed760','#0a5128']},
-        {key:'netflix',glyph:'N',media:'scene',scene:'netflix',eyebrow:'Feature concept · Netflix',title:'Mood & Minutes',grad:['#e50914','#7a1010']},
-        {key:'maps',glyph:'M',media:'scene',scene:'maps',eyebrow:'Feature concept · Google Maps',title:'Errand Run',grad:['#4f8a5f','#2a6b3f']}
+        {key:'ig',glyph:'IG',media:'phone',proto:'projects/ig-places.html',eyebrow:'Feature concept · Instagram',title:'Area Guide',desc:'Search a place, then explore it by Eat · See · Stay — built from what everyone already shared. No more digging profile by profile.',grad:['#fa7e1e','#962fbf']},
+        {key:'spotify',glyph:'S',media:'phone',proto:'projects/spotify-moments.html',eyebrow:'Feature concept · Spotify',title:'Moment Mixes',desc:'Spotify reads your moment — time, calendar, where you are — and builds the right mix before you search. And it adapts through the day.',grad:['#1ed760','#0a5128']},
+        {key:'gogo',glyph:'G',media:'REVOLUTIOZINING%20CX/wr-3-findings.png',eyebrow:'Featured prototype',title:'Go-Go AI',desc:'An AI research companion inside the CX platform — scans the web for cited evidence, clusters quotes into themes, and drafts personas.',link:'revolutionizing-cx.html#gogo',grad:['#d4a574','#8b5a2b']},
+        {key:'routy',glyph:'R',media:'ROUTINE%20BUILDER/Frame%20427319103.png',eyebrow:'App · Accessibility',title:'Routy',desc:'A visual day-planner that helps autistic users build and follow routines — with AI that pictures each step.',link:'routine-builder.html',grad:['#e8a06a','#c0652f']},
+        {key:'mc',glyph:'MC',media:'MY%20COOKBOOK/5f4ebf8b732-1-1-1%20(2).png',eyebrow:'App',title:'MyCookBook',desc:'Discover recipes and curate your own personal cookbook.',link:'mycookbook.html',grad:['#e0b48a','#a67542']},
+        {key:'digitel',glyph:'μ',media:'NAVIGATIONG%20MUNICIPAL%20SERVICES/home-1.png',eyebrow:'Gov · App',title:'My DigiTel',desc:'Tel Aviv’s city app, rebuilt — pay, park and personalize your services without ever calling the call center.',link:'municipal-services.html',grad:['#6fb3c4','#3f7e8e']}
       ];
       var fc=document.getElementById('fc'), stage=document.getElementById('fcStage'), cover=document.getElementById('fcCover'),
           frame=document.getElementById('fcFrame'), glyph=document.getElementById('fcGlyph'), eb=document.getElementById('fcEyebrow'),
-          ti=document.getElementById('fcTitle'), explore=document.getElementById('fcExplore'),
+          ti=document.getElementById('fcTitle'), de=document.getElementById('fcDesc'), explore=document.getElementById('fcExplore'),
           dots=document.getElementById('fcDots'), thumbs=document.getElementById('fcThumbs');
       var idx=0;
       thumbs.innerHTML=ITEMS.map(function(it,i){ return '<button class="fc-thumb" type="button" data-i="'+i+'" style="--g1:'+it.grad[0]+';--g2:'+it.grad[1]+'" aria-label="'+it.title+'"><span class="g">'+it.glyph+'</span></button>'; }).join('');
@@ -284,9 +279,9 @@
         fc.classList.remove('is-img','is-phone','is-glyph','is-scene','has-link');
         fc.classList.add(it.media==='phone'?'is-phone':it.media==='glyph'?'is-glyph':it.media==='scene'?'is-scene':'is-img');
         if(it.link) fc.classList.add('has-link');
-        eb.textContent=it.eyebrow; ti.textContent=it.title;
+        eb.textContent=it.eyebrow; ti.textContent=it.title; de.textContent=it.desc||'';
         stage.style.setProperty('--g1',it.grad[0]); stage.style.setProperty('--g2',it.grad[1]);
-        if(it.media==='phone'){ if(!frame.getAttribute('src')) frame.src='projects/ig-places.html?embed=1'; }
+        if(it.media==='phone'){ if(frame.getAttribute('src')!==it.proto) frame.src=it.proto; }
         else if(it.media==='glyph'){ glyph.textContent=it.glyph; }
         else if(it.media==='scene'){ [].forEach.call(document.querySelectorAll('.fc-scene'),function(s){ s.classList.toggle('on',s.id==='scene-'+it.scene); }); }
         else { document.getElementById('fcCoverImg').src=it.media; document.getElementById('fcCoverImg').alt=it.title; document.getElementById('fcCoverBg').style.backgroundImage='url("'+it.media+'")'; }
