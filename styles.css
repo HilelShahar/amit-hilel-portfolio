@@ -545,7 +545,7 @@ h1,h2{font-weight:800}
 .fancards{position:relative;display:flex;justify-content:center;align-items:flex-start;gap:0;margin-top:74px;padding-top:30px}
 .fcard{position:relative;width:248px;min-height:312px;border-radius:24px;padding:26px;box-shadow:var(--shadow-lg);border:3px solid #fff;display:flex;flex-direction:column;text-align:left;will-change:transform;text-decoration:none}
 .fcard h3{font-family:var(--display);font-weight:800;font-size:1.75rem;color:#2b2118;margin-bottom:.55rem;line-height:1.05}
-.fcard p{color:#5a4a3a;font-size:.98rem;line-height:1.45;margin:0}
+.fcard p{color:#5a4a3a;font-size:.98rem;line-height:1.45;margin:0 0 1.25rem}
 .fc-btn{margin-top:auto;align-self:flex-start;background:#241d18;color:#fff;font-family:var(--sans);font-weight:700;font-size:.82rem;padding:.6rem 1.05rem;border-radius:999px}
 .fc-work{--rot:-6deg;background:#fbe1ca;z-index:2}
 .fc-about{--rot:4deg;background:#e8e1f5;z-index:3}
